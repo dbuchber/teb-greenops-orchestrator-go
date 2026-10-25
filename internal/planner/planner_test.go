@@ -15,6 +15,13 @@ func load(t *testing.T) *spec.Spec {
 	return s
 }
 
+// legacy sind die Parameter des alten, lokalen Planers; seine Tests prüfen ihn ausdrücklich.
+func legacy() Params {
+	p := DefaultParams()
+	p.Global = false
+	return p
+}
+
 // flat liefert für alle Bereiche eine konstante Prognose, ausgewählte Bereiche billiger.
 func flat(s *spec.Spec, g float64, cheap map[string]float64) map[string][]float64 {
 	out := map[string][]float64{}
@@ -46,7 +53,7 @@ func TestNameRoundTrip(t *testing.T) {
 func TestCreatesAreLegalAndFitQuota(t *testing.T) {
 	s := load(t)
 	in := Input{Now: 50, Jobs: map[string]Job{}, Forecast: flat(s, 200, nil)}
-	acts := Plan(s, in, DefaultParams())
+	acts := Plan(s, in, legacy())
 	vms, vcpus, gpus := 0, 0, map[string]int{}
 	for _, a := range acts {
 		if a.Kind != Create {
@@ -74,7 +81,7 @@ func TestCreatesAreLegalAndFitQuota(t *testing.T) {
 func TestPrefersCleanCountry(t *testing.T) {
 	s := load(t)
 	in := Input{Now: 4, Jobs: map[string]Job{}, Forecast: flat(s, 400, map[string]float64{"AT": 50})}
-	for _, a := range Plan(s, in, DefaultParams()) {
+	for _, a := range Plan(s, in, legacy()) {
 		if a.Workload == "w-01-dach-research" && s.Zones[a.Zone].Country != "AT" {
 			t.Fatalf("w-01 nach %s statt AT", a.Zone)
 		}
@@ -85,7 +92,7 @@ func TestDeletesDelivered(t *testing.T) {
 	s := load(t)
 	vm := VM{ID: "v1", Name: Name("w-04-dach-batch", "cpu", "mega"), Zone: "at-vie-1", Family: "cpu", Size: "mega", State: "running"}
 	in := Input{Now: 60, Jobs: map[string]Job{"w-04-dach-batch": {Delivered: true, VMs: []VM{vm}}}, Forecast: flat(s, 200, nil)}
-	for _, a := range Plan(s, in, DefaultParams()) {
+	for _, a := range Plan(s, in, legacy()) {
 		if a.Workload == "w-04-dach-batch" {
 			if a.Kind != Delete || a.VMID != "v1" {
 				t.Fatalf("%+v", a)
@@ -102,7 +109,7 @@ func TestPausesInDirtyHourWithSlack(t *testing.T) {
 	fc["AT"][0] = 500 // jetzt teuer, später billig
 	vm := VM{ID: "v1", Name: Name("w-13-regional-index", "cpu", "mega"), Zone: "at-vie-1", Family: "cpu", Size: "mega", State: "running"}
 	in := Input{Now: 20, Jobs: map[string]Job{"w-13-regional-index": {Completed: 1300, VMs: []VM{vm}}}, Forecast: fc}
-	for _, a := range Plan(s, in, DefaultParams()) {
+	for _, a := range Plan(s, in, legacy()) {
 		if a.Workload == "w-13-regional-index" && a.Kind == Stop {
 			return
 		}
@@ -117,7 +124,7 @@ func TestRunsWhenNoSlack(t *testing.T) {
 	vm := VM{ID: "v1", Name: Name("w-01-dach-research", "cpu", "mega"), Zone: "at-vie-1", Family: "cpu", Size: "mega", State: "stopped"}
 	// w-01: Deadline 108 h, 1 000 vCPU-h auf mega = 31 h; bei t = 74 h bleibt kein Spielraum
 	in := Input{Now: 74, Jobs: map[string]Job{"w-01-dach-research": {Completed: 0, VMs: []VM{vm}}}, Forecast: fc}
-	for _, a := range Plan(s, in, DefaultParams()) {
+	for _, a := range Plan(s, in, legacy()) {
 		if a.Workload == "w-01-dach-research" && a.Kind == Start {
 			return
 		}
@@ -147,7 +154,7 @@ func TestQuotaPressureResumesStoppedVMs(t *testing.T) {
 	}
 	in := Input{Now: 50, Jobs: jobs, Forecast: fc} // w-15 (Release 30) wartet ohne Platz
 	starts := 0
-	for _, a := range Plan(s, in, DefaultParams()) {
+	for _, a := range Plan(s, in, legacy()) {
 		if a.Kind == Stop {
 			t.Fatalf("Pause trotz Kontingentdruck: %+v", a)
 		}

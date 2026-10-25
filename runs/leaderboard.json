@@ -1,7 +1,7 @@
 {
  "active": [
   {
-   "jobs_completed": 7,
+   "jobs_completed": 15,
    "jobs_required": 15,
    "state": "RUNNING",
    "team_name": "graphanchor"
@@ -96,5 +96,5 @@
  ],
  "kind": "preliminary",
  "score_status": "frozen_v2",
- "updated_at": "2026-10-25T15:37:42.372128512Z"
+ "updated_at": "2026-10-25T16:10:20.1889404Z"
 }

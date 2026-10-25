@@ -54,7 +54,7 @@ func run() error {
 	catalog := flag.String("catalog", "challenge", "Ordner mit catalog.json und workloads.json")
 	dry := flag.Bool("dry", false, "nur lesen und die erste Entscheidung ausgeben; legt nichts an")
 	tick := flag.Duration("tick", 250*time.Millisecond, "Abstand der Status-Abfragen")
-	global := flag.Bool("global", false, "globale Kontingentplanung (planner/global.go)")
+	global := flag.Bool("global", true, "globale Kontingentplanung (planner/global.go); -global=false: alter Planer")
 	flag.Parse()
 
 	log := slog.New(slog.NewJSONHandler(os.Stdout, nil))
@@ -77,8 +77,9 @@ func run() error {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 	params := planner.DefaultParams()
+	params.Global = *global
 	if *global {
-		params.Global, params.Cache = true, &planner.GlobalCache{}
+		params.Cache = &planner.GlobalCache{}
 	}
 	c := &controller.Controller{Spec: s, Work: work, Grid: grid, Cloud: api.NewCloud(acc), Params: params,
 		Log: log, Dry: *dry, Tick: *tick}

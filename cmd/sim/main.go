@@ -32,7 +32,7 @@ func variants() []variant {
 	}
 	return []variant{
 		{"referenz", base},
-		{"global", with(func(c *sim.Config) { c.Params.Global = true })},
+		{"alter Planer", with(func(c *sim.Config) { c.Params.Global = false })},
 		{"global, Muster 0,5", with(func(c *sim.Config) { c.Params.Global = true; c.Params.Shrink = 0.5 })},
 		{"global, margin 4", with(func(c *sim.Config) { c.Params.Global = true; c.Params.MarginH = 4 })},
 		{"global, 1 s Lag", with(func(c *sim.Config) { c.Params.Global = true; c.LagH = 0.2 })},
