@@ -686,5 +686,305 @@
   "workload_id": "w-14-bulk-render",
   "zone": "es-mad-1",
   "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2045,
+  "kind": "start",
+  "at": "2025-10-03T22:51:13.343Z",
+  "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+  "workload_id": "w-04-dach-batch",
+  "zone": "ch-dk-2",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2049,
+  "kind": "workload_completed",
+  "at": "2025-10-03T23:02:02.689Z",
+  "workload_id": "w-02-ch-reporting"
+ },
+ {
+  "sequence": 2052,
+  "kind": "delete",
+  "at": "2025-10-03T23:05:56.33Z",
+  "vm_id": "63177d1c-8514-43de-9e1e-102504c5fab8",
+  "workload_id": "w-02-ch-reporting",
+  "zone": "ch-dk-2",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2054,
+  "kind": "start",
+  "at": "2025-10-03T23:05:57.687Z",
+  "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+  "workload_id": "w-11-dach-simulation",
+  "zone": "ch-dk-2",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2057,
+  "kind": "stop",
+  "at": "2025-10-03T23:09:51.705Z",
+  "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+  "workload_id": "w-11-dach-simulation",
+  "zone": "ch-dk-2",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2078,
+  "kind": "stop",
+  "at": "2025-10-04T00:05:59.397Z",
+  "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+  "workload_id": "w-12-late-delivery",
+  "zone": "fr-par-1",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2080,
+  "kind": "start",
+  "at": "2025-10-04T00:06:00.712Z",
+  "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+  "workload_id": "w-11-dach-simulation",
+  "zone": "ch-dk-2",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2100,
+  "kind": "start",
+  "at": "2025-10-04T01:01:40.963Z",
+  "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+  "workload_id": "w-15-heavy-archive",
+  "zone": "at-vie-2",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2123,
+  "kind": "stop",
+  "at": "2025-10-04T02:05:06.032Z",
+  "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+  "workload_id": "w-05-eu-render",
+  "zone": "fr-par-1",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2125,
+  "kind": "start",
+  "at": "2025-10-04T02:05:07.436Z",
+  "vm_id": "2b6e5ae6-75e9-438c-a1b3-84812cec4476",
+  "workload_id": "w-01-dach-research",
+  "zone": "ch-dk-2",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2139,
+  "kind": "start",
+  "at": "2025-10-04T02:40:03.155Z",
+  "vm_id": "b72fcca6-82e8-41d5-b968-cef5de2c5090",
+  "workload_id": "w-10-eu-visual",
+  "zone": "at-vie-2",
+  "profile_id": "20000000-0000-4000-8000-000000000017"
+ },
+ {
+  "sequence": 2157,
+  "kind": "workload_completed",
+  "at": "2025-10-04T03:31:22.362Z",
+  "workload_id": "w-01-dach-research"
+ },
+ {
+  "sequence": 2160,
+  "kind": "delete",
+  "at": "2025-10-04T03:36:09.47Z",
+  "vm_id": "2b6e5ae6-75e9-438c-a1b3-84812cec4476",
+  "workload_id": "w-01-dach-research",
+  "zone": "ch-dk-2",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2168,
+  "kind": "start",
+  "at": "2025-10-04T03:53:51.971Z",
+  "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+  "workload_id": "w-13-regional-index",
+  "zone": "at-vie-2",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2214,
+  "kind": "stop",
+  "at": "2025-10-04T06:06:43.497Z",
+  "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+  "workload_id": "w-11-dach-simulation",
+  "zone": "ch-dk-2",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2234,
+  "kind": "workload_completed",
+  "at": "2025-10-04T07:04:04.316Z",
+  "workload_id": "w-10-eu-visual"
+ },
+ {
+  "sequence": 2237,
+  "kind": "delete",
+  "at": "2025-10-04T07:09:43.031Z",
+  "vm_id": "b72fcca6-82e8-41d5-b968-cef5de2c5090",
+  "workload_id": "w-10-eu-visual",
+  "zone": "at-vie-2",
+  "profile_id": "20000000-0000-4000-8000-000000000017"
+ },
+ {
+  "sequence": 2248,
+  "kind": "start",
+  "at": "2025-10-04T07:38:19.416Z",
+  "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+  "workload_id": "w-05-eu-render",
+  "zone": "fr-par-1",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2269,
+  "kind": "start",
+  "at": "2025-10-04T08:34:56.008Z",
+  "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+  "workload_id": "w-03-med-analysis",
+  "zone": "es-mad-1",
+  "profile_id": "20000000-0000-4000-8000-000000000003"
+ },
+ {
+  "sequence": 2281,
+  "kind": "start",
+  "at": "2025-10-04T09:03:27.309Z",
+  "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+  "workload_id": "w-12-late-delivery",
+  "zone": "fr-par-1",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2283,
+  "kind": "start",
+  "at": "2025-10-04T09:03:28.621Z",
+  "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+  "workload_id": "w-11-dach-simulation",
+  "zone": "ch-dk-2",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2343,
+  "kind": "workload_completed",
+  "at": "2025-10-04T12:01:09.369Z",
+  "workload_id": "w-04-dach-batch"
+ },
+ {
+  "sequence": 2346,
+  "kind": "delete",
+  "at": "2025-10-04T12:05:26.567Z",
+  "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+  "workload_id": "w-04-dach-batch",
+  "zone": "ch-dk-2",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2386,
+  "kind": "workload_completed",
+  "at": "2025-10-04T14:05:16.963Z",
+  "workload_id": "w-03-med-analysis"
+ },
+ {
+  "sequence": 2388,
+  "kind": "delete",
+  "at": "2025-10-04T14:07:31.434Z",
+  "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+  "workload_id": "w-03-med-analysis",
+  "zone": "es-mad-1",
+  "profile_id": "20000000-0000-4000-8000-000000000003"
+ },
+ {
+  "sequence": 2457,
+  "kind": "workload_completed",
+  "at": "2025-10-04T17:31:09.666Z",
+  "workload_id": "w-11-dach-simulation"
+ },
+ {
+  "sequence": 2460,
+  "kind": "delete",
+  "at": "2025-10-04T17:36:17.283Z",
+  "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+  "workload_id": "w-11-dach-simulation",
+  "zone": "ch-dk-2",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2470,
+  "kind": "workload_completed",
+  "at": "2025-10-04T18:03:13.384Z",
+  "workload_id": "w-05-eu-render"
+ },
+ {
+  "sequence": 2472,
+  "kind": "delete",
+  "at": "2025-10-04T18:08:14.971Z",
+  "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+  "workload_id": "w-05-eu-render",
+  "zone": "fr-par-1",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2512,
+  "kind": "workload_completed",
+  "at": "2025-10-04T20:03:01.501Z",
+  "workload_id": "w-13-regional-index"
+ },
+ {
+  "sequence": 2512,
+  "kind": "workload_completed",
+  "at": "2025-10-04T20:04:19.926Z",
+  "workload_id": "w-15-heavy-archive"
+ },
+ {
+  "sequence": 2512,
+  "kind": "workload_completed",
+  "at": "2025-10-04T20:04:57.651Z",
+  "workload_id": "w-14-bulk-render"
+ },
+ {
+  "sequence": 2513,
+  "kind": "workload_completed",
+  "at": "2025-10-04T20:06:06.914Z",
+  "workload_id": "w-12-late-delivery"
+ },
+ {
+  "sequence": 2514,
+  "kind": "delete",
+  "at": "2025-10-04T20:06:50.231Z",
+  "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+  "workload_id": "w-14-bulk-render",
+  "zone": "es-mad-1",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2516,
+  "kind": "delete",
+  "at": "2025-10-04T20:06:51.625Z",
+  "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+  "workload_id": "w-15-heavy-archive",
+  "zone": "at-vie-2",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2518,
+  "kind": "delete",
+  "at": "2025-10-04T20:06:52.51Z",
+  "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+  "workload_id": "w-13-regional-index",
+  "zone": "at-vie-2",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
+ },
+ {
+  "sequence": 2521,
+  "kind": "delete",
+  "at": "2025-10-04T20:10:46.356Z",
+  "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+  "workload_id": "w-12-late-delivery",
+  "zone": "fr-par-1",
+  "profile_id": "20000000-0000-4000-8000-000000000002"
  }
 ]

@@ -67,6 +67,12 @@ type Params struct {
 	ReserveH    float64 // Jobs, die spätestens in so vielen Stunden starten müssen, reservieren ihr Kontingent
 	QuotaCost   float64 // Aufschlag auf die Kosten je Anteil am vCPU-Kontingent (0,5: 144 von 320 vCPU = +22 %)
 	SetupCost   bool    // Boot und Input mit Wirkleistung in die Platzierungskosten einrechnen
+	DeferCreate bool    // Jobs mit Spielraum erst in einer ihrer sauberen Stunden anlegen (gestoppte VMs halten Kontingent)
+	// Tile/TileRun schreiben die Prognose über das ganze Fenster als Tagesmuster fort (Profilwahl bzw. Pausieren).
+	// Aus: im Simulator wählt der Planer damit schnellere, größere Profile und verdrängt späte Jobs aus dem
+	// Kontingent (200 Seeds: 10/200 statt 200/200 pünktlich). Braucht erst eine globale Kontingentplanung.
+	Tile    bool
+	TileRun bool
 }
 
 func DefaultParams() Params {
@@ -110,6 +116,24 @@ func (u *usage) fits(s *spec.Spec, p spec.Profile) bool {
 		return false
 	}
 	return p.GPUCount == 0 || u.gpus[p.Family]+p.GPUCount <= s.GPUQuota[p.Family]
+}
+
+// horizon liefert die Prognosewerte für die nächsten “window“ Stunden. Mit tile wird die Prognose über ihr Ende
+// hinaus als Tagesmuster fortgeschrieben: Wetter ist dahinter unbekannt, der Tagesgang (Solar) aber nicht. Ohne
+// tile endet sie mit der Prognose; dann kann kein Job mit mehr Rechenstunden als Prognosestunden pausieren.
+func horizon(fc []float64, window int, tile bool) []float64 {
+	if window <= 0 || len(fc) == 0 {
+		return nil
+	}
+	if !tile || window <= len(fc) {
+		return slices.Clone(fc[:min(window, len(fc))])
+	}
+	day := fc[:min(24, len(fc))]
+	out := slices.Clone(fc)
+	for i := len(fc); i < window; i++ {
+		out = append(out, day[i%len(day)])
+	}
+	return out
 }
 
 // cheapest ist das Mittel der k günstigsten Prognosestunden in fc[:window]. Braucht der Job mehr Stunden, als
@@ -265,7 +289,8 @@ func placeNew(s *spec.Spec, in Input, p Params, w spec.Workload, u *usage, relea
 			continue
 		}
 		window := int(math.Floor(deadline - p.MarginH - start - setup))
-		g := cheapest(in.Forecast[o.Zone.Area], window, spec.Ceil(compute), p.FallbackGCO)
+		fc := in.Forecast[o.Zone.Area]
+		g := cheapest(horizon(fc, window, p.Tile), window, spec.Ceil(compute), p.FallbackGCO)
 		// Boot und Input laufen jetzt mit Wirkleistung; gleich effiziente, aber größere VMs blockieren
 		// Kontingent, das andere Jobs brauchen
 		now := 0.0
@@ -282,6 +307,20 @@ func placeNew(s *spec.Spec, in Input, p Params, w spec.Workload, u *usage, relea
 		}
 	}
 	reason := fmt.Sprintf("günstigste Option, erwartet %.0f g", bestCost)
+	if p.DeferCreate && !math.IsInf(bestCost, 1) {
+		compute := spec.ComputeHours(w, best.Profile, 1, remaining)
+		total := float64(best.Profile.BootS+w.InputS+w.OutputS)/3600 + compute
+		slack := deadline - p.MarginH - start - total
+		if fc := in.Forecast[best.Zone.Area]; slack >= p.NoPauseH && len(fc) > 0 {
+			vals := horizon(fc, int(math.Floor(deadline-p.MarginH-in.Now)), p.Tile)
+			if k := spec.Ceil(compute); k < len(vals) {
+				sort.Float64s(vals)
+				if fc[0] > vals[k-1] {
+					return Action{}, false // später, in einer sauberen Stunde; bis dahin bleibt das Kontingent frei
+				}
+			}
+		}
+	}
 	if math.IsInf(bestCost, 1) {
 		if math.IsInf(rescueH, 1) {
 			return Action{}, false // nichts passt ins Kontingent
@@ -309,12 +348,12 @@ func shouldRun(s *spec.Spec, in Input, p Params, w spec.Workload, prof spec.Prof
 	if len(fc) == 0 {
 		return true, "keine Prognose"
 	}
-	window := min(len(fc), int(math.Floor(deadline-p.MarginH-in.Now)))
+	vals := horizon(fc, int(math.Floor(deadline-p.MarginH-in.Now)), p.TileRun)
+	window := len(vals)
 	k := spec.Ceil(compute)
 	if k >= window {
 		return true, "braucht das ganze Prognosefenster"
 	}
-	vals := slices.Clone(fc[:window])
 	sort.Float64s(vals)
 	limit := vals[k-1]
 	if fc[0] <= limit {

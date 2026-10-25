@@ -1,7 +1,7 @@
 {
  "active": [
   {
-   "jobs_completed": 4,
+   "jobs_completed": 7,
    "jobs_required": 15,
    "state": "RUNNING",
    "team_name": "graphanchor"
@@ -82,19 +82,19 @@
    "jobs_required": 15
   },
   {
-   "usage_gco2e": "14624.366021",
-   "lifecycle_gco2e": "10615.495254",
+   "usage_gco2e": "14621.556448",
+   "lifecycle_gco2e": "10616.604805",
    "impact_model": "exoscale-lca-v1",
    "rank": 7,
    "team_id": "abd74d2d5c491c02159d",
    "team_name": "graphanchor",
-   "score": "21788.340324",
-   "total_gco2e": "25239.861275",
+   "score": "21788.812142",
+   "total_gco2e": "25238.161253",
    "jobs_completed": 15,
    "jobs_required": 15
   }
  ],
  "kind": "preliminary",
  "score_status": "frozen_v2",
- "updated_at": "2026-10-25T15:21:13.119801322Z"
+ "updated_at": "2026-10-25T15:37:42.372128512Z"
 }

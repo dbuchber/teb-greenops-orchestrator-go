@@ -10,67 +10,67 @@
   "cohort": "greenops-score-v2:baa012c94fb9a9626337151649bd2987fdca585b7230cf1bca03ff0d120b762f:48e6c674e94bad8ba49b2d28617b4cee600dd7571f3547fd1b99e34f60bf19f5",
   "score": {
    "impact_basis": "electricity_usage",
-   "scored_gco2e": "13905.621383",
-   "usage_gco2e": "13905.621383",
-   "lifecycle_gco2e": "9530.150483",
+   "scored_gco2e": "14621.556448",
+   "usage_gco2e": "14621.556448",
+   "lifecycle_gco2e": "10616.604805",
    "version": "greenops-score-v2",
    "rules_hash": "48e6c674e94bad8ba49b2d28617b4cee600dd7571f3547fd1b99e34f60bf19f5",
-   "score_as_of": "2025-10-03T21:00:00Z",
-   "final": false,
-   "base": "14815.839860",
-   "bonus": "0.000000",
-   "total": "14815.839860",
-   "total_gco2e": "23435.771866",
+   "score_as_of": "2025-10-05T00:00:00Z",
+   "final": true,
+   "base": "16788.812142",
+   "bonus": "5000.000000",
+   "total": "21788.812142",
+   "total_gco2e": "25238.161253",
    "contributions": [
     {
-     "scored_gco2e": "177.097783",
-     "usage_gco2e": "177.097783",
-     "lifecycle_gco2e": "503.742759",
+     "scored_gco2e": "179.628785",
+     "usage_gco2e": "179.628785",
+     "lifecycle_gco2e": "515.760751",
      "id": "w-01-dach-research",
-     "progress": "0.985000",
-     "delivered": false,
-     "carbon_gco2e": "680.840542",
-     "points": "1406.009980"
+     "progress": "1.000000",
+     "delivered": true,
+     "carbon_gco2e": "695.389536",
+     "points": "1432.171374"
     },
     {
-     "scored_gco2e": "226.406191",
-     "usage_gco2e": "226.406191",
-     "lifecycle_gco2e": "633.674083",
+     "scored_gco2e": "230.229619",
+     "usage_gco2e": "230.229619",
+     "lifecycle_gco2e": "650.300109",
      "id": "w-02-ch-reporting",
-     "progress": "0.987074",
-     "delivered": false,
-     "carbon_gco2e": "860.080274",
-     "points": "1342.197357"
+     "progress": "1.000000",
+     "delivered": true,
+     "carbon_gco2e": "880.529728",
+     "points": "1364.075344"
     },
     {
-     "scored_gco2e": "858.782103",
-     "usage_gco2e": "858.782103",
-     "lifecycle_gco2e": "555.126322",
+     "scored_gco2e": "919.015783",
+     "usage_gco2e": "919.015783",
+     "lifecycle_gco2e": "621.981156",
      "id": "w-03-med-analysis",
-     "progress": "0.899884",
-     "delivered": false,
-     "carbon_gco2e": "1413.908425",
-     "points": "1217.981913"
+     "progress": "1.000000",
+     "delivered": true,
+     "carbon_gco2e": "1540.996939",
+     "points": "1363.120088"
     },
     {
-     "scored_gco2e": "221.291419",
-     "usage_gco2e": "221.291419",
-     "lifecycle_gco2e": "609.012103",
+     "scored_gco2e": "259.790272",
+     "usage_gco2e": "259.790272",
+     "lifecycle_gco2e": "722.506957",
      "id": "w-04-dach-batch",
-     "progress": "0.844368",
-     "delivered": false,
-     "carbon_gco2e": "830.303522",
-     "points": "1217.054207"
+     "progress": "1.000000",
+     "delivered": true,
+     "carbon_gco2e": "982.297229",
+     "points": "1446.519951"
     },
     {
-     "scored_gco2e": "424.542728",
-     "usage_gco2e": "424.542728",
-     "lifecycle_gco2e": "601.170834",
+     "scored_gco2e": "507.233222",
+     "usage_gco2e": "507.233222",
+     "lifecycle_gco2e": "724.609910",
      "id": "w-05-eu-render",
-     "progress": "0.833333",
-     "delivered": false,
-     "carbon_gco2e": "1025.713562",
-     "points": "994.684969"
+     "progress": "1.000000",
+     "delivered": true,
+     "carbon_gco2e": "1231.843132",
+     "points": "1197.748852"
     },
     {
      "scored_gco2e": "1301.020530",
@@ -80,7 +80,7 @@
      "progress": "1.000000",
      "delivered": true,
      "carbon_gco2e": "1911.056756",
-     "points": "1158.691153"
+     "points": "1161.997767"
     },
     {
      "scored_gco2e": "3436.107417",
@@ -90,7 +90,7 @@
      "progress": "1.000000",
      "delivered": true,
      "carbon_gco2e": "4610.933015",
-     "points": "741.534168"
+     "points": "743.124329"
     },
     {
      "scored_gco2e": "76.922173",
@@ -100,82 +100,82 @@
      "progress": "1.000000",
      "delivered": true,
      "carbon_gco2e": "277.990268",
-     "points": "496.990037"
+     "points": "498.624562"
     },
     {
-     "scored_gco2e": "4326.675493",
-     "usage_gco2e": "4326.675493",
-     "lifecycle_gco2e": "1539.431017",
+     "scored_gco2e": "4329.935121",
+     "usage_gco2e": "4329.935121",
+     "lifecycle_gco2e": "1544.633146",
      "id": "w-09-eu-large-model",
      "progress": "1.000000",
-     "delivered": false,
-     "carbon_gco2e": "5866.106510",
-     "points": "1019.927253"
+     "delivered": true,
+     "carbon_gco2e": "5874.568267",
+     "points": "1021.895256"
     },
     {
-     "scored_gco2e": "652.617332",
-     "usage_gco2e": "652.617332",
-     "lifecycle_gco2e": "578.092171",
+     "scored_gco2e": "716.353362",
+     "usage_gco2e": "716.353362",
+     "lifecycle_gco2e": "638.892549",
      "id": "w-10-eu-visual",
-     "progress": "0.914467",
-     "delivered": false,
-     "carbon_gco2e": "1230.709503",
-     "points": "427.825153"
+     "progress": "1.000000",
+     "delivered": true,
+     "carbon_gco2e": "1355.245911",
+     "points": "468.771458"
     },
     {
-     "scored_gco2e": "164.700217",
-     "usage_gco2e": "164.700217",
-     "lifecycle_gco2e": "450.742098",
+     "scored_gco2e": "201.774988",
+     "usage_gco2e": "201.774988",
+     "lifecycle_gco2e": "567.292376",
      "id": "w-11-dach-simulation",
-     "progress": "0.798162",
-     "delivered": false,
-     "carbon_gco2e": "615.442315",
-     "points": "1065.401471"
+     "progress": "1.000000",
+     "delivered": true,
+     "carbon_gco2e": "769.067364",
+     "points": "1340.062185"
     },
     {
-     "scored_gco2e": "277.177298",
-     "usage_gco2e": "277.177298",
-     "lifecycle_gco2e": "387.251085",
+     "scored_gco2e": "341.865821",
+     "usage_gco2e": "341.865821",
+     "lifecycle_gco2e": "499.901883",
      "id": "w-12-late-delivery",
-     "progress": "0.797597",
-     "delivered": false,
-     "carbon_gco2e": "664.428383",
-     "points": "834.871508"
+     "progress": "1.000000",
+     "delivered": true,
+     "carbon_gco2e": "841.767704",
+     "points": "1051.064252"
     },
     {
-     "scored_gco2e": "546.697920",
-     "usage_gco2e": "546.697920",
-     "lifecycle_gco2e": "594.018367",
+     "scored_gco2e": "619.836158",
+     "usage_gco2e": "619.836158",
+     "lifecycle_gco2e": "722.471769",
      "id": "w-13-regional-index",
-     "progress": "0.823304",
-     "delivered": false,
-     "carbon_gco2e": "1140.716287",
-     "points": "1009.404717"
+     "progress": "1.000000",
+     "delivered": true,
+     "carbon_gco2e": "1342.307927",
+     "points": "1237.127025"
     },
     {
-     "scored_gco2e": "780.684820",
-     "usage_gco2e": "780.684820",
-     "lifecycle_gco2e": "585.431757",
+     "scored_gco2e": "973.610186",
+     "usage_gco2e": "973.610186",
+     "lifecycle_gco2e": "763.901964",
      "id": "w-14-bulk-render",
-     "progress": "0.768421",
-     "delivered": false,
-     "carbon_gco2e": "1366.116577",
-     "points": "922.044434"
+     "progress": "1.000000",
+     "delivered": true,
+     "carbon_gco2e": "1737.512150",
+     "points": "1209.882041"
     },
     {
-     "scored_gco2e": "434.396587",
-     "usage_gco2e": "434.396587",
-     "lifecycle_gco2e": "506.146465",
+     "scored_gco2e": "527.731639",
+     "usage_gco2e": "527.731639",
+     "lifecycle_gco2e": "658.040814",
      "id": "w-15-heavy-archive",
-     "progress": "0.773325",
-     "delivered": false,
-     "carbon_gco2e": "940.543052",
-     "points": "961.221540"
+     "progress": "1.000000",
+     "delivered": true,
+     "carbon_gco2e": "1185.772453",
+     "points": "1252.627659"
     }
    ]
   },
-  "score_status": "provisional",
-  "impact_as_of": "2025-10-03T21:00:00Z",
+  "score_status": "final",
+  "impact_as_of": "2025-10-05T00:00:00Z",
   "warnings": [
    {
     "code": "unbound_vm",
@@ -195,14 +195,14 @@
   "scenario_id": "pack-40218962a6",
   "id": "6d0718ef7946fcf317f5fcd1",
   "team_id": "abd74d2d5c491c02159d",
-  "state": "RUNNING",
+  "state": "COMPLETED",
   "speed_multiplier": 720,
   "simulation": {
    "impact_model": "exoscale-lca-v1",
    "impact_breakdown": {
-    "total_gco2e": "23435.771866",
-    "usage_gco2e": "13905.621383",
-    "lifecycle_gco2e": "9530.150483"
+    "total_gco2e": "25238.161253",
+    "usage_gco2e": "14621.556448",
+    "lifecycle_gco2e": "10616.604805"
    },
    "workload_impacts": [
     {
@@ -213,33 +213,33 @@
     },
     {
      "workload_id": "w-01-dach-research",
-     "total_gco2e": "680.840542",
-     "usage_gco2e": "177.097783",
-     "lifecycle_gco2e": "503.742759"
+     "total_gco2e": "695.389536",
+     "usage_gco2e": "179.628785",
+     "lifecycle_gco2e": "515.760751"
     },
     {
      "workload_id": "w-02-ch-reporting",
-     "total_gco2e": "860.080274",
-     "usage_gco2e": "226.406191",
-     "lifecycle_gco2e": "633.674083"
+     "total_gco2e": "880.529728",
+     "usage_gco2e": "230.229619",
+     "lifecycle_gco2e": "650.300109"
     },
     {
      "workload_id": "w-03-med-analysis",
-     "total_gco2e": "1413.908425",
-     "usage_gco2e": "858.782103",
-     "lifecycle_gco2e": "555.126322"
+     "total_gco2e": "1540.996939",
+     "usage_gco2e": "919.015783",
+     "lifecycle_gco2e": "621.981156"
     },
     {
      "workload_id": "w-04-dach-batch",
-     "total_gco2e": "830.303522",
-     "usage_gco2e": "221.291419",
-     "lifecycle_gco2e": "609.012103"
+     "total_gco2e": "982.297229",
+     "usage_gco2e": "259.790272",
+     "lifecycle_gco2e": "722.506957"
     },
     {
      "workload_id": "w-05-eu-render",
-     "total_gco2e": "1025.713562",
-     "usage_gco2e": "424.542728",
-     "lifecycle_gco2e": "601.170834"
+     "total_gco2e": "1231.843132",
+     "usage_gco2e": "507.233222",
+     "lifecycle_gco2e": "724.609910"
     },
     {
      "workload_id": "w-06-large-etl",
@@ -261,48 +261,48 @@
     },
     {
      "workload_id": "w-09-eu-large-model",
-     "total_gco2e": "5866.106510",
-     "usage_gco2e": "4326.675493",
-     "lifecycle_gco2e": "1539.431017"
+     "total_gco2e": "5874.568267",
+     "usage_gco2e": "4329.935121",
+     "lifecycle_gco2e": "1544.633146"
     },
     {
      "workload_id": "w-10-eu-visual",
-     "total_gco2e": "1230.709503",
-     "usage_gco2e": "652.617332",
-     "lifecycle_gco2e": "578.092171"
+     "total_gco2e": "1355.245911",
+     "usage_gco2e": "716.353362",
+     "lifecycle_gco2e": "638.892549"
     },
     {
      "workload_id": "w-11-dach-simulation",
-     "total_gco2e": "615.442315",
-     "usage_gco2e": "164.700217",
-     "lifecycle_gco2e": "450.742098"
+     "total_gco2e": "769.067364",
+     "usage_gco2e": "201.774988",
+     "lifecycle_gco2e": "567.292376"
     },
     {
      "workload_id": "w-12-late-delivery",
-     "total_gco2e": "664.428383",
-     "usage_gco2e": "277.177298",
-     "lifecycle_gco2e": "387.251085"
+     "total_gco2e": "841.767704",
+     "usage_gco2e": "341.865821",
+     "lifecycle_gco2e": "499.901883"
     },
     {
      "workload_id": "w-13-regional-index",
-     "total_gco2e": "1140.716287",
-     "usage_gco2e": "546.697920",
-     "lifecycle_gco2e": "594.018367"
+     "total_gco2e": "1342.307927",
+     "usage_gco2e": "619.836158",
+     "lifecycle_gco2e": "722.471769"
     },
     {
      "workload_id": "w-14-bulk-render",
-     "total_gco2e": "1366.116577",
-     "usage_gco2e": "780.684820",
-     "lifecycle_gco2e": "585.431757"
+     "total_gco2e": "1737.512150",
+     "usage_gco2e": "973.610186",
+     "lifecycle_gco2e": "763.901964"
     },
     {
      "workload_id": "w-15-heavy-archive",
-     "total_gco2e": "940.543052",
-     "usage_gco2e": "434.396587",
-     "lifecycle_gco2e": "506.146465"
+     "total_gco2e": "1185.772453",
+     "usage_gco2e": "527.731639",
+     "lifecycle_gco2e": "658.040814"
     }
    ],
-   "virtual_time": "2025-10-03T22:38:23.46Z",
+   "virtual_time": "2025-10-05T00:00:00Z",
    "vms": [
     {
      "id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
@@ -311,7 +311,7 @@
      "profile_id": "20000000-0000-4000-8000-000000000002",
      "template_id": "11111111-1111-4111-8111-111111111111",
      "workload_id": "w-11-dach-simulation",
-     "state": "stopped",
+     "state": "deleted",
      "created_at": "2025-10-01T07:05:16.203Z",
      "ready_at": "2025-10-01T07:07:16.203Z"
     },
@@ -322,7 +322,7 @@
      "profile_id": "20000000-0000-4000-8000-000000000002",
      "template_id": "11111111-1111-4111-8111-111111111111",
      "workload_id": "w-13-regional-index",
-     "state": "stopped",
+     "state": "deleted",
      "created_at": "2025-09-30T17:06:16.209Z",
      "ready_at": "2025-09-30T17:08:16.209Z"
     },
@@ -333,7 +333,7 @@
      "profile_id": "20000000-0000-4000-8000-000000000002",
      "template_id": "11111111-1111-4111-8111-111111111111",
      "workload_id": "w-01-dach-research",
-     "state": "stopped",
+     "state": "deleted",
      "created_at": "2025-09-30T03:05:20.968Z",
      "ready_at": "2025-09-30T03:07:20.968Z"
     },
@@ -344,7 +344,7 @@
      "profile_id": "20000000-0000-4000-8000-000000000002",
      "template_id": "11111111-1111-4111-8111-111111111111",
      "workload_id": "w-04-dach-batch",
-     "state": "stopped",
+     "state": "deleted",
      "created_at": "2025-09-30T11:06:26.406Z",
      "ready_at": "2025-09-30T11:08:26.406Z"
     },
@@ -355,7 +355,7 @@
      "profile_id": "20000000-0000-4000-8000-000000000003",
      "template_id": "11111111-1111-4111-8111-111111111111",
      "workload_id": "w-03-med-analysis",
-     "state": "stopped",
+     "state": "deleted",
      "created_at": "2025-09-30T13:05:41.212Z",
      "ready_at": "2025-09-30T13:07:41.212Z"
     },
@@ -377,7 +377,7 @@
      "profile_id": "20000000-0000-4000-8000-000000000002",
      "template_id": "11111111-1111-4111-8111-111111111111",
      "workload_id": "w-02-ch-reporting",
-     "state": "running",
+     "state": "deleted",
      "created_at": "2025-09-30T04:04:59.965Z",
      "ready_at": "2025-09-30T04:06:59.965Z"
     },
@@ -388,7 +388,7 @@
      "profile_id": "20000000-0000-4000-8000-000000000002",
      "template_id": "11111111-1111-4111-8111-111111111111",
      "workload_id": "w-12-late-delivery",
-     "state": "running",
+     "state": "deleted",
      "created_at": "2025-10-01T20:06:39.002Z",
      "ready_at": "2025-10-01T20:08:39.002Z"
     },
@@ -409,7 +409,7 @@
      "profile_id": "20000000-0000-4000-8000-000000000002",
      "template_id": "11111111-1111-4111-8111-111111111111",
      "workload_id": "w-14-bulk-render",
-     "state": "stopped",
+     "state": "deleted",
      "created_at": "2025-09-30T19:05:28.251Z",
      "ready_at": "2025-09-30T19:07:28.251Z"
     },
@@ -431,7 +431,7 @@
      "profile_id": "20000000-0000-4000-8000-000000000017",
      "template_id": "11111111-1111-4111-8111-111111111111",
      "workload_id": "w-10-eu-visual",
-     "state": "stopped",
+     "state": "deleted",
      "created_at": "2025-10-01T22:05:22.111Z",
      "ready_at": "2025-10-01T22:07:22.111Z"
     },
@@ -464,7 +464,7 @@
      "profile_id": "20000000-0000-4000-8000-000000000002",
      "template_id": "11111111-1111-4111-8111-111111111111",
      "workload_id": "w-15-heavy-archive",
-     "state": "stopped",
+     "state": "deleted",
      "created_at": "2025-10-01T05:06:02.47Z",
      "ready_at": "2025-10-01T05:08:02.47Z"
     },
@@ -475,7 +475,7 @@
      "profile_id": "20000000-0000-4000-8000-000000000002",
      "template_id": "11111111-1111-4111-8111-111111111111",
      "workload_id": "w-05-eu-render",
-     "state": "running",
+     "state": "deleted",
      "created_at": "2025-09-30T17:06:15.028Z",
      "ready_at": "2025-09-30T17:08:15.028Z"
     }
@@ -483,44 +483,53 @@
    "workloads": [
     {
      "id": "w-01-dach-research",
-     "state": "ready",
+     "state": "succeeded",
      "required_work": "1000",
-     "completed_work": "985.000329",
+     "completed_work": "1000.000000",
      "work_unit": "vcpu_hour",
-     "lost_work": "0.000000"
+     "lost_work": "0.000000",
+     "output_ready_at": "2025-10-04T03:31:22.362Z",
+     "succeeded_at": "2025-10-04T03:31:22.362Z"
     },
     {
      "id": "w-02-ch-reporting",
-     "state": "transferring_output",
+     "state": "succeeded",
      "required_work": "1280",
      "completed_work": "1280.000000",
      "work_unit": "vcpu_hour",
      "lost_work": "0.000000",
-     "output_ready_at": "2025-10-03T23:02:02.689Z"
+     "output_ready_at": "2025-10-03T23:02:02.689Z",
+     "succeeded_at": "2025-10-03T23:02:02.689Z"
     },
     {
      "id": "w-03-med-analysis",
-     "state": "ready",
+     "state": "succeeded",
      "required_work": "1600",
-     "completed_work": "1439.813733",
+     "completed_work": "1600.000000",
      "work_unit": "vcpu_hour",
-     "lost_work": "0.000000"
+     "lost_work": "0.000000",
+     "output_ready_at": "2025-10-04T14:05:16.963Z",
+     "succeeded_at": "2025-10-04T14:05:16.963Z"
     },
     {
      "id": "w-04-dach-batch",
-     "state": "ready",
+     "state": "succeeded",
      "required_work": "1440",
-     "completed_work": "1233.350996",
+     "completed_work": "1440.000000",
      "work_unit": "vcpu_hour",
-     "lost_work": "0.000000"
+     "lost_work": "0.000000",
+     "output_ready_at": "2025-10-04T12:01:09.369Z",
+     "succeeded_at": "2025-10-04T12:01:09.369Z"
     },
     {
      "id": "w-05-eu-render",
-     "state": "running",
+     "state": "succeeded",
      "required_work": "1440",
-     "completed_work": "1226.237600",
+     "completed_work": "1440.000000",
      "work_unit": "vcpu_hour",
-     "lost_work": "0.000000"
+     "lost_work": "0.000000",
+     "output_ready_at": "2025-10-04T18:03:13.384Z",
+     "succeeded_at": "2025-10-04T18:03:13.384Z"
     },
     {
      "id": "w-06-large-etl",
@@ -564,51 +573,63 @@
     },
     {
      "id": "w-10-eu-visual",
-     "state": "ready",
+     "state": "succeeded",
      "required_work": "16416000",
-     "completed_work": "15011883.900000",
+     "completed_work": "16416000.000000",
      "work_unit": "tflop",
-     "lost_work": "0.000000"
+     "lost_work": "0.000000",
+     "output_ready_at": "2025-10-04T07:04:04.316Z",
+     "succeeded_at": "2025-10-04T07:04:04.316Z"
     },
     {
      "id": "w-11-dach-simulation",
-     "state": "ready",
+     "state": "succeeded",
      "required_work": "1120",
-     "completed_work": "895.387342",
+     "completed_work": "1120.000000",
      "work_unit": "vcpu_hour",
-     "lost_work": "0.000000"
+     "lost_work": "0.000000",
+     "output_ready_at": "2025-10-04T17:31:09.666Z",
+     "succeeded_at": "2025-10-04T17:31:09.666Z"
     },
     {
      "id": "w-12-late-delivery",
-     "state": "running",
+     "state": "succeeded",
      "required_work": "960",
-     "completed_work": "791.930924",
+     "completed_work": "960.000000",
      "work_unit": "vcpu_hour",
-     "lost_work": "0.000000"
+     "lost_work": "0.000000",
+     "output_ready_at": "2025-10-04T20:06:06.914Z",
+     "succeeded_at": "2025-10-04T20:06:06.914Z"
     },
     {
      "id": "w-13-regional-index",
-     "state": "ready",
+     "state": "succeeded",
      "required_work": "1440",
-     "completed_work": "1185.557644",
+     "completed_work": "1440.000000",
      "work_unit": "vcpu_hour",
-     "lost_work": "0.000000"
+     "lost_work": "0.000000",
+     "output_ready_at": "2025-10-04T20:03:01.501Z",
+     "succeeded_at": "2025-10-04T20:03:01.501Z"
     },
     {
      "id": "w-14-bulk-render",
-     "state": "ready",
+     "state": "succeeded",
      "required_work": "1520",
-     "completed_work": "1185.456427",
+     "completed_work": "1520.000000",
      "work_unit": "vcpu_hour",
-     "lost_work": "0.000000"
+     "lost_work": "0.000000",
+     "output_ready_at": "2025-10-04T20:04:57.651Z",
+     "succeeded_at": "2025-10-04T20:04:57.651Z"
     },
     {
      "id": "w-15-heavy-archive",
-     "state": "ready",
+     "state": "succeeded",
      "required_work": "1280",
-     "completed_work": "991.293498",
+     "completed_work": "1280.000000",
      "work_unit": "vcpu_hour",
-     "lost_work": "0.000000"
+     "lost_work": "0.000000",
+     "output_ready_at": "2025-10-04T20:04:19.926Z",
+     "succeeded_at": "2025-10-04T20:04:19.926Z"
     }
    ],
    "hourly_impact": [
@@ -12193,12 +12214,2157 @@
      "running_milliseconds": 3600000,
      "energy_kwh": "0.071965",
      "impact_gco2e": "12.742634"
+    },
+    {
+     "usage_gco2e": "0.277336",
+     "lifecycle_gco2e": "0.715631",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-03T21:00:00Z",
+     "running_milliseconds": 325246,
+     "energy_kwh": "0.005518",
+     "impact_gco2e": "0.992967"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-03T21:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "2b6e5ae6-75e9-438c-a1b3-84812cec4476",
+     "workload_id": "w-01-dach-research",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-03T21:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "3.069704",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+     "workload_id": "w-04-dach-batch",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-03T21:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.990704"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-03T21:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "3.259628",
+     "lifecycle_gco2e": "5.202129",
+     "vm_id": "4951c249-c08f-458b-9d97-e75d85f3c131",
+     "workload_id": "w-09-eu-large-model",
+     "zone": "hr-zag-1",
+     "hour_start": "2025-10-03T21:00:00Z",
+     "running_milliseconds": 559423,
+     "energy_kwh": "0.015090",
+     "impact_gco2e": "8.461757"
+    },
+    {
+     "usage_gco2e": "3.069704",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "63177d1c-8514-43de-9e1e-102504c5fab8",
+     "workload_id": "w-02-ch-reporting",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-03T21:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.990704"
+    },
+    {
+     "usage_gco2e": "5.109492",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-03T21:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "13.030492"
+    },
+    {
+     "usage_gco2e": "13.494018",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-03T21:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "21.415018"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "b72fcca6-82e8-41d5-b968-cef5de2c5090",
+     "workload_id": "w-10-eu-visual",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-03T21:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.722495",
+     "lifecycle_gco2e": "0.711805",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-03T21:00:00Z",
+     "running_milliseconds": 323507,
+     "energy_kwh": "0.005233",
+     "impact_gco2e": "1.434300"
+    },
+    {
+     "usage_gco2e": "5.109492",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-03T21:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "13.030492"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-03T22:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-03T22:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "2b6e5ae6-75e9-438c-a1b3-84812cec4476",
+     "workload_id": "w-01-dach-research",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-03T22:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.726459",
+     "lifecycle_gco2e": "1.882316",
+     "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+     "workload_id": "w-04-dach-batch",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-03T22:00:00Z",
+     "running_milliseconds": 855490,
+     "energy_kwh": "0.014514",
+     "impact_gco2e": "2.608775"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-03T22:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.694752",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "63177d1c-8514-43de-9e1e-102504c5fab8",
+     "workload_id": "w-02-ch-reporting",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-03T22:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.013880",
+     "impact_gco2e": "8.615752"
+    },
+    {
+     "usage_gco2e": "5.397351",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-03T22:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "13.318351"
+    },
+    {
+     "usage_gco2e": "5.320949",
+     "lifecycle_gco2e": "3.305585",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-03T22:00:00Z",
+     "running_milliseconds": 1502349,
+     "energy_kwh": "0.027661",
+     "impact_gco2e": "8.626534"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "b72fcca6-82e8-41d5-b968-cef5de2c5090",
+     "workload_id": "w-10-eu-visual",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-03T22:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-03T22:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "5.397351",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-03T22:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "13.318351"
+    },
+    {
+     "usage_gco2e": "0.193650",
+     "lifecycle_gco2e": "0.514904",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-03T23:00:00Z",
+     "running_milliseconds": 234018,
+     "energy_kwh": "0.003970",
+     "impact_gco2e": "0.708554"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-03T23:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "2b6e5ae6-75e9-438c-a1b3-84812cec4476",
+     "workload_id": "w-01-dach-research",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-03T23:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "2.978999",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+     "workload_id": "w-04-dach-batch",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-03T23:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.899999"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-03T23:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.058973",
+     "lifecycle_gco2e": "0.784025",
+     "vm_id": "63177d1c-8514-43de-9e1e-102504c5fab8",
+     "workload_id": "w-02-ch-reporting",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-03T23:00:00Z",
+     "running_milliseconds": 356330,
+     "energy_kwh": "0.001209",
+     "impact_gco2e": "0.842998"
+    },
+    {
+     "usage_gco2e": "5.685210",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-03T23:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "13.606210"
+    },
+    {
+     "usage_gco2e": "11.721499",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-03T23:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "19.642499"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "b72fcca6-82e8-41d5-b968-cef5de2c5090",
+     "workload_id": "w-10-eu-visual",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-03T23:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-03T23:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "5.685210",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-03T23:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "13.606210"
+    },
+    {
+     "usage_gco2e": "2.414775",
+     "lifecycle_gco2e": "7.127333",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T00:00:00Z",
+     "running_milliseconds": 3239288,
+     "energy_kwh": "0.054956",
+     "impact_gco2e": "9.542108"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T00:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "2b6e5ae6-75e9-438c-a1b3-84812cec4476",
+     "workload_id": "w-01-dach-research",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T00:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "2.683673",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+     "workload_id": "w-04-dach-batch",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T00:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.604673"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T00:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.596306",
+     "lifecycle_gco2e": "0.790774",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T00:00:00Z",
+     "running_milliseconds": 359397,
+     "energy_kwh": "0.007184",
+     "impact_gco2e": "1.387080"
+    },
+    {
+     "usage_gco2e": "11.198270",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T00:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "19.119270"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "b72fcca6-82e8-41d5-b968-cef5de2c5090",
+     "workload_id": "w-10-eu-visual",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T00:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T00:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "5.973068",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T00:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "13.894068"
+    },
+    {
+     "usage_gco2e": "2.475414",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T01:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.396414"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T01:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "2b6e5ae6-75e9-438c-a1b3-84812cec4476",
+     "workload_id": "w-01-dach-research",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T01:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "2.475414",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+     "workload_id": "w-04-dach-batch",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T01:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.396414"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T01:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T01:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "11.047875",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T01:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "18.968875"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "b72fcca6-82e8-41d5-b968-cef5de2c5090",
+     "workload_id": "w-10-eu-visual",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T01:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "7.503173",
+     "lifecycle_gco2e": "7.698854",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T01:00:00Z",
+     "running_milliseconds": 3499037,
+     "energy_kwh": "0.056601",
+     "impact_gco2e": "15.202027"
+    },
+    {
+     "usage_gco2e": "6.260927",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T01:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "14.181927"
+    },
+    {
+     "usage_gco2e": "2.419868",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T02:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.340868"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T02:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "2.213214",
+     "lifecycle_gco2e": "7.244556",
+     "vm_id": "2b6e5ae6-75e9-438c-a1b3-84812cec4476",
+     "workload_id": "w-01-dach-research",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T02:00:00Z",
+     "running_milliseconds": 3292564,
+     "energy_kwh": "0.055860",
+     "impact_gco2e": "9.457770"
+    },
+    {
+     "usage_gco2e": "2.419868",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+     "workload_id": "w-04-dach-batch",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T02:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.340868"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T02:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T02:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "10.935574",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T02:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "18.856574"
+    },
+    {
+     "usage_gco2e": "5.935909",
+     "lifecycle_gco2e": "4.497478",
+     "vm_id": "b72fcca6-82e8-41d5-b968-cef5de2c5090",
+     "workload_id": "w-10-eu-visual",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T02:00:00Z",
+     "running_milliseconds": 1196845,
+     "energy_kwh": "0.044725",
+     "impact_gco2e": "10.433387"
+    },
+    {
+     "usage_gco2e": "7.728973",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T02:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "15.649973"
+    },
+    {
+     "usage_gco2e": "0.556705",
+     "lifecycle_gco2e": "0.673355",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T02:00:00Z",
+     "running_milliseconds": 306032,
+     "energy_kwh": "0.006118",
+     "impact_gco2e": "1.230060"
+    },
+    {
+     "usage_gco2e": "2.289062",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T03:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.210062"
+    },
+    {
+     "usage_gco2e": "0.759471",
+     "lifecycle_gco2e": "0.809766",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T03:00:00Z",
+     "running_milliseconds": 368029,
+     "energy_kwh": "0.005953",
+     "impact_gco2e": "1.569237"
+    },
+    {
+     "usage_gco2e": "0.317788",
+     "lifecycle_gco2e": "4.773436",
+     "vm_id": "2b6e5ae6-75e9-438c-a1b3-84812cec4476",
+     "workload_id": "w-01-dach-research",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T03:00:00Z",
+     "running_milliseconds": 2169470,
+     "energy_kwh": "0.008479",
+     "impact_gco2e": "5.091224"
+    },
+    {
+     "usage_gco2e": "2.289062",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+     "workload_id": "w-04-dach-batch",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T03:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.210062"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T03:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T03:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "11.049934",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T03:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "18.970934"
+    },
+    {
+     "usage_gco2e": "17.161766",
+     "lifecycle_gco2e": "13.528000",
+     "vm_id": "b72fcca6-82e8-41d5-b968-cef5de2c5090",
+     "workload_id": "w-10-eu-visual",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T03:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.134527",
+     "impact_gco2e": "30.689766"
+    },
+    {
+     "usage_gco2e": "7.429027",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T03:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "15.350027"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T03:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "2.466501",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T04:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.387501"
+    },
+    {
+     "usage_gco2e": "6.986491",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T04:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "14.907491"
+    },
+    {
+     "usage_gco2e": "2.466501",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+     "workload_id": "w-04-dach-batch",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T04:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.387501"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T04:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T04:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "11.494238",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T04:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "19.415238"
+    },
+    {
+     "usage_gco2e": "16.139466",
+     "lifecycle_gco2e": "13.528000",
+     "vm_id": "b72fcca6-82e8-41d5-b968-cef5de2c5090",
+     "workload_id": "w-10-eu-visual",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T04:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.134527",
+     "impact_gco2e": "29.667466"
+    },
+    {
+     "usage_gco2e": "6.986491",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T04:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "14.907491"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T04:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "2.586308",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T05:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.507308"
+    },
+    {
+     "usage_gco2e": "6.729282",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T05:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "14.650282"
+    },
+    {
+     "usage_gco2e": "2.586308",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+     "workload_id": "w-04-dach-batch",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T05:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.507308"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T05:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T05:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "11.408150",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T05:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "19.329150"
+    },
+    {
+     "usage_gco2e": "15.545288",
+     "lifecycle_gco2e": "13.528000",
+     "vm_id": "b72fcca6-82e8-41d5-b968-cef5de2c5090",
+     "workload_id": "w-10-eu-visual",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T05:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.134527",
+     "impact_gco2e": "29.073288"
+    },
+    {
+     "usage_gco2e": "6.729282",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T05:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "14.650282"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T05:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.305082",
+     "lifecycle_gco2e": "0.887806",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T06:00:00Z",
+     "running_milliseconds": 403497,
+     "energy_kwh": "0.006845",
+     "impact_gco2e": "1.192888"
+    },
+    {
+     "usage_gco2e": "5.672710",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T06:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "13.593710"
+    },
+    {
+     "usage_gco2e": "2.721946",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+     "workload_id": "w-04-dach-batch",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T06:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.642946"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T06:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T06:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "11.200700",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T06:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "19.121700"
+    },
+    {
+     "usage_gco2e": "8.574180",
+     "lifecycle_gco2e": "13.528000",
+     "vm_id": "b72fcca6-82e8-41d5-b968-cef5de2c5090",
+     "workload_id": "w-10-eu-visual",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T06:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.088020",
+     "impact_gco2e": "22.102180"
+    },
+    {
+     "usage_gco2e": "5.672710",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T06:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "13.593710"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T06:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T07:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "5.070748",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T07:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "12.991748"
+    },
+    {
+     "usage_gco2e": "3.180262",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+     "workload_id": "w-04-dach-batch",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T07:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "11.101262"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T07:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T07:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "9.251020",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T07:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "17.172020"
+    },
+    {
+     "usage_gco2e": "0.379421",
+     "lifecycle_gco2e": "2.190901",
+     "vm_id": "b72fcca6-82e8-41d5-b968-cef5de2c5090",
+     "workload_id": "w-10-eu-visual",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T07:00:00Z",
+     "running_milliseconds": 583031,
+     "energy_kwh": "0.004357",
+     "impact_gco2e": "2.570322"
+    },
+    {
+     "usage_gco2e": "5.070748",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T07:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "12.991748"
+    },
+    {
+     "usage_gco2e": "2.469897",
+     "lifecycle_gco2e": "2.861646",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T07:00:00Z",
+     "running_milliseconds": 1300584,
+     "energy_kwh": "0.025999",
+     "impact_gco2e": "5.331543"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T08:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "4.495118",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T08:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "12.416118"
+    },
+    {
+     "usage_gco2e": "2.972641",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+     "workload_id": "w-04-dach-batch",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T08:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.893641"
+    },
+    {
+     "usage_gco2e": "5.335843",
+     "lifecycle_gco2e": "5.038686",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T08:00:00Z",
+     "running_milliseconds": 1503992,
+     "energy_kwh": "0.054205",
+     "impact_gco2e": "10.374529"
+    },
+    {
+     "usage_gco2e": "0.000000",
+     "lifecycle_gco2e": "0.000000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T08:00:00Z",
+     "running_milliseconds": 0,
+     "energy_kwh": "0.000000",
+     "impact_gco2e": "0.000000"
+    },
+    {
+     "usage_gco2e": "6.524831",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T08:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "14.445831"
+    },
+    {
+     "usage_gco2e": "4.495118",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T08:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "12.416118"
+    },
+    {
+     "usage_gco2e": "6.548786",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T08:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "14.469786"
+    },
+    {
+     "usage_gco2e": "2.455810",
+     "lifecycle_gco2e": "7.461976",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T09:00:00Z",
+     "running_milliseconds": 3391379,
+     "energy_kwh": "0.057536",
+     "impact_gco2e": "9.917786"
+    },
+    {
+     "usage_gco2e": "4.194911",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T09:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "12.115911"
+    },
+    {
+     "usage_gco2e": "2.606879",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+     "workload_id": "w-04-dach-batch",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T09:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.527879"
+    },
+    {
+     "usage_gco2e": "11.637331",
+     "lifecycle_gco2e": "12.060750",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T09:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.129746",
+     "impact_gco2e": "23.698081"
+    },
+    {
+     "usage_gco2e": "5.900386",
+     "lifecycle_gco2e": "7.464863",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T09:00:00Z",
+     "running_milliseconds": 3392691,
+     "energy_kwh": "0.067821",
+     "impact_gco2e": "13.365249"
+    },
+    {
+     "usage_gco2e": "5.945148",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T09:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "13.866148"
+    },
+    {
+     "usage_gco2e": "4.194911",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T09:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "12.115911"
+    },
+    {
+     "usage_gco2e": "6.260927",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T09:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "14.181927"
+    },
+    {
+     "usage_gco2e": "2.903125",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T10:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.824125"
+    },
+    {
+     "usage_gco2e": "4.074871",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T10:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "11.995871"
+    },
+    {
+     "usage_gco2e": "2.903125",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+     "workload_id": "w-04-dach-batch",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T10:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.824125"
+    },
+    {
+     "usage_gco2e": "11.481329",
+     "lifecycle_gco2e": "12.060750",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T10:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.129746",
+     "impact_gco2e": "23.542079"
+    },
+    {
+     "usage_gco2e": "5.973068",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T10:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "13.894068"
+    },
+    {
+     "usage_gco2e": "5.865451",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T10:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "13.786451"
+    },
+    {
+     "usage_gco2e": "4.074871",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T10:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "11.995871"
+    },
+    {
+     "usage_gco2e": "5.973068",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T10:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "13.894068"
+    },
+    {
+     "usage_gco2e": "2.902494",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T11:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.823494"
+    },
+    {
+     "usage_gco2e": "4.111565",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T11:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "12.032565"
+    },
+    {
+     "usage_gco2e": "2.366738",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+     "workload_id": "w-04-dach-batch",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T11:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.049802",
+     "impact_gco2e": "10.287738"
+    },
+    {
+     "usage_gco2e": "11.752353",
+     "lifecycle_gco2e": "12.060750",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T11:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.129746",
+     "impact_gco2e": "23.813103"
+    },
+    {
+     "usage_gco2e": "5.685210",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T11:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "13.606210"
+    },
+    {
+     "usage_gco2e": "6.003909",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T11:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "13.924909"
+    },
+    {
+     "usage_gco2e": "4.111565",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T11:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "12.032565"
+    },
+    {
+     "usage_gco2e": "5.685210",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T11:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "13.606210"
+    },
+    {
+     "usage_gco2e": "2.826188",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T12:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.747188"
+    },
+    {
+     "usage_gco2e": "4.076146",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T12:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "11.997146"
+    },
+    {
+     "usage_gco2e": "0.051274",
+     "lifecycle_gco2e": "0.718539",
+     "vm_id": "33b76ddf-badf-4568-8b9f-b40b12976ba9",
+     "workload_id": "w-04-dach-batch",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T12:00:00Z",
+     "running_milliseconds": 326567,
+     "energy_kwh": "0.001108",
+     "impact_gco2e": "0.769813"
+    },
+    {
+     "usage_gco2e": "11.779895",
+     "lifecycle_gco2e": "12.060750",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T12:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.129746",
+     "impact_gco2e": "23.840645"
+    },
+    {
+     "usage_gco2e": "5.397351",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T12:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "13.318351"
+    },
+    {
+     "usage_gco2e": "6.017980",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T12:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "13.938980"
+    },
+    {
+     "usage_gco2e": "4.076146",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T12:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "11.997146"
+    },
+    {
+     "usage_gco2e": "5.397351",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T12:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "13.318351"
+    },
+    {
+     "usage_gco2e": "2.686381",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T13:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.607381"
+    },
+    {
+     "usage_gco2e": "4.158433",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T13:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "12.079433"
+    },
+    {
+     "usage_gco2e": "7.942916",
+     "lifecycle_gco2e": "12.060750",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T13:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.086987",
+     "impact_gco2e": "20.003666"
+    },
+    {
+     "usage_gco2e": "5.109492",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T13:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "13.030492"
+    },
+    {
+     "usage_gco2e": "6.052458",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T13:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "13.973458"
+    },
+    {
+     "usage_gco2e": "4.158433",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T13:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "12.079433"
+    },
+    {
+     "usage_gco2e": "5.109492",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T13:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "13.030492"
+    },
+    {
+     "usage_gco2e": "2.599854",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T14:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.520854"
+    },
+    {
+     "usage_gco2e": "4.283269",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T14:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "12.204269"
+    },
+    {
+     "usage_gco2e": "0.304013",
+     "lifecycle_gco2e": "1.512398",
+     "vm_id": "38ade0f4-8c4d-4190-bc35-cb0228eca1d4",
+     "workload_id": "w-03-med-analysis",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T14:00:00Z",
+     "running_milliseconds": 451434,
+     "energy_kwh": "0.003254",
+     "impact_gco2e": "1.816411"
+    },
+    {
+     "usage_gco2e": "4.821634",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T14:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "12.742634"
+    },
+    {
+     "usage_gco2e": "6.192704",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T14:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "14.113704"
+    },
+    {
+     "usage_gco2e": "4.283269",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T14:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "12.204269"
+    },
+    {
+     "usage_gco2e": "4.821634",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T14:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "12.742634"
+    },
+    {
+     "usage_gco2e": "2.280458",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T15:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.201458"
+    },
+    {
+     "usage_gco2e": "3.544596",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T15:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "11.465596"
+    },
+    {
+     "usage_gco2e": "4.533775",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T15:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "12.454775"
+    },
+    {
+     "usage_gco2e": "6.036699",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T15:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "13.957699"
+    },
+    {
+     "usage_gco2e": "3.544596",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T15:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "11.465596"
+    },
+    {
+     "usage_gco2e": "4.533775",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T15:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "12.454775"
+    },
+    {
+     "usage_gco2e": "2.605689",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T16:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.061075",
+     "impact_gco2e": "10.526689"
+    },
+    {
+     "usage_gco2e": "3.683912",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T16:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "11.604912"
+    },
+    {
+     "usage_gco2e": "4.245916",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T16:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "12.166916"
+    },
+    {
+     "usage_gco2e": "5.927221",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T16:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "13.848221"
+    },
+    {
+     "usage_gco2e": "3.683912",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T16:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "11.604912"
+    },
+    {
+     "usage_gco2e": "4.245916",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T16:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "12.166916"
+    },
+    {
+     "usage_gco2e": "0.386776",
+     "lifecycle_gco2e": "4.790627",
+     "vm_id": "0ee29ddb-b356-4509-9ef3-45df9deef7aa",
+     "workload_id": "w-11-dach-simulation",
+     "zone": "ch-dk-2",
+     "hour_start": "2025-10-04T17:00:00Z",
+     "running_milliseconds": 2177283,
+     "energy_kwh": "0.008333",
+     "impact_gco2e": "5.177403"
+    },
+    {
+     "usage_gco2e": "3.736349",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T17:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "11.657349"
+    },
+    {
+     "usage_gco2e": "3.958057",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T17:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.071965",
+     "impact_gco2e": "11.879057"
+    },
+    {
+     "usage_gco2e": "7.295318",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T17:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "15.216318"
+    },
+    {
+     "usage_gco2e": "3.736349",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T17:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "11.657349"
+    },
+    {
+     "usage_gco2e": "2.544929",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T17:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.046271",
+     "impact_gco2e": "10.465929"
+    },
+    {
+     "usage_gco2e": "3.957917",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T18:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "11.878917"
+    },
+    {
+     "usage_gco2e": "1.195380",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T18:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.020261",
+     "impact_gco2e": "9.116380"
+    },
+    {
+     "usage_gco2e": "8.193842",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T18:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.066283",
+     "impact_gco2e": "16.114842"
+    },
+    {
+     "usage_gco2e": "3.957917",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T18:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.058235",
+     "impact_gco2e": "11.878917"
+    },
+    {
+     "usage_gco2e": "0.116756",
+     "lifecycle_gco2e": "1.089074",
+     "vm_id": "eaa35056-fa2c-410a-9a22-801c95fa5776",
+     "workload_id": "w-05-eu-render",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T18:00:00Z",
+     "running_milliseconds": 494971,
+     "energy_kwh": "0.001979",
+     "impact_gco2e": "1.205830"
+    },
+    {
+     "usage_gco2e": "3.501071",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T19:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.048936",
+     "impact_gco2e": "11.422071"
+    },
+    {
+     "usage_gco2e": "0.906755",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T19:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.014393",
+     "impact_gco2e": "8.827755"
+    },
+    {
+     "usage_gco2e": "4.608672",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T19:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.044154",
+     "impact_gco2e": "12.529672"
+    },
+    {
+     "usage_gco2e": "1.073908",
+     "lifecycle_gco2e": "7.921000",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T19:00:00Z",
+     "running_milliseconds": 3600000,
+     "energy_kwh": "0.015011",
+     "impact_gco2e": "8.994908"
+    },
+    {
+     "usage_gco2e": "0.101378",
+     "lifecycle_gco2e": "0.907636",
+     "vm_id": "28946656-00a3-47c5-a4e4-5c7aff048aae",
+     "workload_id": "w-13-regional-index",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T20:00:00Z",
+     "running_milliseconds": 412510,
+     "energy_kwh": "0.001335",
+     "impact_gco2e": "1.009014"
+    },
+    {
+     "usage_gco2e": "0.173138",
+     "lifecycle_gco2e": "1.422163",
+     "vm_id": "80228f68-12dc-41a8-9dd3-745323e3db2f",
+     "workload_id": "w-12-late-delivery",
+     "zone": "fr-par-1",
+     "hour_start": "2025-10-04T20:00:00Z",
+     "running_milliseconds": 646356,
+     "energy_kwh": "0.002584",
+     "impact_gco2e": "1.595301"
+    },
+    {
+     "usage_gco2e": "0.138903",
+     "lifecycle_gco2e": "0.902623",
+     "vm_id": "98951b32-a358-435d-9c1c-c59d0b772ce2",
+     "workload_id": "w-14-bulk-render",
+     "zone": "es-mad-1",
+     "hour_start": "2025-10-04T20:00:00Z",
+     "running_milliseconds": 410231,
+     "energy_kwh": "0.001511",
+     "impact_gco2e": "1.041526"
+    },
+    {
+     "usage_gco2e": "0.101160",
+     "lifecycle_gco2e": "0.905689",
+     "vm_id": "e27bf666-e937-4265-a3bb-2da4f9fda745",
+     "workload_id": "w-15-heavy-archive",
+     "zone": "at-vie-2",
+     "hour_start": "2025-10-04T20:00:00Z",
+     "running_milliseconds": 411625,
+     "energy_kwh": "0.001332",
+     "impact_gco2e": "1.006849"
     }
    ],
-   "total_kwh": "97.800202",
-   "total_gco2e": "23435.771866",
-   "finished": false,
-   "eligible": false
+   "total_kwh": "105.872892",
+   "total_gco2e": "25238.161253",
+   "finished": true,
+   "eligible": true
   }
  }
 }
