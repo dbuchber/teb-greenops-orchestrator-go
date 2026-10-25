@@ -124,3 +124,38 @@ func TestRunsWhenNoSlack(t *testing.T) {
 	}
 	t.Fatal("kein Start trotz knapper Deadline")
 }
+
+// Gestoppte VMs blockieren das Kontingent: wartet ein Job ohne Platz, wird nicht pausiert, sondern gestartet.
+func TestQuotaPressureResumesStoppedVMs(t *testing.T) {
+	s := load(t)
+	fc := flat(s, 100, nil)
+	for a := range fc {
+		fc[a][0] = 900 // jetzt sehr teuer: ohne Druck würde alles pausieren
+	}
+	jobs := map[string]Job{}
+	ids := []string{"w-01-dach-research", "w-02-ch-reporting", "w-03-med-analysis", "w-04-dach-batch", "w-05-eu-render",
+		"w-06-large-etl", "w-11-dach-simulation", "w-12-late-delivery", "w-13-regional-index", "w-14-bulk-render"}
+	for i, id := range ids { // 10 × mega = 320 vCPU, alle gestoppt
+		zone := "de-fra-1"
+		if id == "w-02-ch-reporting" {
+			zone = "ch-gva-2"
+		} else if id == "w-03-med-analysis" || id == "w-14-bulk-render" {
+			zone = "it-mil-1"
+		}
+		jobs[id] = Job{Completed: 100, VMs: []VM{{ID: "v" + string(rune('a'+i)), Name: Name(id, "cpu", "mega"), Zone: zone,
+			Family: "cpu", Size: "mega", State: "stopped"}}}
+	}
+	in := Input{Now: 50, Jobs: jobs, Forecast: fc} // w-15 (Release 30) wartet ohne Platz
+	starts := 0
+	for _, a := range Plan(s, in, DefaultParams()) {
+		if a.Kind == Stop {
+			t.Fatalf("Pause trotz Kontingentdruck: %+v", a)
+		}
+		if a.Kind == Start {
+			starts++
+		}
+	}
+	if starts != len(ids) {
+		t.Fatalf("%d von %d gestoppten VMs gestartet", starts, len(ids))
+	}
+}

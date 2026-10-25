@@ -64,9 +64,14 @@ type Params struct {
 	MarginH     float64 // Puffer vor der Deadline (h)
 	NoPauseH    float64 // Spielraum, unter dem nicht mehr pausiert wird (h)
 	FallbackGCO float64 // Annahme für Stunden ohne Prognose (g/kWh)
+	ReserveH    float64 // Jobs, die spätestens in so vielen Stunden starten müssen, reservieren ihr Kontingent
+	QuotaCost   float64 // Aufschlag auf die Kosten je Anteil am vCPU-Kontingent (0,5: 144 von 320 vCPU = +22 %)
 }
 
-func DefaultParams() Params { return Params{MarginH: 2, NoPauseH: 2, FallbackGCO: 250} }
+func DefaultParams() Params {
+	// ReserveH aus: mit QuotaCost liefert die Reservierung im Simulator weniger (cmd/sim, 100 Seeds)
+	return Params{MarginH: 2, NoPauseH: 2, FallbackGCO: 250, ReserveH: -1, QuotaCost: 1}
+}
 
 // Name kodiert Workload und Profil, damit ein Neustart des Orchestrators eigene VMs wiedererkennt.
 func Name(workload, family, size string) string {
@@ -143,6 +148,8 @@ func Plan(s *spec.Spec, in Input, p Params) []Action {
 	// Engste Deadline zuerst: sie bekommen Kontingent vor den flexiblen Jobs.
 	wls := slices.Clone(s.Workloads)
 	sort.SliceStable(wls, func(a, b int) bool { return wls[a].Deadline.Before(wls[b].Deadline) })
+	pressure := quotaPressure(s, in, wls, u)
+	reserve(s, in, p, wls, &u)
 
 	for _, w := range wls {
 		j := in.Jobs[w.ID]
@@ -170,6 +177,11 @@ func Plan(s *spec.Spec, in Input, p Params) []Action {
 			continue
 		}
 		run, why := shouldRun(s, in, p, w, prof, vm.Zone, release, deadline, remaining)
+		if !run && pressure != "" {
+			// gestoppte VMs behalten ihr Kontingent: solange ein freigegebener Job keinen Platz findet, wird
+			// nicht pausiert, damit laufende Jobs fertig werden und Kontingent freigeben
+			run, why = true, "Kontingentdruck: "+pressure+" wartet"
+		}
 		switch {
 		case run && vm.State == "stopped":
 			out = append(out, Action{Kind: Start, Workload: w.ID, Zone: vm.Zone, VMID: vm.ID, Name: vm.Name, Reason: why})
@@ -180,34 +192,96 @@ func Plan(s *spec.Spec, in Input, p Params) []Action {
 	return out
 }
 
-// placeNew wählt für einen Job ohne VM die legale Option mit den geringsten erwarteten Emissionen.
+// reserve hält Kontingent für noch nicht freigegebene Jobs frei, die bald starten müssen: spätester Start
+// = Deadline − Puffer − kürzeste Gesamtdauer. Reserviert wird die Option mit den wenigsten vCPU, die das noch
+// schafft. Sonst belegen flexible CPU-Jobs alles, und ein knapper GPU-Job wie w-09 findet zu spät Platz.
+func reserve(s *spec.Spec, in Input, p Params, wls []spec.Workload, u *usage) {
+	for _, w := range wls {
+		j := in.Jobs[w.ID]
+		release := s.Hours(w.Release)
+		if j.Delivered || len(j.VMs) > 0 || in.Now >= release-1 {
+			continue
+		}
+		var pick spec.Profile
+		latest, found := 0.0, false
+		for _, o := range s.Options(w) {
+			total := float64(o.Profile.BootS+w.InputS+w.OutputS)/3600 + spec.ComputeHours(w, o.Profile, 1, w.RequiredWork)
+			ls := s.Hours(w.Deadline) - p.MarginH - total
+			if ls < release {
+				continue
+			}
+			if !found || o.Profile.CPUCores < pick.CPUCores || (o.Profile.CPUCores == pick.CPUCores && ls < latest) {
+				pick, latest, found = o.Profile, ls, true
+			}
+		}
+		if found && latest-in.Now <= p.ReserveH {
+			u.add(pick)
+		}
+	}
+}
+
+// quotaPressure nennt einen freigegebenen Job ohne VM, für den gerade keine legale Option ins Kontingent passt.
+func quotaPressure(s *spec.Spec, in Input, wls []spec.Workload, u usage) string {
+	for _, w := range wls {
+		j := in.Jobs[w.ID]
+		if j.Delivered || len(j.VMs) > 0 || in.Now < s.Hours(w.Release)-1 {
+			continue
+		}
+		fits := false
+		for _, o := range s.Options(w) {
+			if u.fits(s, o.Profile) {
+				fits = true
+				break
+			}
+		}
+		if !fits {
+			return w.ID
+		}
+	}
+	return ""
+}
+
+// placeNew wählt für einen Job ohne VM die legale Option mit den geringsten erwarteten Emissionen. Schafft
+// keine Option die Deadline mehr, nimmt sie die schnellste, die ins Kontingent passt: Teilfortschritt zählt.
 func placeNew(s *spec.Spec, in Input, p Params, w spec.Workload, u *usage, release, deadline, remaining float64) (Action, bool) {
 	if in.Now < release-1 { // Grundgerüst: frühestens eine Stunde vor dem Release anlegen
 		return Action{}, false
 	}
 	start := math.Max(in.Now, release)
 	best, bestCost := spec.Option{}, math.Inf(1)
+	rescue, rescueH := spec.Option{}, math.Inf(1)
 	for _, o := range s.Options(w) {
+		if !u.fits(s, o.Profile) {
+			continue
+		}
 		compute := spec.ComputeHours(w, o.Profile, 1, remaining)
 		setup := float64(o.Profile.BootS+w.InputS) / 3600
 		total := setup + compute + float64(w.OutputS)/3600
-		if start+total+p.MarginH > deadline || !u.fits(s, o.Profile) {
+		if total < rescueH {
+			rescue, rescueH = o, total
+		}
+		if start+total+p.MarginH > deadline {
 			continue
 		}
 		window := int(math.Floor(deadline - p.MarginH - start - setup))
 		g := cheapest(in.Forecast[o.Zone.Area], window, spec.Ceil(compute), p.FallbackGCO)
-		cost := o.Profile.ActiveW / 1000 * o.Zone.PUE * compute * g
+		// gleich effiziente, aber größere VMs blockieren Kontingent, das andere Jobs brauchen
+		cost := o.Profile.ActiveW / 1000 * o.Zone.PUE * compute * g *
+			(1 + p.QuotaCost*float64(o.Profile.CPUCores)/float64(s.MaxVCPUs))
 		if cost < bestCost {
 			best, bestCost = o, cost
 		}
 	}
+	reason := fmt.Sprintf("günstigste Option, erwartet %.0f g", bestCost)
 	if math.IsInf(bestCost, 1) {
-		return Action{}, false
+		if math.IsInf(rescueH, 1) {
+			return Action{}, false // nichts passt ins Kontingent
+		}
+		best, reason = rescue, fmt.Sprintf("Deadline knapp: schnellste Option, %.1f h", rescueH)
 	}
 	u.add(best.Profile)
 	return Action{Kind: Create, Workload: w.ID, Zone: best.Zone.Slug, Family: best.Profile.Family, Size: best.Profile.Size,
-		Name:   Name(w.ID, best.Profile.Family, best.Profile.Size),
-		Reason: fmt.Sprintf("günstigste Option, erwartet %.0f g", bestCost)}, true
+		Name: Name(w.ID, best.Profile.Family, best.Profile.Size), Reason: reason}, true
 }
 
 // shouldRun: läuft die VM jetzt? Ja, wenn der Spielraum knapp ist oder die aktuelle Stunde zu den
