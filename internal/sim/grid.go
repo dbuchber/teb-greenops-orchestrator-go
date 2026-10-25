@@ -33,7 +33,9 @@ func NewWorld(seed uint64) *World {
 	for i, a := range areas {
 		r := rand.New(rand.NewPCG(seed, uint64(i)*7919+1))
 		level := baseLevel[a] * (0.6 + 0.8*r.Float64())
-		amp := 0.1 + 0.25*r.Float64() // Tagesgang: Minimum um 13 Uhr (Solar)
+		// Tagesgang: Minimum um 13 Uhr (Solar). Spanne so gewählt, dass die Kennzahlen (TestWorldStats) zu den
+		// Live-Läufen passen: Tagesamplitude ~0,35, CV ~0,26, günstigste Hälfte ~0,79 des Mittels.
+		amp := 0.2 + 0.3*r.Float64()
 		weather := 0.0
 		n := Hours + 24
 		act := make([]float64, n)

@@ -159,3 +159,37 @@ func TestQuotaPressureResumesStoppedVMs(t *testing.T) {
 		t.Fatalf("%d von %d gestoppten VMs gestartet", starts, len(ids))
 	}
 }
+
+// Globale Planung: jedes Create legal, das Kontingent nie überschritten, und ein voller Lauf im Simulator ist
+// in sim_test abgedeckt.
+func TestGlobalCreatesAreLegalAndFitQuota(t *testing.T) {
+	s := load(t)
+	p := DefaultParams()
+	p.Global, p.Cache = true, &GlobalCache{}
+	for _, now := range []float64{0, 20, 50, 80} {
+		p.Cache = &GlobalCache{}
+		in := Input{Now: now, Jobs: map[string]Job{}, Forecast: flat(s, 200, map[string]float64{"CH": 40})}
+		vms, vcpus, gpus := 0, 0, map[string]int{}
+		for _, a := range Plan(s, in, p) {
+			if a.Kind != Create {
+				t.Fatalf("unerwartete Aktion %+v", a)
+			}
+			w, _ := s.Workload(a.Workload)
+			pr, _ := s.Profile(a.Family, a.Size)
+			if err := s.Legal(w, a.Zone, pr); err != nil {
+				t.Fatalf("t=%.0f illegal: %v", now, err)
+			}
+			vms++
+			vcpus += pr.CPUCores
+			gpus[pr.Family] += pr.GPUCount
+		}
+		if vms > s.MaxVMs || vcpus > s.MaxVCPUs {
+			t.Fatalf("t=%.0f: vms %d vcpus %d", now, vms, vcpus)
+		}
+		for f, n := range gpus {
+			if f != "cpu" && n > s.GPUQuota[f] {
+				t.Fatalf("t=%.0f GPU %s: %d > %d", now, f, n, s.GPUQuota[f])
+			}
+		}
+	}
+}

@@ -32,15 +32,10 @@ func variants() []variant {
 	}
 	return []variant{
 		{"referenz", base},
-		{"ohne Tagesmuster", with(func(c *sim.Config) { c.Params.Tile = false })},
-		{"+ Pause Tagesm.", with(func(c *sim.Config) { c.Params.TileRun = true })},
-		{"+ Pause, ab 12 h", with(func(c *sim.Config) { c.Params.TileRun = true; c.Params.NoPauseH = 12 })},
-		{"+ Pause, ab 24 h", with(func(c *sim.Config) { c.Params.TileRun = true; c.Params.NoPauseH = 24 })},
-		{"+ Pause, quota 2", with(func(c *sim.Config) { c.Params.TileRun = true; c.Params.NoPauseH = 12; c.Params.QuotaCost = 2 })},
-		{"+ quota 2", with(func(c *sim.Config) { c.Params.QuotaCost = 2 })},
-		{"ohne Setup-Kosten", with(func(c *sim.Config) { c.Params.SetupCost = false })},
-		{"nie pausieren", with(func(c *sim.Config) { c.Params.NoPauseH = math.Inf(1) })},
-		{"pause ab 6 h", with(func(c *sim.Config) { c.Params.NoPauseH = 6 })},
+		{"global", with(func(c *sim.Config) { c.Params.Global = true })},
+		{"global, Muster 0,5", with(func(c *sim.Config) { c.Params.Global = true; c.Params.Shrink = 0.5 })},
+		{"global, life 0,3", with(func(c *sim.Config) { c.Params.Global = true; c.Params.LifeCost = 0.3 })},
+		{"global, 1 s Lag", with(func(c *sim.Config) { c.Params.Global = true; c.LagH = 0.2 })},
 		{"720x, 1 s Lag", with(func(c *sim.Config) { c.LagH = 0.2 })},
 	}
 }

@@ -105,6 +105,9 @@ type pending struct {
 // Run simuliert einen Lauf von 120 h mit planner.Plan als Orchestrator.
 func Run(s *spec.Spec, ref Ref, cfg Config) Result {
 	world := NewWorld(cfg.Seed)
+	if cfg.Params.Global && cfg.Params.Cache == nil {
+		cfg.Params.Cache = &planner.GlobalCache{} // je Lauf ein eigener Plan
+	}
 	jobs := map[string]*job{}
 	for _, w := range s.Workloads {
 		jobs[w.ID] = &job{w: w, outputLeft: -1, atDeadline: -1}

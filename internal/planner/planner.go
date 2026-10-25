@@ -73,11 +73,19 @@ type Params struct {
 	// Kontingent (200 Seeds: 10/200 statt 200/200 pünktlich). Braucht erst eine globale Kontingentplanung.
 	Tile    bool
 	TileRun bool
+	// Global: alle Jobs gemeinsam mit Kontingent je Stunde planen (global.go); LifeCost in g je belegter
+	// vCPU-Stunde, eine GPU-Karte zählt wie GPUWeight vCPU. Cache hält den Plan einer Stunde. Simulator,
+	// 200 Seeds: +150 ± 15 Punkte, 13,5 statt 14,1 kg, 200/200 pünktlich (LifeCost 0–0,03, Shrink 0 am besten).
+	Global    bool
+	LifeCost  float64
+	GPUWeight int
+	Shrink    float64 // global: Anteil des Tagesmusters hinter der Prognose (0 = nur Mittel)
+	Cache     *GlobalCache
 }
 
 func DefaultParams() Params {
 	// ReserveH aus: mit QuotaCost liefert die Reservierung im Simulator weniger (cmd/sim, 100 Seeds)
-	return Params{MarginH: 2, NoPauseH: 2, FallbackGCO: 250, ReserveH: -1, QuotaCost: 1, SetupCost: true}
+	return Params{MarginH: 2, NoPauseH: 2, FallbackGCO: 250, ReserveH: -1, QuotaCost: 1, SetupCost: true, LifeCost: 0.01, GPUWeight: 8, Shrink: 0}
 }
 
 // Name kodiert Workload und Profil, damit ein Neustart des Orchestrators eigene VMs wiedererkennt.
@@ -161,6 +169,9 @@ func cheapest(fc []float64, window, k int, fallback float64) float64 {
 }
 
 func Plan(s *spec.Spec, in Input, p Params) []Action {
+	if p.Global {
+		return planGlobal(s, in, p)
+	}
 	var out []Action
 	u := usage{gpus: map[string]int{}}
 	for _, j := range in.Jobs {

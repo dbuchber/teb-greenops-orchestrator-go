@@ -47,3 +47,21 @@ func TestRunDeterministicAndLegal(t *testing.T) {
 	}
 	t.Logf("Seed 3: %.1f Punkte, %d/15 pünktlich, %.2f kg", a.Score, a.OnTime, a.ElectricityG/1000)
 }
+
+// Die globale Planung muss einen vollen Lauf legal, deterministisch und vollständig pünktlich schaffen.
+func TestGlobalRunOnTime(t *testing.T) {
+	s, r := setup(t)
+	cfg := func() Config {
+		c := DefaultConfig(3)
+		c.Params.Global = true
+		return c
+	}
+	a, b := Run(s, r, cfg()), Run(s, r, cfg())
+	if a.Score != b.Score {
+		t.Fatalf("nicht deterministisch: %.2f vs %.2f", a.Score, b.Score)
+	}
+	if a.Disqualified || a.OnTime != 15 {
+		t.Fatalf("disqualifiziert %v, pünktlich %d/15", a.Disqualified, a.OnTime)
+	}
+	t.Logf("Seed 3 global: %.1f Punkte, %.2f kg", a.Score, a.ElectricityG/1000)
+}
