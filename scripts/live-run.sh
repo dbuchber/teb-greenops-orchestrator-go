@@ -4,6 +4,7 @@
 #	scripts/live-run.sh                         # neueste greenops-<id>.env aus ~/Downloads
 #	scripts/live-run.sh ~/Downloads/greenops-85e472c9e6.env
 #	IMAGE=greenops-orch-go:v3 scripts/live-run.sh
+#	scripts/live-run.sh --watch                 # startet jeden neu heruntergeladenen Lauf von selbst
 #
 # Die Zugangsdaten werden nie ausgegeben: die Datei geht ungelesen per scp auf den Server, gezeigt
 # werden nur Schlüsselnamen. Läufe, für die schon ein Container existiert, werden nicht neu gestartet.
@@ -13,6 +14,20 @@ HOST=${HOST:-hetzner-wikidata}
 DIR=${DIR:-/data/infra-kg-austria/work/greenops-orch-go}
 IMAGE=${IMAGE:-greenops-orch-go:v2}
 SSH=(ssh -o ClearAllForwardings=yes "$HOST")
+
+if [[ ${1:-} == --watch ]]; then
+	# Dateien, die beim Start schon da sind, gelten als erledigt; danach jede neue genau einmal.
+	seen=$(ls ~/Downloads/greenops-*.env 2>/dev/null || true)
+	echo "warte auf neue greenops-<id>.env in ~/Downloads (Strg-C beendet) …"
+	while sleep 5; do
+		for f in ~/Downloads/greenops-*.env; do
+			[[ -f $f ]] && ! grep -qxF "$f" <<<"$seen" || continue
+			seen+=$'\n'$f
+			sleep 2 # Download fertig schreiben lassen
+			"$0" "$f" || echo "Lauf $f fehlgeschlagen, warte weiter" >&2
+		done
+	done
+fi
 
 env_file=${1:-$(ls -t ~/Downloads/greenops-*.env 2>/dev/null | head -1)}
 [[ -f $env_file ]] || { echo "keine greenops-<id>.env gefunden" >&2; exit 1; }
