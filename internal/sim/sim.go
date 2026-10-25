@@ -13,7 +13,9 @@ import (
 )
 
 // Modellannahmen (aus den öffentlichen Regeln abgeleitet, Details geschätzt):
-//   - Boot, Input und Output ziehen Leerlaufleistung, Rechnen die Wirkleistung; gestoppt 0 W.
+//   - Boot, Input (setup) und Rechnen ziehen Wirkleistung, Warten auf Release und Output Leerlaufleistung,
+//     gestoppt 0 W; an den Live-Läufen gemessen (runs/*/hourly_impact.csv gegen allocations.csv, R² = 1).
+//   - Ein Start nach Stopp bootet nicht neu (in allocations.csv: ein Boot je VM).
 //   - Input darf vor dem Release laufen, gerechnet wird erst ab Release.
 //   - Stoppen behält alles; Löschen setzt auf den letzten Checkpoint zurück (restart_from_zero: auf null).
 //   - Output läuft, sobald die Arbeit fertig ist und eine VM des Jobs läuft.
@@ -284,12 +286,14 @@ func step(s *spec.Spec, world *World, jobs map[string]*job, vms []*vm, now, dt f
 		watts := v.prof.IdleW
 		switch {
 		case v.bootLeft > 0:
+			watts = v.prof.ActiveW
 			v.bootLeft -= dt
 			if v.bootLeft <= 0 {
 				v.State = "running"
 			}
 		case j == nil || j.delivered:
 		case v.inputLeft > 0:
+			watts = v.prof.ActiveW
 			v.inputLeft -= dt
 		case now < s.Hours(j.w.Release):
 		case j.completed < j.w.RequiredWork:

@@ -66,11 +66,12 @@ type Params struct {
 	FallbackGCO float64 // Annahme für Stunden ohne Prognose (g/kWh)
 	ReserveH    float64 // Jobs, die spätestens in so vielen Stunden starten müssen, reservieren ihr Kontingent
 	QuotaCost   float64 // Aufschlag auf die Kosten je Anteil am vCPU-Kontingent (0,5: 144 von 320 vCPU = +22 %)
+	SetupCost   bool    // Boot und Input mit Wirkleistung in die Platzierungskosten einrechnen
 }
 
 func DefaultParams() Params {
 	// ReserveH aus: mit QuotaCost liefert die Reservierung im Simulator weniger (cmd/sim, 100 Seeds)
-	return Params{MarginH: 2, NoPauseH: 2, FallbackGCO: 250, ReserveH: -1, QuotaCost: 1}
+	return Params{MarginH: 2, NoPauseH: 2, FallbackGCO: 250, ReserveH: -1, QuotaCost: 1, SetupCost: true}
 }
 
 // Name kodiert Workload und Profil, damit ein Neustart des Orchestrators eigene VMs wiedererkennt.
@@ -265,8 +266,16 @@ func placeNew(s *spec.Spec, in Input, p Params, w spec.Workload, u *usage, relea
 		}
 		window := int(math.Floor(deadline - p.MarginH - start - setup))
 		g := cheapest(in.Forecast[o.Zone.Area], window, spec.Ceil(compute), p.FallbackGCO)
-		// gleich effiziente, aber größere VMs blockieren Kontingent, das andere Jobs brauchen
-		cost := o.Profile.ActiveW / 1000 * o.Zone.PUE * compute * g *
+		// Boot und Input laufen jetzt mit Wirkleistung; gleich effiziente, aber größere VMs blockieren
+		// Kontingent, das andere Jobs brauchen
+		now := 0.0
+		if p.SetupCost {
+			now = p.FallbackGCO
+			if fc := in.Forecast[o.Zone.Area]; len(fc) > 0 {
+				now = fc[0]
+			}
+		}
+		cost := o.Profile.ActiveW / 1000 * o.Zone.PUE * (compute*g + setup*now) *
 			(1 + p.QuotaCost*float64(o.Profile.CPUCores)/float64(s.MaxVCPUs))
 		if cost < bestCost {
 			best, bestCost = o, cost

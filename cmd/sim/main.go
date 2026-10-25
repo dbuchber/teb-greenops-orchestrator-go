@@ -32,10 +32,10 @@ func variants() []variant {
 	}
 	return []variant{
 		{"referenz", base},
+		{"ohne Setup-Kosten", with(func(c *sim.Config) { c.Params.SetupCost = false })},
 		{"nie pausieren", with(func(c *sim.Config) { c.Params.NoPauseH = math.Inf(1) })},
 		{"reserv. 24 h", with(func(c *sim.Config) { c.Params.ReserveH = 24 })},
 		{"quota-kosten 0", with(func(c *sim.Config) { c.Params.QuotaCost = 0 })},
-		{"quota-kosten 1", with(func(c *sim.Config) { c.Params.QuotaCost = 1 })},
 		{"quota-kosten 2", with(func(c *sim.Config) { c.Params.QuotaCost = 2 })},
 		{"pause ab 6 h", with(func(c *sim.Config) { c.Params.NoPauseH = 6 })},
 		{"720x, 1 s Lag", with(func(c *sim.Config) { c.LagH = 0.2 })},

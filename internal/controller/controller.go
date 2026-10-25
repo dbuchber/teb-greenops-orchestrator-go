@@ -93,31 +93,57 @@ func (c *Controller) Run(ctx context.Context) error {
 	}
 }
 
-// clockName ist die VM ohne Workload, die die Uhr eines READY-Laufs startet: die Uhr läuft erst ab dem ersten
-// angenommenen Create, die ersten Workloads werden aber erst nach einigen Stunden freigegeben.
-var clockName = planner.Name("clock", "cpu", "extra-large")
+// Die Uhr-VM startet die Uhr eines READY-Laufs: die Uhr läuft erst ab dem ersten angenommenen Create, die ersten
+// Workloads werden aber erst nach einigen Stunden freigegeben. Sie ist an den Workload mit dem spätesten Release
+// gebunden (sonst meldet das Portal "VM is missing a workload binding"), lädt nur kurz Input und wird gelöscht,
+// sobald die Uhr läuft; Fortschritt geht dabei keiner verloren.
+const clockWorkload = "clock"
+
+func isClock(name string) bool {
+	w, _, _, ok := planner.ParseName(name)
+	return ok && w == clockWorkload
+}
+
+// clockOption: legale Option des spätesten Workloads mit der kleinsten Wirkleistung × PUE.
+func (c *Controller) clockOption() (spec.Workload, spec.Option, bool) {
+	var w spec.Workload
+	for _, x := range c.Spec.Workloads {
+		if w.ID == "" || x.Release.After(w.Release) {
+			w = x
+		}
+	}
+	var best spec.Option
+	found := false
+	for _, o := range c.Spec.Options(w) {
+		if !found || o.Profile.ActiveW*o.Zone.PUE < best.Profile.ActiveW*best.Zone.PUE {
+			best, found = o, true
+		}
+	}
+	return w, best, found
+}
 
 func (c *Controller) clock(st api.Status) []planner.Action {
 	var own []planner.VM
 	for _, vm := range c.vms {
-		if vm.Name == clockName {
+		if isClock(vm.Name) {
 			own = append(own, vm)
 		}
 	}
-	_, sent := c.pending[clockName]
+	sent := false
+	for name := range c.pending {
+		sent = sent || isClock(name)
+	}
 	switch {
 	case st.State == "READY" && len(own) == 0 && !sent && len(c.vms) == 0:
-		zone := ""
-		for _, z := range c.Spec.Zones { // Zone mit dem kleinsten PUE; ohne Workload gibt es keine Residency
-			if zone == "" || z.PUE < c.Spec.Zones[zone].PUE {
-				zone = z.Slug
-			}
+		w, o, ok := c.clockOption()
+		if !ok {
+			return nil
 		}
-		return []planner.Action{{Kind: planner.Create, Zone: zone, Family: "cpu", Size: "extra-large", Name: clockName,
-			Reason: "Uhr starten"}}
+		return []planner.Action{{Kind: planner.Create, Workload: w.ID, Zone: o.Zone.Slug, Family: o.Profile.Family,
+			Size: o.Profile.Size, Name: planner.Name(clockWorkload, o.Profile.Family, o.Profile.Size), Reason: "Uhr starten"}}
 	case st.State != "READY":
 		var out []planner.Action
-		for _, vm := range own { // ohne Workload erscheint sie nie im Work-Status, der Zustand bleibt "creating"
+		for _, vm := range own {
 			if vm.ID != "" {
 				out = append(out, planner.Action{Kind: planner.Delete, Zone: vm.Zone, VMID: vm.ID, Name: vm.Name, Reason: "Uhr läuft"})
 			}
@@ -226,14 +252,11 @@ func (c *Controller) execute(ctx context.Context, acts []planner.Action) {
 	for _, a := range acts {
 		if a.Kind == planner.Create {
 			// zweite Legalitätsprüfung unmittelbar vor dem Create: ein illegaler Versuch disqualifiziert den Lauf.
-			// Nur die Uhr-VM hat keinen Workload und damit keine Residency.
-			if a.Name != clockName || a.Workload != "" {
-				w, ok1 := c.Spec.Workload(a.Workload)
-				p, ok2 := c.Spec.Profile(a.Family, a.Size)
-				if !ok1 || !ok2 || c.Spec.Legal(w, a.Zone, p) != nil {
-					c.Log.Error("Create verworfen: nicht legal", "workload", a.Workload, "zone", a.Zone)
-					continue
-				}
+			w, ok1 := c.Spec.Workload(a.Workload)
+			p, ok2 := c.Spec.Profile(a.Family, a.Size)
+			if !ok1 || !ok2 || c.Spec.Legal(w, a.Zone, p) != nil {
+				c.Log.Error("Create verworfen: nicht legal", "workload", a.Workload, "zone", a.Zone)
+				continue
 			}
 			c.pending[a.Name] = time.Now()
 		}
