@@ -22,6 +22,7 @@ import (
 type variant struct {
 	name string
 	cfg  func(seed uint64) sim.Config
+	mod  func(*spec.Spec) // optional: geänderte Welt, z. B. mehr Kontingent als Obergrenze
 }
 
 // variants: Referenz zuerst; jede weitere ändert genau eine Annahme gegenüber der Referenz.
@@ -31,14 +32,21 @@ func variants() []variant {
 		return func(seed uint64) sim.Config { c := base(seed); f(&c); return c }
 	}
 	return []variant{
-		{"referenz", base},
-		{"alter Planer", with(func(c *sim.Config) { c.Params.Global = false })},
-		{"GPU ≥ 2 Karten", with(func(c *sim.Config) { c.Params.MinGPUs = 2 })},
-		{"GPU ≥ 4 Karten", with(func(c *sim.Config) { c.Params.MinGPUs = 4 })},
-		{"GPU ≥ 2, gpu-w 0", with(func(c *sim.Config) { c.Params.MinGPUs = 2; c.Params.GPUWeight = 0 })},
-		{"GPU ≥ 2, Muster 0,5", with(func(c *sim.Config) { c.Params.MinGPUs = 2; c.Params.Shrink = 0.5 })},
-		{"CPU ≥ 32 Kerne", with(func(c *sim.Config) { c.Params.MinCores = 32 })},
-		{"CPU ≥ 32, GPU ≥ 2", with(func(c *sim.Config) { c.Params.MinCores = 32; c.Params.MinGPUs = 2 })},
+		{"referenz", base, nil},
+		{"alter Planer", with(func(c *sim.Config) { c.Params.Global = false }), nil},
+		{"JIT + CPU ≥ 32", with(func(c *sim.Config) { c.Params.JustInTime = true; c.Params.MinCores = 32 }), nil},
+		{"Kontingent ×2 (Obergrenze)", base, func(s *spec.Spec) {
+			s.MaxVCPUs *= 2
+			s.MaxVMs *= 2
+			for f := range s.GPUQuota {
+				s.GPUQuota[f] *= 2
+			}
+		}},
+		{"nur vCPU ×2", base, func(s *spec.Spec) { s.MaxVCPUs *= 2 }},
+		{"parken 6 h", with(func(c *sim.Config) { c.Params.ParkGapH = 6; c.Params.ParkLossH = 0.1 }), nil},
+		{"parken 12 h", with(func(c *sim.Config) { c.Params.ParkGapH = 12; c.Params.ParkLossH = 0.1 }), nil},
+		{"parken 24 h", with(func(c *sim.Config) { c.Params.ParkGapH = 24; c.Params.ParkLossH = 0.1 }), nil},
+		{"parken 12 h, Verlust 0,5", with(func(c *sim.Config) { c.Params.ParkGapH = 12; c.Params.ParkLossH = 0.5 }), nil},
 	}
 }
 
@@ -57,6 +65,19 @@ func main() {
 		os.Exit(1)
 	}
 	vs := variants()
+	specs := make([]*spec.Spec, len(vs))
+	for i, v := range vs {
+		specs[i] = s
+		if v.mod != nil {
+			c, err := spec.Load(*catalog)
+			if err != nil {
+				fmt.Fprintln(os.Stderr, err)
+				os.Exit(1)
+			}
+			v.mod(c)
+			specs[i] = c
+		}
+	}
 	res := make([][]sim.Result, len(vs))
 	for i := range res {
 		res[i] = make([]sim.Result, *seeds)
@@ -69,7 +90,7 @@ func main() {
 		go func() {
 			defer wg.Done()
 			for k := range jobs {
-				res[k[0]][k[1]] = sim.Run(s, ref, vs[k[0]].cfg(uint64(k[1]+1)))
+				res[k[0]][k[1]] = sim.Run(specs[k[0]], ref, vs[k[0]].cfg(uint64(k[1]+1)))
 			}
 		}()
 	}

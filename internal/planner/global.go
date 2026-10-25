@@ -299,6 +299,49 @@ func globalPlan(s *spec.Spec, in Input, p Params, h0 int) (map[string]jobPlan, s
 	return plans, pressure
 }
 
+// jitDue: ist es Zeit für das Create? Ja, wenn Boot und Input bis zur ersten geplanten Rechenstunde gerade
+// reichen (eine Stunde Puffer).
+func jitDue(w spec.Workload, jp jobPlan, h0 int) bool {
+	first := -1
+	for h := range jp.run {
+		if first < 0 || h < first {
+			first = h
+		}
+	}
+	if first < 0 {
+		return true
+	}
+	setup := int(math.Ceil(float64(jp.opt.Profile.BootS+w.InputS)/3600 - 1e-9))
+	return h0 >= first-setup-1
+}
+
+// park: lohnt es, die VM eines pausierenden Jobs zu löschen? Eine gestoppte VM hält Kontingent; nach dem
+// Löschen plant der Job neu (Boot und Input noch einmal) und setzt am letzten Checkpoint wieder auf. Nur wenn
+// die nächste geplante Rechenstunde mindestens ParkGapH entfernt ist und höchstens ParkLossH Rechenzeit seit
+// dem Checkpoint verloren geht; Checkpoints liegen alle CheckpointS Sekunden Rechenzeit.
+func park(w spec.Workload, prof spec.Profile, completed float64, jp jobPlan, h0 int, p Params) (int, bool) {
+	if p.ParkGapH <= 0 || w.RestartFromZero || w.CheckpointS <= 0 {
+		return 0, false
+	}
+	next := -1
+	for h := range jp.run {
+		if h > h0 && (next < 0 || h < next) {
+			next = h
+		}
+	}
+	gap := next - h0
+	if next >= 0 && float64(gap) < p.ParkGapH {
+		return 0, false
+	}
+	rate := spec.RatePerHour(w, prof, 1)
+	chunk := rate * float64(w.CheckpointS) / 3600
+	lost := completed - math.Floor(completed/chunk+1e-9)*chunk
+	if lost > p.ParkLossH*rate {
+		return 0, false
+	}
+	return gap, true
+}
+
 // options sind die legalen Optionen ohne CPU-Profile unter MinCores und GPU-Profile unter MinGPUs; bleibt
 // keine, alle.
 func options(s *spec.Spec, w spec.Workload, p Params) []spec.Option {
@@ -365,6 +408,9 @@ func planGlobal(s *spec.Spec, in Input, p Params) []Action {
 			if jp.start > h0 || !u.fits(s, jp.opt.Profile) {
 				continue
 			}
+			if (p.JustInTime || p.ParkGapH > 0) && !jitDue(w, jp, h0) {
+				continue // gestoppt warten hält nur Kontingent; Boot und Input kurz vor der ersten Rechenstunde
+			}
 			u.add(jp.opt.Profile)
 			out = append(out, Action{Kind: Create, Workload: w.ID, Zone: jp.opt.Zone.Slug, Family: jp.opt.Profile.Family,
 				Size: jp.opt.Profile.Size, Name: Name(w.ID, jp.opt.Profile.Family, jp.opt.Profile.Size),
@@ -387,7 +433,7 @@ func planGlobal(s *spec.Spec, in Input, p Params) []Action {
 			run, why = true, "vor Release: Input laden"
 		case slack < p.NoPauseH || remaining <= 0:
 			run, why = true, fmt.Sprintf("Spielraum %.1f h", slack)
-		case c.pressure != "":
+		case c.pressure != "" && !p.NoPressure:
 			run, why = true, "Kontingentdruck: "+c.pressure+" wartet"
 		case planned && jp.run[h0]:
 			run, why = true, "geplante Rechenstunde"
@@ -395,6 +441,14 @@ func planGlobal(s *spec.Spec, in Input, p Params) []Action {
 			run, why = true, "ohne Plan"
 		default:
 			why = fmt.Sprintf("Pause laut Plan, Spielraum %.1f h", slack)
+		}
+		if !run && planned && vm.State == "stopped" && j.Completed > 0 {
+			// nur VMs, die schon gerechnet haben und gestoppt sind; sonst parkt die Regel mitten im Setup
+			if gap, ok := park(w, prof, j.Completed, jp, h0, p); ok {
+				out = append(out, Action{Kind: Delete, Workload: w.ID, Zone: vm.Zone, VMID: vm.ID, Name: vm.Name,
+					Reason: fmt.Sprintf("parken: nächste Rechenstunde in %d h, Kontingent frei", gap)})
+				continue
+			}
 		}
 		switch {
 		case run && vm.State == "stopped":

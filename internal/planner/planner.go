@@ -76,14 +76,18 @@ type Params struct {
 	// Global: alle Jobs gemeinsam mit Kontingent je Stunde planen (global.go); LifeCost in g je belegter
 	// vCPU-Stunde, eine GPU-Karte zählt wie GPUWeight vCPU. Cache hält den Plan einer Stunde. Simulator,
 	// 200 Seeds: +150 ± 15 Punkte, 13,5 statt 14,1 kg, 200/200 pünktlich (LifeCost 0–0,03, Shrink 0 am besten).
-	Global    bool
-	LifeCost  float64
-	GPUWeight int
-	Shrink    float64 // global: Anteil des Tagesmusters hinter der Prognose (0 = nur Mittel)
-	MinCores  int     // global: CPU-Profile mit weniger Kernen nicht verwenden (0 = alle)
-	MinGPUs   int     // global: GPU-Profile mit weniger Karten nicht verwenden (0 = alle)
-	EndSlices int     // global: so viele Lebensdauern je Start werden geprüft (Feinheit der Suche)
-	Cache     *GlobalCache
+	Global     bool
+	LifeCost   float64
+	GPUWeight  int
+	Shrink     float64 // global: Anteil des Tagesmusters hinter der Prognose (0 = nur Mittel)
+	MinCores   int     // global: CPU-Profile mit weniger Kernen nicht verwenden (0 = alle)
+	MinGPUs    int     // global: GPU-Profile mit weniger Karten nicht verwenden (0 = alle)
+	NoPressure bool    // global: Kontingentdruck ignorieren (nur zur Diagnose im Simulator)
+	JustInTime bool    // global: neue VMs erst kurz vor ihrer ersten geplanten Rechenstunde anlegen
+	ParkGapH   float64 // global: VM löschen, wenn die nächste geplante Rechenstunde so weit weg ist (0 = aus)
+	ParkLossH  float64 // global: nur parken, wenn seit dem letzten Checkpoint höchstens so viel Rechenzeit verloren geht
+	EndSlices  int     // global: so viele Lebensdauern je Start werden geprüft (Feinheit der Suche)
+	Cache      *GlobalCache
 }
 
 func DefaultParams() Params {
