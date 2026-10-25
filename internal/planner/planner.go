@@ -82,6 +82,7 @@ type Params struct {
 	Shrink     float64 // global: Anteil des Tagesmusters hinter der Prognose (0 = nur Mittel)
 	MinCores   int     // global: CPU-Profile mit weniger Kernen nicht verwenden (0 = alle)
 	AllEnds    bool    // global: jedes Ende prüfen (Heap) statt EndSlices Stichproben
+	GPUFirst   bool    // global: GPU-Jobs in jeder Reihenfolge vor den CPU-Jobs planen
 	Orders     int     // global: so viele Reihenfolgen durchrechnen, den günstigsten Plan nehmen (≤ 1: nur Deadline)
 	MinGPUs    int     // global: GPU-Profile mit weniger Karten nicht verwenden (0 = alle)
 	NoPressure bool    // global: Kontingentdruck ignorieren (nur zur Diagnose im Simulator)

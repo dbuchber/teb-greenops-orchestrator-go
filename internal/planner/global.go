@@ -366,6 +366,11 @@ func globalPlan(s *spec.Spec, in Input, p Params, h0 int) (map[string]jobPlan, s
 			fresh = append(fresh, w)
 		}
 	}
+	if p.GPUFirst {
+		// GPU-Jobs zuerst: sie haben wenige legale Zonen und große Emissionen; die Reihenfolge innerhalb der
+		// Gruppen bleibt (Deadline bzw. Zufall)
+		sort.SliceStable(fresh, func(a, b int) bool { return isGPU(fresh[a]) && !isGPU(fresh[b]) })
+	}
 	plans, unplaced, bestTotal := greedy(s, in, p, h0, n, existing, fresh, series)
 	if p.Orders > 1 && len(fresh) > 1 {
 		// andere Reihenfolgen: wer zuerst kommt, bekommt das Kontingent; behalten wird der Plan, der alle Jobs
@@ -374,6 +379,9 @@ func globalPlan(s *spec.Spec, in Input, p Params, h0 int) (map[string]jobPlan, s
 		for i := 1; i < p.Orders; i++ {
 			order := slices.Clone(fresh)
 			r.Shuffle(len(order), func(a, b int) { order[a], order[b] = order[b], order[a] })
+			if p.GPUFirst {
+				sort.SliceStable(order, func(a, b int) bool { return isGPU(order[a]) && !isGPU(order[b]) })
+			}
 			pl, un, total := greedy(s, in, p, h0, n, existing, order, series)
 			if len(un) < len(unplaced) || (len(un) == len(unplaced) && total < bestTotal-1e-6) {
 				plans, unplaced, bestTotal = pl, un, total
@@ -452,6 +460,8 @@ func options(s *spec.Spec, w spec.Workload, p Params) []spec.Option {
 	}
 	return out
 }
+
+func isGPU(w spec.Workload) bool { return w.WorkUnit == "tflop" }
 
 // Hours120 ist das Ende des Fensters in Stunden seit T0.
 const Hours120 = 120

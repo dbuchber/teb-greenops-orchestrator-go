@@ -34,8 +34,11 @@ func variants() []variant {
 	return []variant{
 		{"referenz", base, nil},
 		{"alter Planer", with(func(c *sim.Config) { c.Params.Global = false }), nil},
-		{"1 Reihenfolge", with(func(c *sim.Config) { c.Params.Orders = 1 }), nil},
-		{"1 s Lag", with(func(c *sim.Config) { c.LagH = 0.2 }), nil},
+		{"v5 (1 Reihenf., 6 Enden)", with(func(c *sim.Config) { c.Params.Orders = 1; c.Params.AllEnds = false }), nil},
+		{"GPU zuerst", with(func(c *sim.Config) { c.Params.GPUFirst = true }), nil},
+		{"GPU zuerst, 1 Reihenf.", with(func(c *sim.Config) { c.Params.GPUFirst = true; c.Params.Orders = 1 }), nil},
+		{"v5 + GPU zuerst", with(func(c *sim.Config) { c.Params.GPUFirst = true; c.Params.Orders = 1; c.Params.AllEnds = false }), nil},
+		{"GPU zuerst, 1 s Lag", with(func(c *sim.Config) { c.Params.GPUFirst = true; c.LagH = 0.2 }), nil},
 		{"nur vCPU ×2", base, func(s *spec.Spec) { s.MaxVCPUs *= 2 }},
 	}
 }
