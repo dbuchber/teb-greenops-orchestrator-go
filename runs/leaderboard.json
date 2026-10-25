@@ -1,12 +1,5 @@
 {
- "active": [
-  {
-   "jobs_completed": 15,
-   "jobs_required": 15,
-   "state": "RUNNING",
-   "team_name": "graphanchor"
-  }
- ],
+ "active": [],
  "cohort": "greenops-score-v2:baa012c94fb9a9626337151649bd2987fdca585b7230cf1bca03ff0d120b762f:48e6c674e94bad8ba49b2d28617b4cee600dd7571f3547fd1b99e34f60bf19f5",
  "entries": [
   {
@@ -70,31 +63,31 @@
    "jobs_required": 15
   },
   {
+   "usage_gco2e": "13510.352173",
+   "lifecycle_gco2e": "9534.278255",
+   "impact_model": "exoscale-lca-v1",
+   "rank": 6,
+   "team_id": "abd74d2d5c491c02159d",
+   "team_name": "graphanchor",
+   "score": "21991.717460",
+   "total_gco2e": "23044.630428",
+   "jobs_completed": 15,
+   "jobs_required": 15
+  },
+  {
    "usage_gco2e": "13989.147959",
    "lifecycle_gco2e": "10814.560381",
    "impact_model": "exoscale-lca-v1",
-   "rank": 6,
+   "rank": 7,
    "team_id": "a49c76627133e7ffce35",
    "team_name": "tentaflake.dev",
    "score": "21888.490834",
    "total_gco2e": "24803.708340",
    "jobs_completed": 15,
    "jobs_required": 15
-  },
-  {
-   "usage_gco2e": "14621.556448",
-   "lifecycle_gco2e": "10616.604805",
-   "impact_model": "exoscale-lca-v1",
-   "rank": 7,
-   "team_id": "abd74d2d5c491c02159d",
-   "team_name": "graphanchor",
-   "score": "21788.812142",
-   "total_gco2e": "25238.161253",
-   "jobs_completed": 15,
-   "jobs_required": 15
   }
  ],
  "kind": "preliminary",
  "score_status": "frozen_v2",
- "updated_at": "2026-10-25T16:10:20.1889404Z"
+ "updated_at": "2026-10-25T16:23:37.72217232Z"
 }

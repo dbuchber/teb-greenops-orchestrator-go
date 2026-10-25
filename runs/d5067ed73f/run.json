@@ -15,8 +15,8 @@
    "lifecycle_gco2e": "9534.278255",
    "version": "greenops-score-v2",
    "rules_hash": "48e6c674e94bad8ba49b2d28617b4cee600dd7571f3547fd1b99e34f60bf19f5",
-   "score_as_of": "2025-10-04T22:00:00Z",
-   "final": false,
+   "score_as_of": "2025-10-05T00:00:00Z",
+   "final": true,
    "base": "16991.717460",
    "bonus": "5000.000000",
    "total": "21991.717460",
@@ -174,8 +174,8 @@
     }
    ]
   },
-  "score_status": "provisional",
-  "impact_as_of": "2025-10-04T22:00:00Z",
+  "score_status": "final",
+  "impact_as_of": "2025-10-05T00:00:00Z",
   "qualification": "QUALIFIED",
   "violations": [],
   "start_at": "2025-09-30T00:00:00Z",
@@ -183,7 +183,7 @@
   "scenario_id": "pack-40218962a6",
   "id": "d5067ed73f36b06bc0120114",
   "team_id": "abd74d2d5c491c02159d",
-  "state": "RUNNING",
+  "state": "COMPLETED",
   "speed_multiplier": 720,
   "simulation": {
    "impact_model": "exoscale-lca-v1",
@@ -284,7 +284,7 @@
      "lifecycle_gco2e": "519.547866"
     }
    ],
-   "virtual_time": "2025-10-04T23:52:42.757Z",
+   "virtual_time": "2025-10-05T00:00:00Z",
    "vms": [
     {
      "id": "16e0fec5-ca6d-4859-accb-1ce51fdddeeb",
@@ -10992,8 +10992,8 @@
    ],
    "total_kwh": "105.603749",
    "total_gco2e": "23044.630428",
-   "finished": false,
-   "eligible": false
+   "finished": true,
+   "eligible": true
   }
  }
 }
