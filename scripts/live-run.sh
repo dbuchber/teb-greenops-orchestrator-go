@@ -3,7 +3,7 @@
 #
 #	scripts/live-run.sh                         # newest greenops-<id>.env from ~/Downloads
 #	scripts/live-run.sh ~/Downloads/greenops-85e472c9e6.env
-#	IMAGE=greenops-orch-go:v3 scripts/live-run.sh
+#	IMAGE=greenops-orch-go:v6 scripts/live-run.sh
 #	ARGS=-global scripts/live-run.sh --new      # extra flags for the orchestrator
 #	scripts/live-run.sh --new [name] [speed]    # creates the run in the portal itself (scripts/portal, log in once)
 #	scripts/live-run.sh --watch                 # starts every newly downloaded run automatically
@@ -14,7 +14,7 @@ set -euo pipefail
 
 HOST=${HOST:-hetzner-wikidata}
 DIR=${DIR:-/data/infra-kg-austria/work/greenops-orch-go}
-IMAGE=${IMAGE:-greenops-orch-go:v6}
+IMAGE=${IMAGE:-greenops-orch-go:v7}
 ARGS=${ARGS:-}
 SSH=(ssh -o ClearAllForwardings=yes "$HOST")
 
