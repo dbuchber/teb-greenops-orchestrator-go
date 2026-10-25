@@ -4,3 +4,4 @@ greenops-exo*.json
 .env*
 .local/
 /orchestrator
+node_modules/

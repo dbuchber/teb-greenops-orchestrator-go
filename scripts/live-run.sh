@@ -4,6 +4,7 @@
 #	scripts/live-run.sh                         # neueste greenops-<id>.env aus ~/Downloads
 #	scripts/live-run.sh ~/Downloads/greenops-85e472c9e6.env
 #	IMAGE=greenops-orch-go:v3 scripts/live-run.sh
+#	scripts/live-run.sh --new [name] [tempo]    # legt den Lauf im Portal selbst an (scripts/portal, einmal einloggen)
 #	scripts/live-run.sh --watch                 # startet jeden neu heruntergeladenen Lauf von selbst
 #
 # Die Zugangsdaten werden nie ausgegeben: die Datei geht ungelesen per scp auf den Server, gezeigt
@@ -14,6 +15,12 @@ HOST=${HOST:-hetzner-wikidata}
 DIR=${DIR:-/data/infra-kg-austria/work/greenops-orch-go}
 IMAGE=${IMAGE:-greenops-orch-go:v2}
 SSH=(ssh -o ClearAllForwardings=yes "$HOST")
+
+if [[ ${1:-} == --new ]]; then
+	portal=$(cd "$(dirname "$0")/portal" && node portal.mjs new-run "${2:-auto $(date +%H:%M)}" "${3:-720}")
+	echo "$portal"
+	set -- "$(sed -n 's/^Datei gespeichert: //p' <<<"$portal")"
+fi
 
 if [[ ${1:-} == --watch ]]; then
 	# Dateien, die beim Start schon da sind, gelten als erledigt; danach jede neue genau einmal.
