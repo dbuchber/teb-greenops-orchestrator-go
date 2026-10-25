@@ -13,7 +13,7 @@ set -euo pipefail
 
 HOST=${HOST:-hetzner-wikidata}
 DIR=${DIR:-/data/infra-kg-austria/work/greenops-orch-go}
-IMAGE=${IMAGE:-greenops-orch-go:v2}
+IMAGE=${IMAGE:-greenops-orch-go:v3}
 SSH=(ssh -o ClearAllForwardings=yes "$HOST")
 
 if [[ ${1:-} == --new ]]; then
