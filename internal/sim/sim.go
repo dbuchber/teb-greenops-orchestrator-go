@@ -12,21 +12,21 @@ import (
 	"github.com/dbuchber/teb-greenops-orchestrator-go/internal/spec"
 )
 
-// Modellannahmen (aus den öffentlichen Regeln abgeleitet, Details geschätzt):
-//   - Boot, Input (setup) und Rechnen ziehen Wirkleistung, Warten auf Release und Output Leerlaufleistung,
-//     gestoppt 0 W; an den Live-Läufen gemessen (runs/*/hourly_impact.csv gegen allocations.csv, R² = 1).
-//   - Ein Start nach Stopp bootet nicht neu (in allocations.csv: ein Boot je VM).
-//   - Input darf vor dem Release laufen, gerechnet wird erst ab Release.
-//   - Stoppen behält alles; Löschen setzt auf den letzten Checkpoint zurück (restart_from_zero: auf null).
-//   - Output läuft, sobald die Arbeit fertig ist und eine VM des Jobs läuft.
-//   - Energie × PUE × Ist-Intensität der Zone ergibt die Emissionen; ungebundene VMs zählen nur gemeinsam.
+// Model assumptions (derived from the public rules, details estimated):
+//   - Boot, input (setup) and compute draw active power, waiting for release and output draw idle power,
+//     stopped 0 W; measured on the live runs (runs/*/hourly_impact.csv against allocations.csv, R² = 1).
+//   - A start after a stop does not boot again (allocations.csv: one boot per VM).
+//   - Input may run before the release, compute starts only at the release.
+//   - Stopping keeps everything; deleting resets to the last checkpoint (restart_from_zero: to zero).
+//   - Output runs as soon as the work is done and a VM of the job is running.
+//   - Energy × PUE × actual intensity of the zone gives the emissions; unbound VMs only count in the total.
 type Config struct {
 	Seed      uint64
-	StepH     float64 // Simulationsschritt (h)
-	PlanEvery float64 // Abstand der Planungen (h); 250 ms bei 720× = 0,05 h
-	LagH      float64 // Verzögerung bis eine Aktion wirkt (h)
+	StepH     float64 // simulation step (h)
+	PlanEvery float64 // interval between plans (h); 250 ms at 720× = 0.05 h
+	LagH      float64 // delay until an action takes effect (h)
 	Params    planner.Params
-	Trace     func(now float64, a planner.Action, accepted bool) // optional: jede wirksame Aktion
+	Trace     func(now float64, a planner.Action, accepted bool) // optional: every action that takes effect
 }
 
 func DefaultConfig(seed uint64) Config {
@@ -36,7 +36,7 @@ func DefaultConfig(seed uint64) Config {
 type JobResult struct {
 	Delivered   bool
 	DeliveredAt float64
-	Progress    float64 // Anteil der Arbeit bis zur Deadline
+	Progress    float64 // share of the work done by the deadline
 	CarbonG     float64
 }
 
@@ -48,7 +48,7 @@ type Result struct {
 	Jobs         map[string]JobResult
 }
 
-// Ref sind die Referenzenergien (kWh) je Workload aus rules.json.
+// Ref holds the reference energies (kWh) per workload from rules.json.
 type Ref map[string]float64
 
 func LoadRef(dir string) (Ref, error) {
@@ -89,8 +89,8 @@ type job struct {
 	w            spec.Workload
 	completed    float64
 	checkpointed float64
-	sinceCkpt    float64 // Rechenstunden seit dem letzten Checkpoint
-	outputLeft   float64 // < 0: Output noch nicht begonnen
+	sinceCkpt    float64 // compute hours since the last checkpoint
+	outputLeft   float64 // < 0: output not started yet
 	delivered    bool
 	deliveredAt  float64
 	atDeadline   float64
@@ -102,11 +102,11 @@ type pending struct {
 	a  planner.Action
 }
 
-// Run simuliert einen Lauf von 120 h mit planner.Plan als Orchestrator.
+// Run simulates a 120 h run with planner.Plan as the orchestrator.
 func Run(s *spec.Spec, ref Ref, cfg Config) Result {
 	world := NewWorld(cfg.Seed)
 	if cfg.Params.Global && cfg.Params.Cache == nil {
-		cfg.Params.Cache = &planner.GlobalCache{} // je Lauf ein eigener Plan
+		cfg.Params.Cache = &planner.GlobalCache{} // a separate plan per run
 	}
 	jobs := map[string]*job{}
 	for _, w := range s.Workloads {
@@ -125,7 +125,7 @@ func Run(s *spec.Spec, ref Ref, cfg Config) Result {
 			w, _ := s.Workload(a.Workload)
 			p, _ := s.Profile(a.Family, a.Size)
 			if s.Legal(w, a.Zone, p) != nil {
-				disq = true // wie live: schon der Versuch disqualifiziert
+				disq = true // as live: the attempt alone disqualifies
 				return
 			}
 			ok := fits(s, vms, p)
@@ -133,7 +133,7 @@ func Run(s *spec.Spec, ref Ref, cfg Config) Result {
 				cfg.Trace(now, a, ok)
 			}
 			if !ok {
-				return // die API lehnt ab
+				return // the API rejects
 			}
 			nextID++
 			v := &vm{workload: a.Workload, prof: p, zone: s.Zones[a.Zone], bootLeft: float64(p.BootS) / 3600,
@@ -171,7 +171,7 @@ func Run(s *spec.Spec, ref Ref, cfg Config) Result {
 	}
 
 	for now := 0.0; now < Hours-1e-9; now += cfg.StepH {
-		// geplante Aktionen wirksam werden lassen
+		// let scheduled actions take effect
 		rest := queue[:0]
 		for _, p := range queue {
 			if p.at <= now {
@@ -182,8 +182,8 @@ func Run(s *spec.Spec, ref Ref, cfg Config) Result {
 		}
 		queue = rest
 		if now >= nextPlan {
-			// wie der Controller: gesendete, noch nicht wirksame Creates zählen als "creating", und für eine VM
-			// mit offener Aktion wird keine weitere geschickt
+			// like the controller: sent but not yet effective creates count as "creating", and no further
+			// action is sent for a VM with a pending one
 			in := input(s, world, jobs, vms, now)
 			busy := map[string]bool{}
 			for _, q := range queue {
@@ -211,7 +211,7 @@ func Run(s *spec.Spec, ref Ref, cfg Config) Result {
 	for id := range jobs {
 		ids = append(ids, id)
 	}
-	sort.Strings(ids) // feste Summationsreihenfolge, sonst weichen Punkte in der letzten Stelle ab
+	sort.Strings(ids) // fixed summation order, otherwise points differ in the last digit
 	var refSum, all float64
 	for _, id := range ids {
 		j := jobs[id]

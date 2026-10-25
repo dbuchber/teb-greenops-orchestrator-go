@@ -27,21 +27,21 @@ func TestCatalog(t *testing.T) {
 	}
 }
 
-// Jede Option muss legal sein, und keine Option darf in ein verbotenes Land führen.
+// Every option must be legal, and no option may lead to a forbidden country.
 func TestOptionsRespectResidency(t *testing.T) {
 	s := load(t)
 	for _, w := range s.Workloads {
 		opts := s.Options(w)
 		if len(opts) == 0 {
-			t.Fatalf("%s: keine legale Option", w.ID)
+			t.Fatalf("%s: no legal option", w.ID)
 		}
 		for _, o := range opts {
 			if w.Residency == "EU" && o.Zone.Country == "CH" {
-				t.Fatalf("%s: CH bei EU-Residency", w.ID)
+				t.Fatalf("%s: CH with EU residency", w.ID)
 			}
 			for _, f := range w.Forbidden {
 				if o.Zone.Country == f {
-					t.Fatalf("%s: verbotenes Land %s", w.ID, f)
+					t.Fatalf("%s: forbidden country %s", w.ID, f)
 				}
 			}
 		}
@@ -53,22 +53,22 @@ func TestLegalExamples(t *testing.T) {
 	w02, _ := s.Workload("w-02-ch-reporting")
 	mega, _ := s.Profile("cpu", "mega")
 	if s.Legal(w02, "ch-gva-2", mega) != nil {
-		t.Fatal("w-02 muss in Genf laufen dürfen")
+		t.Fatal("w-02 must be allowed to run in Geneva")
 	}
 	if s.Legal(w02, "de-fra-1", mega) == nil {
-		t.Fatal("w-02 darf nicht nach Frankfurt")
+		t.Fatal("w-02 must not go to Frankfurt")
 	}
 	w09, _ := s.Workload("w-09-eu-large-model")
 	a40, _ := s.Profile("gpu3", "small")
 	if s.Legal(w09, "de-fra-1", a40) == nil {
-		t.Fatal("w-09 braucht 96 GiB, A40 hat 48")
+		t.Fatal("w-09 needs 96 GiB, A40 has 48")
 	}
 	rtx, _ := s.Profile("gpurtx6000pro", "small")
 	if s.Legal(w09, "ch-dk-2", rtx) == nil {
-		t.Fatal("w-09 ist EU, Zürich nicht")
+		t.Fatal("w-09 is EU, Zurich is not")
 	}
 	if s.Legal(w09, "hr-zag-1", rtx) != nil {
-		t.Fatal("w-09 in Zagreb auf RTX PRO 6000 ist legal")
+		t.Fatal("w-09 in Zagreb on RTX PRO 6000 is legal")
 	}
 }
 
@@ -77,11 +77,11 @@ func TestComputeHours(t *testing.T) {
 	w09, _ := s.Workload("w-09-eu-large-model")
 	rtx, _ := s.Profile("gpurtx6000pro", "small")
 	if h := ComputeHours(w09, rtx, 1, w09.RequiredWork); math.Abs(h-43) > 0.1 {
-		t.Fatalf("w-09 auf RTX PRO 6000 x1: %.2f h, erwartet 43", h)
+		t.Fatalf("w-09 on RTX PRO 6000 x1: %.2f h, expected 43", h)
 	}
 	w01, _ := s.Workload("w-01-dach-research")
 	mega, _ := s.Profile("cpu", "mega")
 	if h := ComputeHours(w01, mega, 1, w01.RequiredWork); math.Abs(h-31.25) > 0.01 {
-		t.Fatalf("w-01 auf mega: %.2f h", h)
+		t.Fatalf("w-01 on mega: %.2f h", h)
 	}
 }

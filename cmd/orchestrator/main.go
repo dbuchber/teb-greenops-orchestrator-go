@@ -1,6 +1,6 @@
-// Orchestrator für die Exoscale GreenOps Challenge (TEB AI Hackathon 2026).
+// Orchestrator for the Exoscale GreenOps Challenge (TEB AI Hackathon 2026).
 //
-// Konfiguration nur über Umgebungsvariablen (offizieller Rerun) oder die heruntergeladene CLI-Datei:
+// Configuration only via environment variables (official rerun) or the downloaded CLI file:
 //
 //	EXOSCALE_API_KEY, EXOSCALE_API_SECRET, GREENOPS_CLOUD_ENDPOINT, GREENOPS_WORK_ENDPOINT (optional),
 //	GREENOPS_GRID_ENDPOINT, GREENOPS_GRID_SECRET
@@ -23,7 +23,7 @@ import (
 	"github.com/dbuchber/teb-greenops-orchestrator-go/internal/spec"
 )
 
-// account nimmt die Umgebung (offizieller Rerun), sonst die heruntergeladene CLI-Konfiguration.
+// account takes the environment (official rerun), otherwise the downloaded CLI configuration.
 func account(path string) (api.Account, error) {
 	env := api.Account{Name: "environment", Key: os.Getenv("EXOSCALE_API_KEY"), Secret: os.Getenv("EXOSCALE_API_SECRET"),
 		Endpoint: os.Getenv("GREENOPS_CLOUD_ENDPOINT")}
@@ -32,7 +32,7 @@ func account(path string) (api.Account, error) {
 	}
 	b, err := os.ReadFile(path)
 	if err != nil {
-		return env, fmt.Errorf("keine Zugangsdaten: EXOSCALE_API_KEY/SECRET und GREENOPS_CLOUD_ENDPOINT setzen oder %s ablegen (%w)", path, err)
+		return env, fmt.Errorf("no credentials: set EXOSCALE_API_KEY/SECRET and GREENOPS_CLOUD_ENDPOINT or provide %s (%w)", path, err)
 	}
 	var cfg struct {
 		DefaultAccount string `json:"defaultaccount"`
@@ -46,15 +46,15 @@ func account(path string) (api.Account, error) {
 			return a, nil
 		}
 	}
-	return env, fmt.Errorf("%s: Standard-Account fehlt", path)
+	return env, fmt.Errorf("%s: default account missing", path)
 }
 
 func run() error {
-	configPath := flag.String("config", "greenops-exo.json", "heruntergeladene CLI-Konfiguration (sonst Umgebung)")
-	catalog := flag.String("catalog", "challenge", "Ordner mit catalog.json und workloads.json")
-	dry := flag.Bool("dry", false, "nur lesen und die erste Entscheidung ausgeben; legt nichts an")
-	tick := flag.Duration("tick", 250*time.Millisecond, "Abstand der Status-Abfragen")
-	global := flag.Bool("global", true, "globale Kontingentplanung (planner/global.go); -global=false: alter Planer")
+	configPath := flag.String("config", "greenops-exo.json", "downloaded CLI configuration (otherwise environment)")
+	catalog := flag.String("catalog", "challenge", "directory with catalog.json and workloads.json")
+	dry := flag.Bool("dry", false, "read only and print the first decision; creates nothing")
+	tick := flag.Duration("tick", 250*time.Millisecond, "interval between status polls")
+	global := flag.Bool("global", true, "global quota planning (planner/global.go); -global=false: old planner")
 	flag.Parse()
 
 	log := slog.New(slog.NewJSONHandler(os.Stdout, nil))

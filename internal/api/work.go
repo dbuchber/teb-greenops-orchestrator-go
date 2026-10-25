@@ -10,8 +10,8 @@ import (
 	"time"
 )
 
-// Status ist die Antwort von GET {work}/status: maßgebliche Simulationszeit, Laufzustand und je Workload
-// Fortschritt, Lieferung und zugeordnete VMs.
+// Status is the response of GET {work}/status: authoritative simulation time, run state and, per workload,
+// progress, delivery and assigned VMs.
 type Status struct {
 	RunID         string           `json:"run_id"`
 	VirtualTime   time.Time        `json:"virtual_time"`
@@ -42,7 +42,7 @@ func (w WorkloadStatus) Completed() float64 {
 	return v
 }
 
-// Ended ist wahr, wenn der Lauf nicht mehr gesteuert werden kann.
+// Ended is true when the run can no longer be controlled.
 func (s Status) Ended() bool {
 	return s.State == "COMPLETED" || s.State == "INVALIDATED" || s.State == "UNAVAILABLE"
 }
@@ -53,7 +53,7 @@ type Work struct {
 	http *http.Client
 }
 
-// NewWork nimmt GREENOPS_WORK_ENDPOINT oder leitet ihn aus dem Cloud-Endpunkt ab (/runs/{id}/work/v1).
+// NewWork takes GREENOPS_WORK_ENDPOINT or derives it from the cloud endpoint (/runs/{id}/work/v1).
 func NewWork(acc Account, workEndpoint string) (*Work, error) {
 	if err := CheckEndpoint(acc.Endpoint, ""); err != nil {
 		return nil, err

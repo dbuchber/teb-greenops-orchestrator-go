@@ -1,15 +1,15 @@
-// Package planner entscheidet je Takt, welche VMs angelegt, gestartet, gestoppt oder gelöscht werden.
-// Plan ist rein (keine Uhr, kein Netzwerk): gleicher Input, gleiche Aktionen. Das macht ihn testbar und schnell.
+// Package planner decides on every tick which VMs are created, started, stopped or deleted.
+// Plan is pure (no clock, no network): same input, same actions. That makes it testable and fast.
 //
-// Grundgerüst-Strategie (bewusst einfach, zum Ausbauen):
-//   - Wo: legale (Zone, Profil)-Option mit den geringsten erwarteten Emissionen
-//     = Wirkleistung × PUE × Rechenstunden × Mittel der günstigsten Prognosestunden.
-//   - Wann: eine VM rechnet in den günstigsten k Stunden des Fensters (k = nötige Stunden) und wird in den
-//     anderen gestoppt (0 W, Fortschritt bleibt). Bei wenig Spielraum läuft sie durch.
-//   - Aufräumen: VMs löschen, sobald final_output_delivered gilt.
+// Local strategy of the original skeleton (Params.Global=false; the default is the global plan in global.go):
+//   - Where: legal (zone, profile) option with the lowest expected emissions
+//     = active power × PUE × compute hours × mean of the cheapest forecast hours.
+//   - When: a VM computes in the cheapest k hours of the window (k = hours needed) and is stopped in the
+//     others (0 W, progress is kept). With little slack it runs straight through.
+//   - Cleanup: delete VMs as soon as final_output_delivered holds.
 //
-// Offen (TODO): mehrere Worker je Job, Kontingent-Reservierung für spätere Jobs, Parken (Löschen und
-// Neuanlegen) flexibler Jobs, Vorab-Anlegen vor dem Release, Prognosekorrektur aus eigenen Beobachtungen.
+// Open (TODO): several workers per job, forecast correction from our own observations. Quota planning,
+// parking and just-in-time creation now live in global.go.
 package planner
 
 import (
@@ -42,7 +42,7 @@ type Action struct {
 	Reason   string
 }
 
-// VM ist eine eigene VM mit dem Profil, das ihr Name kodiert.
+// VM is one of our own VMs with the profile its name encodes.
 type VM struct {
 	ID, Name, Zone, Family, Size string
 	State                        string // creating, running, stopped
@@ -55,56 +55,56 @@ type Job struct {
 }
 
 type Input struct {
-	Now      float64              // Stunden seit T0 (aus virtual_time)
-	Jobs     map[string]Job       // je Workload-ID
-	Forecast map[string][]float64 // je Strombereich: g/kWh ab der aktuellen Stunde, Index 0 = jetzt
+	Now      float64              // hours since T0 (from virtual_time)
+	Jobs     map[string]Job       // per workload ID
+	Forecast map[string][]float64 // per power area: g/kWh from the current hour, index 0 = now
 }
 
 type Params struct {
-	MarginH     float64 // Puffer vor der Deadline (h)
-	NoPauseH    float64 // Spielraum, unter dem nicht mehr pausiert wird (h)
-	FallbackGCO float64 // Annahme für Stunden ohne Prognose (g/kWh)
-	ReserveH    float64 // Jobs, die spätestens in so vielen Stunden starten müssen, reservieren ihr Kontingent
-	QuotaCost   float64 // Aufschlag auf die Kosten je Anteil am vCPU-Kontingent (0,5: 144 von 320 vCPU = +22 %)
-	SetupCost   bool    // Boot und Input mit Wirkleistung in die Platzierungskosten einrechnen
-	DeferCreate bool    // Jobs mit Spielraum erst in einer ihrer sauberen Stunden anlegen (gestoppte VMs halten Kontingent)
-	// Tile/TileRun schreiben die Prognose über das ganze Fenster als Tagesmuster fort (Profilwahl bzw. Pausieren).
-	// Aus: im Simulator wählt der Planer damit schnellere, größere Profile und verdrängt späte Jobs aus dem
-	// Kontingent (200 Seeds: 10/200 statt 200/200 pünktlich). Braucht erst eine globale Kontingentplanung.
+	MarginH     float64 // buffer before the deadline (h)
+	NoPauseH    float64 // slack below which we no longer pause (h)
+	FallbackGCO float64 // assumption for hours without forecast (g/kWh)
+	ReserveH    float64 // jobs that must start within this many hours reserve their quota
+	QuotaCost   float64 // cost surcharge per share of the vCPU quota (0.5: 144 of 320 vCPU = +22 %)
+	SetupCost   bool    // include boot and input at active power in the placement cost
+	DeferCreate bool    // create jobs with slack only in one of their clean hours (stopped VMs hold quota)
+	// Tile/TileRun extend the forecast over the whole window as a daily pattern (profile choice and pausing).
+	// Off: in the simulator the planner then picks faster, larger profiles and crowds late jobs out of the
+	// quota (200 seeds: 10/200 instead of 200/200 on time). Needs a global quota plan first.
 	Tile    bool
 	TileRun bool
-	// Global: alle Jobs gemeinsam mit Kontingent je Stunde planen (global.go); LifeCost in g je belegter
-	// vCPU-Stunde, eine GPU-Karte zählt wie GPUWeight vCPU. Cache hält den Plan einer Stunde. Simulator,
-	// 200 Seeds: +150 ± 15 Punkte, 13,5 statt 14,1 kg, 200/200 pünktlich (LifeCost 0–0,03, Shrink 0 am besten).
+	// Global: plan all jobs together with quota per hour (global.go); LifeCost in g per occupied
+	// vCPU hour, one GPU card counts as GPUWeight vCPU. Cache holds the plan of one hour. Simulator,
+	// 200 seeds: +150 ± 15 points, 13.5 instead of 14.1 kg, 200/200 on time (LifeCost 0–0.03, Shrink 0 best).
 	Global     bool
 	LifeCost   float64
 	GPUWeight  int
-	Shrink     float64 // global: Anteil des Tagesmusters hinter der Prognose (0 = nur Mittel)
-	MinCores   int     // global: CPU-Profile mit weniger Kernen nicht verwenden (0 = alle)
-	AllEnds    bool    // global: jedes Ende prüfen (Heap) statt EndSlices Stichproben
-	GPUFirst   bool    // global: GPU-Jobs in jeder Reihenfolge vor den CPU-Jobs planen
-	Orders     int     // global: so viele Reihenfolgen durchrechnen, den günstigsten Plan nehmen (≤ 1: nur Deadline)
-	MinGPUs    int     // global: GPU-Profile mit weniger Karten nicht verwenden (0 = alle)
-	NoPressure bool    // global: Kontingentdruck ignorieren (nur zur Diagnose im Simulator)
-	JustInTime bool    // global: neue VMs erst kurz vor ihrer ersten geplanten Rechenstunde anlegen
-	ParkGapH   float64 // global: VM löschen, wenn die nächste geplante Rechenstunde so weit weg ist (0 = aus)
-	ParkLossH  float64 // global: nur parken, wenn seit dem letzten Checkpoint höchstens so viel Rechenzeit verloren geht
-	EndSlices  int     // global: so viele Lebensdauern je Start werden geprüft (Feinheit der Suche)
+	Shrink     float64 // global: share of the daily pattern beyond the forecast (0 = mean only)
+	MinCores   int     // global: do not use CPU profiles with fewer cores (0 = all)
+	AllEnds    bool    // global: check every end (heap) instead of EndSlices samples
+	GPUFirst   bool    // global: plan GPU jobs before CPU jobs in every order
+	Orders     int     // global: try this many job orders, take the cheapest plan (≤ 1: deadline order only)
+	MinGPUs    int     // global: do not use GPU profiles with fewer cards (0 = all)
+	NoPressure bool    // global: ignore quota pressure (simulator diagnostics only)
+	JustInTime bool    // global: create new VMs only shortly before their first planned compute hour
+	ParkGapH   float64 // global: delete the VM if the next planned compute hour is this far away (0 = off)
+	ParkLossH  float64 // global: only park if at most this much compute time since the last checkpoint is lost
+	EndSlices  int     // global: this many lifetimes per start are checked (search granularity)
 	Cache      *GlobalCache
 }
 
 func DefaultParams() Params {
-	// ReserveH aus: mit QuotaCost liefert die Reservierung im Simulator weniger (cmd/sim, 100 Seeds)
+	// ReserveH off: with QuotaCost the reservation scores lower in the simulator (cmd/sim, 100 seeds)
 	return Params{MarginH: 2, NoPauseH: 2, FallbackGCO: 250, ReserveH: -1, QuotaCost: 1, SetupCost: true,
 		Global: true, LifeCost: 0.01, GPUWeight: 8, Shrink: 0, EndSlices: 6, AllEnds: true, Orders: 48}
 }
 
-// Name kodiert Workload und Profil, damit ein Neustart des Orchestrators eigene VMs wiedererkennt.
+// Name encodes workload and profile so a restarted orchestrator recognises its own VMs.
 func Name(workload, family, size string) string {
 	return "gx-" + workload + "--" + family + "--" + size
 }
 
-// ParseName ist die Umkehrung von Name; ok ist falsch für fremde VMs.
+// ParseName is the inverse of Name; ok is false for foreign VMs.
 func ParseName(name string) (workload, family, size string, ok bool) {
 	rest, found := strings.CutPrefix(name, "gx-")
 	if !found {
@@ -137,9 +137,9 @@ func (u *usage) fits(s *spec.Spec, p spec.Profile) bool {
 	return p.GPUCount == 0 || u.gpus[p.Family]+p.GPUCount <= s.GPUQuota[p.Family]
 }
 
-// horizon liefert die Prognosewerte für die nächsten “window“ Stunden. Mit tile wird die Prognose über ihr Ende
-// hinaus als Tagesmuster fortgeschrieben: Wetter ist dahinter unbekannt, der Tagesgang (Solar) aber nicht. Ohne
-// tile endet sie mit der Prognose; dann kann kein Job mit mehr Rechenstunden als Prognosestunden pausieren.
+// horizon returns the forecast values for the next "window" hours. With tile the forecast is extended beyond
+// its end as a daily pattern: the weather there is unknown, but the daily cycle (solar) is not. Without tile
+// it ends with the forecast; then no job with more compute hours than forecast hours can pause.
 func horizon(fc []float64, window int, tile bool) []float64 {
 	if window <= 0 || len(fc) == 0 {
 		return nil
@@ -155,9 +155,9 @@ func horizon(fc []float64, window int, tile bool) []float64 {
 	return out
 }
 
-// cheapest ist das Mittel der k günstigsten Prognosestunden in fc[:window]. Braucht der Job mehr Stunden, als
-// die Prognose reicht, zählen die übrigen mit dem Prognosemittel; ein fester Ersatzwert würde lange Laufzeiten
-// (sparsame, langsame Profile) systematisch benachteiligen. fallback nur ohne jede Prognose.
+// cheapest is the mean of the k cheapest forecast hours in fc[:window]. If the job needs more hours than the
+// forecast covers, the rest count at the forecast mean; a fixed substitute would systematically penalise long
+// runtimes (frugal, slow profiles). fallback only without any forecast.
 func cheapest(fc []float64, window, k int, fallback float64) float64 {
 	n := min(window, len(fc))
 	if n <= 0 {
@@ -192,7 +192,7 @@ func Plan(s *spec.Spec, in Input, p Params) []Action {
 			}
 		}
 	}
-	// Engste Deadline zuerst: sie bekommen Kontingent vor den flexiblen Jobs.
+	// Tightest deadline first: those jobs get quota before the flexible ones.
 	wls := slices.Clone(s.Workloads)
 	sort.SliceStable(wls, func(a, b int) bool { return wls[a].Deadline.Before(wls[b].Deadline) })
 	pressure := quotaPressure(s, in, wls, u)
@@ -202,7 +202,7 @@ func Plan(s *spec.Spec, in Input, p Params) []Action {
 		j := in.Jobs[w.ID]
 		if j.Delivered {
 			for _, vm := range j.VMs {
-				out = append(out, Action{Kind: Delete, Workload: w.ID, Zone: vm.Zone, VMID: vm.ID, Name: vm.Name, Reason: "geliefert"})
+				out = append(out, Action{Kind: Delete, Workload: w.ID, Zone: vm.Zone, VMID: vm.ID, Name: vm.Name, Reason: "delivered"})
 			}
 			continue
 		}
@@ -215,7 +215,7 @@ func Plan(s *spec.Spec, in Input, p Params) []Action {
 			}
 			continue
 		}
-		vm := j.VMs[0] // Grundgerüst: ein Worker je Job
+		vm := j.VMs[0] // skeleton: one worker per job
 		if vm.State == "creating" || vm.ID == "" {
 			continue
 		}
@@ -225,9 +225,9 @@ func Plan(s *spec.Spec, in Input, p Params) []Action {
 		}
 		run, why := shouldRun(s, in, p, w, prof, vm.Zone, release, deadline, remaining)
 		if !run && pressure != "" {
-			// gestoppte VMs behalten ihr Kontingent: solange ein freigegebener Job keinen Platz findet, wird
-			// nicht pausiert, damit laufende Jobs fertig werden und Kontingent freigeben
-			run, why = true, "Kontingentdruck: "+pressure+" wartet"
+			// stopped VMs keep their quota: as long as a released job finds no room we do not pause,
+			// so running jobs finish and free quota
+			run, why = true, "quota pressure: "+pressure+" waiting"
 		}
 		switch {
 		case run && vm.State == "stopped":
@@ -239,9 +239,9 @@ func Plan(s *spec.Spec, in Input, p Params) []Action {
 	return out
 }
 
-// reserve hält Kontingent für noch nicht freigegebene Jobs frei, die bald starten müssen: spätester Start
-// = Deadline − Puffer − kürzeste Gesamtdauer. Reserviert wird die Option mit den wenigsten vCPU, die das noch
-// schafft. Sonst belegen flexible CPU-Jobs alles, und ein knapper GPU-Job wie w-09 findet zu spät Platz.
+// reserve keeps quota free for not yet released jobs that must start soon: latest start
+// = deadline − buffer − shortest total duration. It reserves the option with the fewest vCPU that still
+// makes it. Otherwise flexible CPU jobs take everything and a tight GPU job like w-09 finds room too late.
 func reserve(s *spec.Spec, in Input, p Params, wls []spec.Workload, u *usage) {
 	for _, w := range wls {
 		j := in.Jobs[w.ID]
@@ -267,7 +267,7 @@ func reserve(s *spec.Spec, in Input, p Params, wls []spec.Workload, u *usage) {
 	}
 }
 
-// quotaPressure nennt einen freigegebenen Job ohne VM, für den gerade keine legale Option ins Kontingent passt.
+// quotaPressure names a released job without a VM for which no legal option currently fits the quota.
 func quotaPressure(s *spec.Spec, in Input, wls []spec.Workload, u usage) string {
 	for _, w := range wls {
 		j := in.Jobs[w.ID]
@@ -288,10 +288,10 @@ func quotaPressure(s *spec.Spec, in Input, wls []spec.Workload, u usage) string 
 	return ""
 }
 
-// placeNew wählt für einen Job ohne VM die legale Option mit den geringsten erwarteten Emissionen. Schafft
-// keine Option die Deadline mehr, nimmt sie die schnellste, die ins Kontingent passt: Teilfortschritt zählt.
+// placeNew picks the legal option with the lowest expected emissions for a job without a VM. If no option
+// can meet the deadline any more, it takes the fastest one that fits the quota: partial progress counts.
 func placeNew(s *spec.Spec, in Input, p Params, w spec.Workload, u *usage, release, deadline, remaining float64) (Action, bool) {
-	if in.Now < release-1 { // Grundgerüst: frühestens eine Stunde vor dem Release anlegen
+	if in.Now < release-1 { // skeleton: create at most one hour before the release
 		return Action{}, false
 	}
 	start := math.Max(in.Now, release)
@@ -313,8 +313,8 @@ func placeNew(s *spec.Spec, in Input, p Params, w spec.Workload, u *usage, relea
 		window := int(math.Floor(deadline - p.MarginH - start - setup))
 		fc := in.Forecast[o.Zone.Area]
 		g := cheapest(horizon(fc, window, p.Tile), window, spec.Ceil(compute), p.FallbackGCO)
-		// Boot und Input laufen jetzt mit Wirkleistung; gleich effiziente, aber größere VMs blockieren
-		// Kontingent, das andere Jobs brauchen
+		// boot and input run now at active power; equally efficient but larger VMs block
+		// quota other jobs need
 		now := 0.0
 		if p.SetupCost {
 			now = p.FallbackGCO
@@ -328,7 +328,7 @@ func placeNew(s *spec.Spec, in Input, p Params, w spec.Workload, u *usage, relea
 			best, bestCost = o, cost
 		}
 	}
-	reason := fmt.Sprintf("günstigste Option, erwartet %.0f g", bestCost)
+	reason := fmt.Sprintf("cheapest option, expected %.0f g", bestCost)
 	if p.DeferCreate && !math.IsInf(bestCost, 1) {
 		compute := spec.ComputeHours(w, best.Profile, 1, remaining)
 		total := float64(best.Profile.BootS+w.InputS+w.OutputS)/3600 + compute
@@ -338,48 +338,48 @@ func placeNew(s *spec.Spec, in Input, p Params, w spec.Workload, u *usage, relea
 			if k := spec.Ceil(compute); k < len(vals) {
 				sort.Float64s(vals)
 				if fc[0] > vals[k-1] {
-					return Action{}, false // später, in einer sauberen Stunde; bis dahin bleibt das Kontingent frei
+					return Action{}, false // later, in a clean hour; until then the quota stays free
 				}
 			}
 		}
 	}
 	if math.IsInf(bestCost, 1) {
 		if math.IsInf(rescueH, 1) {
-			return Action{}, false // nichts passt ins Kontingent
+			return Action{}, false // nothing fits the quota
 		}
-		best, reason = rescue, fmt.Sprintf("Deadline knapp: schnellste Option, %.1f h", rescueH)
+		best, reason = rescue, fmt.Sprintf("deadline tight: fastest option, %.1f h", rescueH)
 	}
 	u.add(best.Profile)
 	return Action{Kind: Create, Workload: w.ID, Zone: best.Zone.Slug, Family: best.Profile.Family, Size: best.Profile.Size,
 		Name: Name(w.ID, best.Profile.Family, best.Profile.Size), Reason: reason}, true
 }
 
-// shouldRun: läuft die VM jetzt? Ja, wenn der Spielraum knapp ist oder die aktuelle Stunde zu den
-// günstigsten k Stunden bis zur Deadline (innerhalb der Prognose) gehört.
+// shouldRun: does the VM run now? Yes if slack is tight or the current hour is among the
+// cheapest k hours until the deadline (within the forecast).
 func shouldRun(s *spec.Spec, in Input, p Params, w spec.Workload, prof spec.Profile, zone string, release, deadline, remaining float64) (bool, string) {
 	if in.Now < release {
-		return true, "vor Release: Input laden"
+		return true, "before release: load input"
 	}
 	compute := spec.ComputeHours(w, prof, 1, remaining)
 	need := compute + float64(w.OutputS)/3600
 	slack := deadline - p.MarginH - in.Now - need
 	if slack < p.NoPauseH || compute <= 0 {
-		return true, fmt.Sprintf("Spielraum %.1f h", slack)
+		return true, fmt.Sprintf("slack %.1f h", slack)
 	}
 	fc := in.Forecast[s.Zones[zone].Area]
 	if len(fc) == 0 {
-		return true, "keine Prognose"
+		return true, "no forecast"
 	}
 	vals := horizon(fc, int(math.Floor(deadline-p.MarginH-in.Now)), p.TileRun)
 	window := len(vals)
 	k := spec.Ceil(compute)
 	if k >= window {
-		return true, "braucht das ganze Prognosefenster"
+		return true, "needs the whole forecast window"
 	}
 	sort.Float64s(vals)
 	limit := vals[k-1]
 	if fc[0] <= limit {
-		return true, fmt.Sprintf("jetzt %.0f ≤ Schwelle %.0f g/kWh", fc[0], limit)
+		return true, fmt.Sprintf("now %.0f ≤ threshold %.0f g/kWh", fc[0], limit)
 	}
-	return false, fmt.Sprintf("jetzt %.0f > Schwelle %.0f g/kWh, Spielraum %.1f h", fc[0], limit, slack)
+	return false, fmt.Sprintf("now %.0f > threshold %.0f g/kWh, slack %.1f h", fc[0], limit, slack)
 }

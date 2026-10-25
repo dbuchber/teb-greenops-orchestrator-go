@@ -19,7 +19,7 @@ func TestCheckEndpoint(t *testing.T) {
 	for _, bad := range []string{"https://api.exoscale.com/runs/abc/cloud/v2", "https://greenops.example/v2",
 		"https://greenops.example/runs/other/cloud/de-fra-1/v2"} {
 		if CheckEndpoint(bad, ok) == nil {
-			t.Fatalf("%s hätte abgelehnt werden müssen", bad)
+			t.Fatalf("%s should have been rejected", bad)
 		}
 	}
 }

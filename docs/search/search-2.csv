@@ -1,5 +1,5 @@
-rang,suche_delta,suche_2se,suche_15von15,pruef_delta,pruef_2se,pruef_15von15,kg,parameter
-0,0.0,0.0,40,0.0,0.0,200,14.071,"Standard life=0.01 gpu=8 shrink=0 margin=2 nopause=2 mincores=0 slices=6"
+rank,search_delta,search_2se,search_15of15,validate_delta,validate_2se,validate_15of15,kg,parameters
+0,0.0,0.0,40,0.0,0.0,200,14.071,"Default life=0.01 gpu=8 shrink=0 margin=2 nopause=2 mincores=0 slices=6"
 1,11.5,6.6,40,17.5,4.1,200,13.988,"life=0.003 gpu=0 shrink=0 margin=0.5 nopause=2 mincores=32 slices=3"
 2,9.5,7.4,40,12.6,4.4,200,14.012,"life=0 gpu=4 shrink=0 margin=2 nopause=0.5 mincores=0 slices=12"
 3,8.0,7.4,40,11.0,4.4,200,14.020,"life=0 gpu=0 shrink=0 margin=2 nopause=1 mincores=0 slices=12"

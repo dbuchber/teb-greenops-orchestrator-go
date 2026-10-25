@@ -1,13 +1,13 @@
 package planner
 
-// Globale Kontingentplanung: plant alle Jobs gemeinsam über das restliche Fenster.
+// Global quota planning: plans all jobs together over the remaining window.
 //
-// Eine VM belegt Kontingent von ihrem Create bis zur Löschung, auch gestoppt. Jeder Job bekommt deshalb eine
-// Lebensdauer [Start, Ende) und rechnet darin in seinen saubersten Stunden: längere Lebensdauer heißt mehr
-// Auswahl an sauberen Stunden, aber mehr belegtes Kontingent. Kosten = erwartete Emissionen + LifeCost je
-// belegter vCPU-Stunde (eine GPU-Karte zählt wie GPUWeight vCPU). Gierig: bestehende VMs zuerst, dann neue
-// Jobs nach Deadline; wer keinen Platz findet, kommt im nächsten Durchgang nach vorn. Hinter dem Ende der
-// 24-h-Prognose wird sie als Tagesmuster fortgeschrieben (horizon).
+// A VM holds quota from its Create until its deletion, even when stopped. So every job gets a lifetime
+// [start, end) and computes within it in its cleanest hours: a longer lifetime means more choice of clean
+// hours but more occupied quota. Cost = expected emissions + LifeCost per occupied vCPU hour (one GPU card
+// counts as GPUWeight vCPU). Greedy: existing VMs first, then new jobs by deadline; jobs that find no room
+// move to the front in the next pass. Beyond the end of the 24 h forecast it is extended as a daily
+// pattern (horizon).
 
 import (
 	"fmt"
@@ -19,7 +19,7 @@ import (
 	"github.com/dbuchber/teb-greenops-orchestrator-go/internal/spec"
 )
 
-// GlobalCache hält den Plan einer Stunde; neu geplant wird nur, wenn eine neue Stunde beginnt.
+// GlobalCache holds the plan of one hour; it re-plans only when a new hour begins.
 type GlobalCache struct {
 	hour     int
 	plans    map[string]jobPlan
@@ -28,12 +28,12 @@ type GlobalCache struct {
 
 type jobPlan struct {
 	opt        spec.Option
-	start, end int          // absolute Stunden: Create bis Löschung
-	run        map[int]bool // absolute Stunden, in denen gerechnet wird
+	start, end int          // absolute hours: Create to deletion
+	run        map[int]bool // absolute hours in which it computes
 	cost       float64
 }
 
-// occupancy ist die geplante Kontingentbelegung je Stunde ab h0.
+// occupancy is the planned quota usage per hour from h0.
 type occupancy struct {
 	h0         int
 	vms, vcpus []int
@@ -64,7 +64,7 @@ func (o *occupancy) fits(s *spec.Spec, p spec.Profile, from, to int) bool {
 	return true
 }
 
-// fitsHour prüft eine einzelne Stunde (für das schrittweise Verlängern einer Lebensdauer).
+// fitsHour checks a single hour (for extending a lifetime step by step).
 func (o *occupancy) fitsHour(s *spec.Spec, p spec.Profile, h int) bool {
 	i := h - o.h0
 	if i < 0 || i >= len(o.vms) {
@@ -108,8 +108,8 @@ func (o *occupancy) add(p spec.Profile, from, to int) {
 	}
 }
 
-// best wählt für einen Job Option, Start und Ende mit den geringsten Kosten, die ins Kontingent passen.
-// fixed: bestehende VM (Option und Start stehen fest). check: nur Pläne, die ins Kontingent passen.
+// best picks option, start and end with the lowest cost for a job that fit the quota.
+// fixed: existing VM (option and start are fixed). check: only plans that fit the quota.
 func best(s *spec.Spec, in Input, p Params, w spec.Workload, opts []spec.Option, fixed, check, setupDone bool,
 	occ *occupancy, series map[string][]float64) (jobPlan, bool) {
 	h0 := occ.h0
@@ -148,8 +148,8 @@ func best(s *spec.Spec, in Input, p Params, w spec.Workload, opts []spec.Option,
 				break
 			}
 			if p.AllEnds && k > 0 {
-				// alle Enden in einem Durchlauf: Max-Heap der k saubersten Stunden, Summe laufend; wird eine
-				// Stunde zu voll, passt auch jedes spätere Ende nicht mehr
+				// all ends in one pass: max-heap of the k cleanest hours, running sum; once an hour is
+				// too full, no later end fits either
 				heap = heap[:0]
 				sum := 0.0
 				room := !check || occ.fits(s, o.Profile, st, minEnd)
@@ -197,7 +197,7 @@ func best(s *spec.Spec, in Input, p Params, w spec.Workload, opts []spec.Option,
 				step := max(1, (latestEnd-minEnd)/max(p.EndSlices, 1))
 				for e := minEnd; e <= latestEnd; e += step {
 					if e+step > latestEnd && e != latestEnd {
-						e = latestEnd // das späteste Ende immer prüfen
+						e = latestEnd // always check the latest end
 					}
 					if check && !occ.fits(s, o.Profile, st, e) {
 						continue
@@ -231,7 +231,7 @@ func best(s *spec.Spec, in Input, p Params, w spec.Workload, opts []spec.Option,
 	if math.IsInf(bestCost, 1) {
 		return jobPlan{}, false
 	}
-	// Rechenstunden des gewählten Plans: die k saubersten im Fenster
+	// compute hours of the chosen plan: the k cleanest in the window
 	o, b := bestPlan.opt, &bestPlan
 	ser := series[o.Zone.Area]
 	compute := spec.ComputeHours(w, o.Profile, 1, remaining)
@@ -259,12 +259,12 @@ func best(s *spec.Spec, in Input, p Params, w spec.Workload, opts []spec.Option,
 	return bestPlan, true
 }
 
-// greedy plant in der gegebenen Reihenfolge; Ergebnis: Pläne, nicht platzierte Jobs, Summe der Kosten.
+// greedy plans in the given order; result: plans, unplaced jobs, total cost.
 func greedy(s *spec.Spec, in Input, p Params, h0, n int, existing, order []spec.Workload,
 	series map[string][]float64) (map[string]jobPlan, []string, float64) {
-	// Bestehende VMs buchen zuerst nur ihre kürzeste Lebensdauer (durchrechnen); erst nachdem die neuen Jobs
-	// platziert sind, dürfen sie mit dem übrigen Kontingent länger leben und pausieren. Sonst verdrängen ihre
-	// Pausen die Jobs, die erst später starten.
+	// Existing VMs first book only their shortest lifetime (run straight through); only after the new jobs
+	// are placed may they live longer and pause with the remaining quota. Otherwise their pauses crowd out
+	// the jobs that start later.
 	shortest := p
 	shortest.LifeCost = 1e9
 	var plans map[string]jobPlan
@@ -281,7 +281,7 @@ func greedy(s *spec.Spec, in Input, p Params, h0, n int, existing, order []spec.
 			}
 			opt := spec.Option{Zone: s.Zones[vm.Zone], Profile: prof}
 			jp, ok := best(s, in, shortest, w, []spec.Option{opt}, true, false, vm.State != "creating", occ, series)
-			if !ok { // zu spät für jeden Plan: durchrechnen
+			if !ok { // too late for any plan: run straight through
 				jp = jobPlan{opt: opt, start: h0, end: Hours120, run: map[int]bool{}}
 				for h := h0; h <= Hours120; h++ {
 					jp.run[h] = true
@@ -305,7 +305,7 @@ func greedy(s *spec.Spec, in Input, p Params, h0, n int, existing, order []spec.
 		if len(missing) == 0 {
 			break
 		}
-		// wer keinen Platz fand, kommt im nächsten Durchgang nach vorn
+		// jobs that found no room move to the front in the next pass
 		rest := slices.DeleteFunc(slices.Clone(order), func(w spec.Workload) bool {
 			return slices.ContainsFunc(missing, func(m spec.Workload) bool { return m.ID == w.ID })
 		})
@@ -334,13 +334,13 @@ func greedy(s *spec.Spec, in Input, p Params, h0, n int, existing, order []spec.
 	return plans, unplaced, total
 }
 
-// globalPlan plant alle offenen Jobs für die Stunde h0.
+// globalPlan plans all open jobs for hour h0.
 func globalPlan(s *spec.Spec, in Input, p Params, h0 int) (map[string]jobPlan, string) {
 	n := Hours120 - h0 + 1
 	series := map[string][]float64{}
 	for a, fc := range in.Forecast {
 		ser := horizon(fc, n, true)
-		// hinter der Prognose ist nur der Tagesgang sicher: zum Mittel hin stauchen (Shrink 1 = volles Muster)
+		// beyond the forecast only the daily cycle is certain: shrink towards the mean (Shrink 1 = full pattern)
 		if len(fc) > 0 && len(ser) > len(fc) {
 			m := 0.0
 			for _, v := range fc {
@@ -367,14 +367,14 @@ func globalPlan(s *spec.Spec, in Input, p Params, h0 int) (map[string]jobPlan, s
 		}
 	}
 	if p.GPUFirst {
-		// GPU-Jobs zuerst: sie haben wenige legale Zonen und große Emissionen; die Reihenfolge innerhalb der
-		// Gruppen bleibt (Deadline bzw. Zufall)
+		// GPU jobs first: they have few legal zones and large emissions; the order within each
+		// group stays (deadline or random)
 		sort.SliceStable(fresh, func(a, b int) bool { return isGPU(fresh[a]) && !isGPU(fresh[b]) })
 	}
 	plans, unplaced, bestTotal := greedy(s, in, p, h0, n, existing, fresh, series)
 	if p.Orders > 1 && len(fresh) > 1 {
-		// andere Reihenfolgen: wer zuerst kommt, bekommt das Kontingent; behalten wird der Plan, der alle Jobs
-		// unterbringt und am wenigsten kostet. Zufall fest je Stunde, damit der Plan reproduzierbar bleibt.
+		// other orders: first come gets the quota; keep the plan that places all jobs and costs
+		// the least. Randomness is fixed per hour so the plan stays reproducible.
 		r := rand.New(rand.NewPCG(uint64(h0), 7))
 		for i := 1; i < p.Orders; i++ {
 			order := slices.Clone(fresh)
@@ -399,8 +399,8 @@ func globalPlan(s *spec.Spec, in Input, p Params, h0 int) (map[string]jobPlan, s
 	return plans, pressure
 }
 
-// jitDue: ist es Zeit für das Create? Ja, wenn Boot und Input bis zur ersten geplanten Rechenstunde gerade
-// reichen (eine Stunde Puffer).
+// jitDue: is it time for the Create? Yes if boot and input just fit before the first planned compute hour
+// (one hour buffer).
 func jitDue(w spec.Workload, jp jobPlan, h0 int) bool {
 	first := -1
 	for h := range jp.run {
@@ -415,10 +415,10 @@ func jitDue(w spec.Workload, jp jobPlan, h0 int) bool {
 	return h0 >= first-setup-1
 }
 
-// park: lohnt es, die VM eines pausierenden Jobs zu löschen? Eine gestoppte VM hält Kontingent; nach dem
-// Löschen plant der Job neu (Boot und Input noch einmal) und setzt am letzten Checkpoint wieder auf. Nur wenn
-// die nächste geplante Rechenstunde mindestens ParkGapH entfernt ist und höchstens ParkLossH Rechenzeit seit
-// dem Checkpoint verloren geht; Checkpoints liegen alle CheckpointS Sekunden Rechenzeit.
+// park: is it worth deleting the VM of a pausing job? A stopped VM holds quota; after the deletion the job
+// re-plans (boot and input again) and resumes from the last checkpoint. Only if the next planned compute hour
+// is at least ParkGapH away and at most ParkLossH of compute time since the checkpoint is lost; checkpoints
+// occur every CheckpointS seconds of compute time.
 func park(w spec.Workload, prof spec.Profile, completed float64, jp jobPlan, h0 int, p Params) (int, bool) {
 	if p.ParkGapH <= 0 || w.RestartFromZero || w.CheckpointS <= 0 {
 		return 0, false
@@ -442,8 +442,8 @@ func park(w spec.Workload, prof spec.Profile, completed float64, jp jobPlan, h0 
 	return gap, true
 }
 
-// options sind die legalen Optionen ohne CPU-Profile unter MinCores und GPU-Profile unter MinGPUs; bleibt
-// keine, alle.
+// options are the legal options without CPU profiles below MinCores and GPU profiles below MinGPUs; if none
+// remain, all of them.
 func options(s *spec.Spec, w spec.Workload, p Params) []spec.Option {
 	all := s.Options(w)
 	if p.MinCores <= 0 && p.MinGPUs <= 0 {
@@ -463,10 +463,10 @@ func options(s *spec.Spec, w spec.Workload, p Params) []spec.Option {
 
 func isGPU(w spec.Workload) bool { return w.WorkUnit == "tflop" }
 
-// Hours120 ist das Ende des Fensters in Stunden seit T0.
+// Hours120 is the end of the window in hours since T0.
 const Hours120 = 120
 
-// planGlobal setzt den Plan der aktuellen Stunde in Aktionen um.
+// planGlobal turns the plan of the current hour into actions.
 func planGlobal(s *spec.Spec, in Input, p Params) []Action {
 	h0 := int(math.Floor(in.Now + 1e-9))
 	c := p.Cache
@@ -492,7 +492,7 @@ func planGlobal(s *spec.Spec, in Input, p Params) []Action {
 		j := in.Jobs[w.ID]
 		if j.Delivered {
 			for _, vm := range j.VMs {
-				out = append(out, Action{Kind: Delete, Workload: w.ID, Zone: vm.Zone, VMID: vm.ID, Name: vm.Name, Reason: "geliefert"})
+				out = append(out, Action{Kind: Delete, Workload: w.ID, Zone: vm.Zone, VMID: vm.ID, Name: vm.Name, Reason: "delivered"})
 			}
 			continue
 		}
@@ -501,7 +501,7 @@ func planGlobal(s *spec.Spec, in Input, p Params) []Action {
 		jp, planned := c.plans[w.ID]
 		if len(j.VMs) == 0 {
 			if !planned {
-				// kein Platz im Plan: wie bisher die günstigste bzw. schnellste Option, die jetzt passt
+				// no room in the plan: as before, the cheapest or fastest option that fits now
 				if a, ok := placeNew(s, in, p, w, &u, release, deadline, remaining); ok {
 					out = append(out, a)
 				}
@@ -511,12 +511,12 @@ func planGlobal(s *spec.Spec, in Input, p Params) []Action {
 				continue
 			}
 			if (p.JustInTime || p.ParkGapH > 0) && !jitDue(w, jp, h0) {
-				continue // gestoppt warten hält nur Kontingent; Boot und Input kurz vor der ersten Rechenstunde
+				continue // waiting stopped only holds quota; boot and input shortly before the first compute hour
 			}
 			u.add(jp.opt.Profile)
 			out = append(out, Action{Kind: Create, Workload: w.ID, Zone: jp.opt.Zone.Slug, Family: jp.opt.Profile.Family,
 				Size: jp.opt.Profile.Size, Name: Name(w.ID, jp.opt.Profile.Family, jp.opt.Profile.Size),
-				Reason: fmt.Sprintf("Plan: Stunde %d–%d, %d Rechenstunden, erwartet %.0f", jp.start, jp.end, len(jp.run), jp.cost)})
+				Reason: fmt.Sprintf("plan: hour %d–%d, %d compute hours, expected %.0f", jp.start, jp.end, len(jp.run), jp.cost)})
 			continue
 		}
 		vm := j.VMs[0]
@@ -532,23 +532,23 @@ func planGlobal(s *spec.Spec, in Input, p Params) []Action {
 		run, why := false, ""
 		switch {
 		case in.Now < release:
-			run, why = true, "vor Release: Input laden"
+			run, why = true, "before release: load input"
 		case slack < p.NoPauseH || remaining <= 0:
-			run, why = true, fmt.Sprintf("Spielraum %.1f h", slack)
+			run, why = true, fmt.Sprintf("slack %.1f h", slack)
 		case c.pressure != "" && !p.NoPressure:
-			run, why = true, "Kontingentdruck: "+c.pressure+" wartet"
+			run, why = true, "quota pressure: "+c.pressure+" waiting"
 		case planned && jp.run[h0]:
-			run, why = true, "geplante Rechenstunde"
+			run, why = true, "planned compute hour"
 		case !planned:
-			run, why = true, "ohne Plan"
+			run, why = true, "no plan"
 		default:
-			why = fmt.Sprintf("Pause laut Plan, Spielraum %.1f h", slack)
+			why = fmt.Sprintf("pause per plan, slack %.1f h", slack)
 		}
 		if !run && planned && vm.State == "stopped" && j.Completed > 0 {
-			// nur VMs, die schon gerechnet haben und gestoppt sind; sonst parkt die Regel mitten im Setup
+			// only VMs that have already computed and are stopped; otherwise the rule parks mid-setup
 			if gap, ok := park(w, prof, j.Completed, jp, h0, p); ok {
 				out = append(out, Action{Kind: Delete, Workload: w.ID, Zone: vm.Zone, VMID: vm.ID, Name: vm.Name,
-					Reason: fmt.Sprintf("parken: nächste Rechenstunde in %d h, Kontingent frei", gap)})
+					Reason: fmt.Sprintf("park: next compute hour in %d h, quota freed", gap)})
 				continue
 			}
 		}

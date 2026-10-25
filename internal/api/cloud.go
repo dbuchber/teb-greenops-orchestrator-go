@@ -15,7 +15,7 @@ import (
 	"github.com/exoscale/egoscale/v3/credentials"
 )
 
-// guarded lässt nur Anfragen an den eigenen Lauf durch (gleicher Host, gleiches /runs/{id}/-Präfix).
+// guarded only lets requests to our own run through (same host, same /runs/{id}/ prefix).
 type guarded struct{ root string }
 
 func (g guarded) RoundTrip(r *http.Request) (*http.Response, error) {
@@ -23,7 +23,7 @@ func (g guarded) RoundTrip(r *http.Request) (*http.Response, error) {
 	prefix := strings.TrimSuffix(root.Path, "/v2") + "/"
 	prefix = prefix[:strings.Index(prefix, "/cloud/")+1]
 	if r.URL.Scheme != root.Scheme || r.URL.Host != root.Host || !strings.HasPrefix(r.URL.Path, prefix) {
-		return nil, fmt.Errorf("Anfrage verlässt den Lauf: %s", r.URL)
+		return nil, fmt.Errorf("request leaves the run: %s", r.URL)
 	}
 	return Transport.RoundTrip(r)
 }
@@ -38,13 +38,13 @@ func client(acc Account, target string) (*exo.Client, error) {
 			CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}))
 }
 
-// VM ist eine VM des Laufs, wie sie die Cloud-API listet.
+// VM is a VM of the run as listed by the cloud API.
 type VM struct {
 	ID, Name, Zone, State string
 }
 
-// Cloud hält je Zone einen Client, die Instanztypen (family.size) und ein Template. Discover lädt alles einmal
-// vor dem ersten Create: solange der Lauf READY ist, läuft die Uhr noch nicht, die Zeit ist also gratis.
+// Cloud holds one client per zone, the instance types (family.size) and a template. Discover loads everything
+// once before the first Create: while the run is READY the clock is not ticking yet, so the time is free.
 type Cloud struct {
 	acc       Account
 	zones     map[string]*exo.Client
@@ -108,7 +108,7 @@ func (c *Cloud) Discover(ctx context.Context) error {
 	return firstErr
 }
 
-// List listet die VMs aller Zonen parallel.
+// List lists the VMs of all zones in parallel.
 func (c *Cloud) List(ctx context.Context) ([]VM, error) {
 	var mu sync.Mutex
 	var wg sync.WaitGroup
@@ -136,15 +136,15 @@ func (c *Cloud) List(ctx context.Context) ([]VM, error) {
 	return out, firstErr
 }
 
-// Create legt eine VM an und bindet sie über user-data an einen Workload. Die Legalität prüft der Aufrufer
-// unmittelbar davor (spec.Legal); hier wird nichts mehr entschieden. Ohne workloadID entsteht eine VM ohne
-// Bindung (Leerlauf-Infrastruktur), z. B. um die Uhr eines READY-Laufs zu starten.
+// Create creates a VM and binds it to a workload via user-data. The caller checks legality right before
+// (spec.Legal); nothing is decided here. Without workloadID the VM has no binding (idle infrastructure),
+// e.g. to start the clock of a READY run.
 func (c *Cloud) Create(ctx context.Context, zone, family, size, name, workloadID string) (string, error) {
 	cl := c.zones[zone]
 	t := c.types[zone][family+"."+size]
 	tpl := c.templates[zone]
 	if cl == nil || t == nil || tpl == nil {
-		return "", fmt.Errorf("Zone %s: Profil %s.%s oder Template fehlt", zone, family, size)
+		return "", fmt.Errorf("zone %s: profile %s.%s or template missing", zone, family, size)
 	}
 	req := exo.CreateInstanceRequest{Name: name, InstanceType: t, Template: tpl, DiskSize: 10}
 	if workloadID != "" {
@@ -158,7 +158,7 @@ func (c *Cloud) Create(ctx context.Context, zone, family, size, name, workloadID
 	if op.Reference != nil {
 		return string(op.Reference.ID), nil
 	}
-	return "", nil // ID unbekannt: der Controller findet die VM beim nächsten List über ihren Namen
+	return "", nil // ID unknown: the controller finds the VM by name on the next List
 }
 
 func (c *Cloud) Start(ctx context.Context, zone, id string) error {

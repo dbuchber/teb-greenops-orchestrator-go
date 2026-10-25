@@ -1,4 +1,4 @@
-# Zugangsdaten eines Laufs nie versionieren
+# never version a run's credentials
 greenops-exo*.json
 *.env
 .env*

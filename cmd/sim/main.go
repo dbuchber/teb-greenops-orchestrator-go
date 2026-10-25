@@ -1,8 +1,8 @@
-// sim vergleicht Planer-Varianten auf denselben synthetischen Seeds (gepaarte Monte-Carlo-Läufe).
+// sim compares planner variants on the same synthetic seeds (paired Monte Carlo runs).
 //
 //	go run ./cmd/sim -seeds 200
 //
-// Ergebnisse sind Vergleiche zwischen Varianten, keine Vorhersage der Live-Punkte.
+// Results compare variants; they do not predict live points.
 package main
 
 import (
@@ -22,30 +22,30 @@ import (
 type variant struct {
 	name string
 	cfg  func(seed uint64) sim.Config
-	mod  func(*spec.Spec) // optional: geänderte Welt, z. B. mehr Kontingent als Obergrenze
+	mod  func(*spec.Spec) // optional: modified world, e.g. a higher quota cap
 }
 
-// variants: Referenz zuerst; jede weitere ändert genau eine Annahme gegenüber der Referenz.
+// variants: reference first; every other one changes exactly one assumption against the reference.
 func variants() []variant {
 	base := sim.DefaultConfig
 	with := func(f func(*sim.Config)) func(uint64) sim.Config {
 		return func(seed uint64) sim.Config { c := base(seed); f(&c); return c }
 	}
 	return []variant{
-		{"referenz", base, nil},
-		{"alter Planer", with(func(c *sim.Config) { c.Params.Global = false }), nil},
-		{"v5 (1 Reihenf., 6 Enden)", with(func(c *sim.Config) { c.Params.Orders = 1; c.Params.AllEnds = false }), nil},
-		{"GPU zuerst", with(func(c *sim.Config) { c.Params.GPUFirst = true }), nil},
-		{"GPU zuerst, 1 Reihenf.", with(func(c *sim.Config) { c.Params.GPUFirst = true; c.Params.Orders = 1 }), nil},
-		{"v5 + GPU zuerst", with(func(c *sim.Config) { c.Params.GPUFirst = true; c.Params.Orders = 1; c.Params.AllEnds = false }), nil},
-		{"GPU zuerst, 1 s Lag", with(func(c *sim.Config) { c.Params.GPUFirst = true; c.LagH = 0.2 }), nil},
-		{"nur vCPU ×2", base, func(s *spec.Spec) { s.MaxVCPUs *= 2 }},
+		{"reference", base, nil},
+		{"old planner", with(func(c *sim.Config) { c.Params.Global = false }), nil},
+		{"v5 (1 order, 6 ends)", with(func(c *sim.Config) { c.Params.Orders = 1; c.Params.AllEnds = false }), nil},
+		{"GPU first", with(func(c *sim.Config) { c.Params.GPUFirst = true }), nil},
+		{"GPU first, 1 order", with(func(c *sim.Config) { c.Params.GPUFirst = true; c.Params.Orders = 1 }), nil},
+		{"v5 + GPU first", with(func(c *sim.Config) { c.Params.GPUFirst = true; c.Params.Orders = 1; c.Params.AllEnds = false }), nil},
+		{"GPU first, 1 s lag", with(func(c *sim.Config) { c.Params.GPUFirst = true; c.LagH = 0.2 }), nil},
+		{"vCPU quota ×2", base, func(s *spec.Spec) { s.MaxVCPUs *= 2 }},
 	}
 }
 
 func main() {
-	seeds := flag.Int("seeds", 100, "Anzahl Seeds je Variante")
-	catalog := flag.String("catalog", "challenge", "Ordner mit catalog.json, workloads.json, rules.json")
+	seeds := flag.Int("seeds", 100, "number of seeds per variant")
+	catalog := flag.String("catalog", "challenge", "directory with catalog.json, workloads.json, rules.json")
 	flag.Parse()
 	s, err := spec.Load(*catalog)
 	if err != nil {
@@ -95,9 +95,9 @@ func main() {
 	close(jobs)
 	wg.Wait()
 
-	fmt.Printf("%d Seeds je Variante, %d Läufe in %s (synthetische Strom-Welt, nur zum Vergleichen)\n\n",
+	fmt.Printf("%d seeds per variant, %d runs in %s (synthetic power world, for comparison only)\n\n",
 		*seeds, len(vs)**seeds, time.Since(start).Round(time.Millisecond))
-	fmt.Printf("%-16s %10s %8s %8s %9s %8s %16s\n", "Variante", "Punkte", "sd", "P10", "15/15", "kg", "Δ zur Referenz")
+	fmt.Printf("%-16s %10s %8s %8s %9s %8s %16s\n", "Variant", "Points", "sd", "P10", "15/15", "kg", "Δ to reference")
 	for i, v := range vs {
 		pts, kg := make([]float64, *seeds), 0.0
 		full := 0
@@ -120,7 +120,7 @@ func main() {
 		fmt.Printf("%-16s %10.1f %8.1f %8.1f %5d/%-3d %8.2f %16s\n", v.name, m, sd, pts[len(pts)/10], full, *seeds,
 			kg/float64(*seeds), delta)
 	}
-	fmt.Println("\nΔ: gepaarter Mittelwert ± 2 Standardfehler; ohne Überlappung mit 0 ist der Unterschied belastbar.")
+	fmt.Println("\nΔ: paired mean ± 2 standard errors; if the interval excludes 0, the difference is robust.")
 }
 
 func meanSD(x []float64) (float64, float64) {

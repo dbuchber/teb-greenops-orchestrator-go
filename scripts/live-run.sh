@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# Startet den Orchestrator für einen neuen Lauf auf hetzner und wartet auf das Ende.
+# Starts the orchestrator for a new run on hetzner and waits for it to end.
 #
-#	scripts/live-run.sh                         # neueste greenops-<id>.env aus ~/Downloads
+#	scripts/live-run.sh                         # newest greenops-<id>.env from ~/Downloads
 #	scripts/live-run.sh ~/Downloads/greenops-85e472c9e6.env
 #	IMAGE=greenops-orch-go:v3 scripts/live-run.sh
-#	ARGS=-global scripts/live-run.sh --new      # zusätzliche Flags für den Orchestrator
-#	scripts/live-run.sh --new [name] [tempo]    # legt den Lauf im Portal selbst an (scripts/portal, einmal einloggen)
-#	scripts/live-run.sh --watch                 # startet jeden neu heruntergeladenen Lauf von selbst
+#	ARGS=-global scripts/live-run.sh --new      # extra flags for the orchestrator
+#	scripts/live-run.sh --new [name] [speed]    # creates the run in the portal itself (scripts/portal, log in once)
+#	scripts/live-run.sh --watch                 # starts every newly downloaded run automatically
 #
-# Die Zugangsdaten werden nie ausgegeben: die Datei geht ungelesen per scp auf den Server, gezeigt
-# werden nur Schlüsselnamen. Läufe, für die schon ein Container existiert, werden nicht neu gestartet.
+# Credentials are never printed: the file goes to the server unread via scp, only key names are
+# shown. Runs that already have a container are not restarted.
 set -euo pipefail
 
 HOST=${HOST:-hetzner-wikidata}
@@ -21,47 +21,47 @@ SSH=(ssh -o ClearAllForwardings=yes "$HOST")
 if [[ ${1:-} == --new ]]; then
 	portal=$(cd "$(dirname "$0")/portal" && node portal.mjs new-run "${2:-auto $(date +%H:%M)}" "${3:-720}")
 	echo "$portal"
-	set -- "$(sed -n 's/^Datei gespeichert: //p' <<<"$portal")"
+	set -- "$(sed -n 's/^Saved file: //p' <<<"$portal")"
 fi
 
 if [[ ${1:-} == --watch ]]; then
-	# Dateien, die beim Start schon da sind, gelten als erledigt; danach jede neue genau einmal.
+	# files already present at startup count as done; after that every new one exactly once.
 	seen=$(ls ~/Downloads/greenops-*.env 2>/dev/null || true)
-	echo "warte auf neue greenops-<id>.env in ~/Downloads (Strg-C beendet) …"
+	echo "waiting for new greenops-<id>.env in ~/Downloads (Ctrl-C quits) …"
 	while sleep 5; do
 		for f in ~/Downloads/greenops-*.env; do
 			[[ -f $f ]] && ! grep -qxF "$f" <<<"$seen" || continue
 			seen+=$'\n'$f
-			sleep 2 # Download fertig schreiben lassen
-			"$0" "$f" || echo "Lauf $f fehlgeschlagen, warte weiter" >&2
+			sleep 2 # let the download finish writing
+			"$0" "$f" || echo "run $f failed, still waiting" >&2
 		done
 	done
 fi
 
 env_file=${1:-$(ls -t ~/Downloads/greenops-*.env 2>/dev/null | head -1)}
-[[ -f $env_file ]] || { echo "keine greenops-<id>.env gefunden" >&2; exit 1; }
+[[ -f $env_file ]] || { echo "no greenops-<id>.env found" >&2; exit 1; }
 id=$(basename "$env_file" .env)
 id=${id#greenops-}
 name=greenops-$id
-echo "Lauf $id, Image $IMAGE $ARGS"
+echo "run $id, image $IMAGE $ARGS"
 
 if "${SSH[@]}" "docker ps -a --format '{{.Names}}' | grep -qx $name"; then
-	echo "Container $name existiert schon; Ergebnis:" >&2
+	echo "container $name already exists; result:" >&2
 else
 	scp -q -o ClearAllForwardings=yes "$env_file" "$HOST:$DIR/.local/$id.env"
 	"${SSH[@]}" "cd $DIR/.local && chmod 600 $id.env &&
 		sed -e 's/^export //' -e 's/=\"\(.*\)\"\$/=\1/' -e \"s/='\(.*\)'\$/=\1/\" $id.env > $id.docker.env &&
 		chmod 600 $id.docker.env && grep -v '^#' $id.docker.env | cut -d= -f1 | tr '\n' ' '; echo"
 
-	echo "Trockenlauf …"
+	echo "dry run …"
 	dry=$("${SSH[@]}" "timeout 60 docker run --rm --read-only --tmpfs /tmp --user 65534:65534 \
 		--env-file $DIR/.local/$id.docker.env $IMAGE -dry $ARGS 2>&1")
-	echo "$dry" | grep -o '"state":"[A-Z_]*"\|"speed":[0-9]*\|"workloads":[0-9]*\|"prognosen":"[^"]*"' | tr '\n' ' '; echo
-	echo "$dry" | grep -q '"state":"READY"' || { echo "Lauf nicht READY, kein Start" >&2; echo "$dry" | tail -3 >&2; exit 1; }
+	echo "$dry" | grep -o '"state":"[A-Z_]*"\|"speed":[0-9]*\|"workloads":[0-9]*\|"forecasts":"[^"]*"' | tr '\n' ' '; echo
+	echo "$dry" | grep -q '"state":"READY"' || { echo "run not READY, not starting" >&2; echo "$dry" | tail -3 >&2; exit 1; }
 
 	"${SSH[@]}" "docker run -d --name $name --read-only --tmpfs /tmp --cpus 2 --memory 1g --user 65534:65534 \
 		--env-file $DIR/.local/$id.docker.env $IMAGE $ARGS >/dev/null"
-	echo "gestartet um $(date +%H:%M); warte auf das Ende …"
+	echo "started at $(date +%H:%M); waiting for the end …"
 fi
 
 "${SSH[@]}" "docker wait $name >/dev/null; docker logs $name 2>&1" | python3 -c '
@@ -72,17 +72,17 @@ for line in sys.stdin:
         e = json.loads(line)
     except ValueError:
         continue
-    if e.get("msg") == "aktion":
+    if e.get("msg") == "action":
         acts[e["action"]] += 1
         if e["action"] == "create" and e.get("workload"):
             made.add(e["workload"])
     if e.get("level") in ("WARN", "ERROR"):
         warn.append(e)
     last = e
-print("Aktionen:", dict(acts))
-print(f"Workloads angelegt: {len(made)} von 15")
-print("Warnungen/Fehler:", len(warn))
+print("actions:", dict(acts))
+print(f"workloads created: {len(made)} of 15")
+print("warnings/errors:", len(warn))
 for e in warn[-5:]:
     print("  ", e.get("msg"), e.get("err", ""))
-print("Ende:", last.get("msg") if last else "keine Logs")
+print("end:", last.get("msg") if last else "no logs")
 '

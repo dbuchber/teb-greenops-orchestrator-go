@@ -1,6 +1,6 @@
-300 Kandidaten × 40 Seeds, Beste 8 × 200 frische Seeds
+300 candidates × 40 seeds, best 8 × 200 fresh seeds
 
-Rang          Δ Suche    15/15        Δ Prüfung    15/15      kg  Parameter
+Rank         Δ search    15/15       Δ validate    15/15      kg  Parameters
 0       +0.0 ± 0.0      40/40     +0.0 ± 0.0     200/200   13.48  life=0.01 gpu=8 shrink=0 margin=2 nopause=2 mincores=0 slices=6
 1      +17.8 ± 11.3     40/40    +11.4 ± 4.8     200/200   13.43  life=0.01 gpu=32 shrink=0 margin=0.5 nopause=2 mincores=32 slices=12
 2      +16.7 ± 7.4      40/40     +6.8 ± 2.7     200/200   13.44  life=0.01 gpu=32 shrink=0 margin=2 nopause=0.5 mincores=0 slices=6

@@ -1,6 +1,6 @@
-// Package controller führt die Schleife aus: Status holen, zur neuen Stunde Prognosen holen, planen, Aktionen
-// parallel ausführen. Bei 720× ist 1 s echte Zeit = 12 simulierte Minuten; daher läuft alles, was warten
-// muss, nebenläufig, und die Schleife blockiert nie auf einem einzelnen langsamen Aufruf länger als nötig.
+// Package controller runs the loop: fetch status, fetch forecasts at each new hour, plan, execute actions
+// in parallel. At 720× 1 s of real time = 12 simulated minutes; so everything that has to wait runs
+// concurrently, and the loop never blocks on a single slow call longer than necessary.
 package controller
 
 import (
@@ -26,11 +26,11 @@ type Controller struct {
 	Cloud  *api.Cloud
 	Params planner.Params
 	Log    *slog.Logger
-	Dry    bool          // nur lesen und die erste Entscheidung ausgeben, nichts anlegen (Uhr startet nicht)
-	Tick   time.Duration // Abstand der Status-Abfragen (Budget: 5/s, burst 10)
+	Dry    bool          // read only and print the first decision, create nothing (clock does not start)
+	Tick   time.Duration // interval between status polls (budget: 5/s, burst 10)
 
-	vms       map[string]planner.VM // eigene VMs nach ID
-	pending   map[string]time.Time  // VM-Name -> Create gesendet, ID noch unbekannt
+	vms       map[string]planner.VM // own VMs by ID
+	pending   map[string]time.Time  // VM name -> Create sent, ID not known yet
 	forecasts map[string][]float64
 	fcHour    int
 }
@@ -60,28 +60,28 @@ func (c *Controller) Run(ctx context.Context) error {
 			continue
 		}
 		if st.Qualification == "DISQUALIFIED" {
-			return errors.New("Lauf disqualifiziert")
+			return errors.New("run disqualified")
 		}
 		if st.Ended() {
-			c.Log.Info("Lauf beendet", "state", st.State)
+			c.Log.Info("run ended", "state", st.State)
 			return nil
 		}
 		now := c.Spec.Hours(st.VirtualTime)
 		if h := int(math.Floor(now)); h != c.fcHour || c.forecasts == nil {
 			fc, errs := c.Grid.Forecasts(ctx, areas)
 			for a, e := range errs {
-				c.Log.Warn("prognose", "area", a, "err", e) // alte Prognose dieses Laufs bleibt in Gebrauch
+				c.Log.Warn("forecast", "area", a, "err", e) // the previous forecast of this run stays in use
 			}
 			c.merge(fc, now)
 			c.fcHour = h
-			// für die Auswertung nach dem Lauf: Prognosefehler gegen die Ist-Werte aus dem Portal-Export
+			// for the post-run analysis: forecast error against the actual values from the portal export
 			logged := map[string][]int{}
 			for a, v := range c.forecasts {
 				for _, x := range v {
 					logged[a] = append(logged[a], int(math.Round(x)))
 				}
 			}
-			c.Log.Info("prognose", "stunde", h, "werte", logged)
+			c.Log.Info("forecast", "hour", h, "values", logged)
 		}
 		in := c.input(st, now)
 		acts := planner.Plan(c.Spec, in, c.Params)
@@ -92,7 +92,7 @@ func (c *Controller) Run(ctx context.Context) error {
 		acts = append(acts, c.clock(st)...)
 		c.execute(ctx, acts)
 		if c.done(st) {
-			c.Log.Info("alle Workloads geliefert, alle VMs gelöscht")
+			c.Log.Info("all workloads delivered, all VMs deleted")
 			return nil
 		}
 		if !sleep(ctx, c.Tick) {
@@ -101,10 +101,10 @@ func (c *Controller) Run(ctx context.Context) error {
 	}
 }
 
-// Die Uhr-VM startet die Uhr eines READY-Laufs: die Uhr läuft erst ab dem ersten angenommenen Create, die ersten
-// Workloads werden aber erst nach einigen Stunden freigegeben. Sie ist an den Workload mit dem spätesten Release
-// gebunden (sonst meldet das Portal "VM is missing a workload binding"), lädt nur kurz Input und wird gelöscht,
-// sobald die Uhr läuft; Fortschritt geht dabei keiner verloren.
+// The clock VM starts the clock of a READY run: the clock only runs from the first accepted Create, but the
+// first workloads are released only after a few hours. It is bound to the workload with the latest release
+// (otherwise the portal reports "VM is missing a workload binding"), only loads input briefly and is deleted
+// as soon as the clock runs; no progress is lost.
 const clockWorkload = "clock"
 
 func isClock(name string) bool {
@@ -112,7 +112,7 @@ func isClock(name string) bool {
 	return ok && w == clockWorkload
 }
 
-// clockOption: legale Option des spätesten Workloads mit der kleinsten Wirkleistung × PUE.
+// clockOption: legal option of the latest workload with the smallest active power × PUE.
 func (c *Controller) clockOption() (spec.Workload, spec.Option, bool) {
 	var w spec.Workload
 	for _, x := range c.Spec.Workloads {
@@ -148,12 +148,12 @@ func (c *Controller) clock(st api.Status) []planner.Action {
 			return nil
 		}
 		return []planner.Action{{Kind: planner.Create, Workload: w.ID, Zone: o.Zone.Slug, Family: o.Profile.Family,
-			Size: o.Profile.Size, Name: planner.Name(clockWorkload, o.Profile.Family, o.Profile.Size), Reason: "Uhr starten"}}
+			Size: o.Profile.Size, Name: planner.Name(clockWorkload, o.Profile.Family, o.Profile.Size), Reason: "start clock"}}
 	case st.State != "READY":
 		var out []planner.Action
 		for _, vm := range own {
 			if vm.ID != "" {
-				out = append(out, planner.Action{Kind: planner.Delete, Zone: vm.Zone, VMID: vm.ID, Name: vm.Name, Reason: "Uhr läuft"})
+				out = append(out, planner.Action{Kind: planner.Delete, Zone: vm.Zone, VMID: vm.ID, Name: vm.Name, Reason: "clock running"})
 			}
 		}
 		return out
@@ -167,14 +167,14 @@ func (c *Controller) dryReport(st api.Status, now float64, acts []planner.Action
 		areas = append(areas, a+":"+strconv.Itoa(len(v))+"h")
 	}
 	sort.Strings(areas)
-	c.Log.Info("dry: Lauf", "state", st.State, "speed", st.Speed, "qualification", st.Qualification,
-		"virtual_time", st.VirtualTime, "stunde", now, "workloads", len(st.Workloads), "eigene_vms", len(c.vms),
-		"prognosen", strings.Join(areas, " "))
+	c.Log.Info("dry: run", "state", st.State, "speed", st.Speed, "qualification", st.Qualification,
+		"virtual_time", st.VirtualTime, "hour", now, "workloads", len(st.Workloads), "own_vms", len(c.vms),
+		"forecasts", strings.Join(areas, " "))
 	for _, a := range acts {
-		c.Log.Info("dry: Aktion", "action", a.Kind, "workload", a.Workload, "zone", a.Zone, "profile", a.Family+"."+a.Size, "reason", a.Reason)
+		c.Log.Info("dry: action", "action", a.Kind, "workload", a.Workload, "zone", a.Zone, "profile", a.Family+"."+a.Size, "reason", a.Reason)
 	}
 	if st.State == "READY" {
-		c.Log.Info("dry: im echten Lauf startet zuerst eine VM ohne Workload die Uhr und wird danach gelöscht")
+		c.Log.Info("dry: in a real run a clock VM starts the clock first and is deleted afterwards")
 	}
 }
 
@@ -191,7 +191,7 @@ func (c *Controller) areas() []string {
 	return out
 }
 
-// merge legt die Prognosen so ab, dass Index 0 die aktuelle Stunde ist.
+// merge stores the forecasts so that index 0 is the current hour.
 func (c *Controller) merge(fc map[string][]api.Point, now float64) {
 	if c.forecasts == nil {
 		c.forecasts = map[string][]float64{}
@@ -210,7 +210,7 @@ func (c *Controller) merge(fc map[string][]api.Point, now float64) {
 	}
 }
 
-// adopt übernimmt eigene VMs (Name gx-...) nach einem Neustart, statt sie doppelt anzulegen.
+// adopt takes over own VMs (name gx-...) after a restart instead of creating them twice.
 func (c *Controller) adopt(ctx context.Context) error {
 	vms, err := c.Cloud.List(ctx)
 	if err != nil {
@@ -219,7 +219,7 @@ func (c *Controller) adopt(ctx context.Context) error {
 	for _, v := range vms {
 		if _, f, s, ok := planner.ParseName(v.Name); ok {
 			c.vms[v.ID] = planner.VM{ID: v.ID, Name: v.Name, Zone: v.Zone, Family: f, Size: s, State: v.State}
-			c.Log.Info("übernommen", "vm", v.Name, "zone", v.Zone)
+			c.Log.Info("adopted", "vm", v.Name, "zone", v.Zone)
 		}
 	}
 	return nil
@@ -236,13 +236,13 @@ func (c *Controller) input(st api.Status, now float64) planner.Input {
 	byWorkload := map[string][]planner.VM{}
 	for id, vm := range c.vms {
 		if a, ok := live[id]; ok {
-			vm.State = a.State // der Work-Status ist maßgeblich
+			vm.State = a.State // the work status is authoritative
 			c.vms[id] = vm
 		}
 		wid, _, _, _ := planner.ParseName(vm.Name)
 		byWorkload[wid] = append(byWorkload[wid], vm)
 	}
-	for name := range c.pending { // Create gesendet, ID noch unbekannt: als "creating" zählen
+	for name := range c.pending { // Create sent, ID not known yet: count as "creating"
 		wid, f, s, _ := planner.ParseName(name)
 		byWorkload[wid] = append(byWorkload[wid], planner.VM{Name: name, Family: f, Size: s, State: "creating"})
 	}
@@ -252,18 +252,18 @@ func (c *Controller) input(st api.Status, now float64) planner.Input {
 	return planner.Input{Now: now, Jobs: jobs, Forecast: c.forecasts}
 }
 
-// execute führt alle Aktionen parallel aus; Löschen zuerst, damit Kontingent für Creates frei wird.
+// execute runs all actions in parallel; deletes first so quota frees up for creates.
 func (c *Controller) execute(ctx context.Context, acts []planner.Action) {
 	sort.SliceStable(acts, func(a, b int) bool { return acts[a].Kind == planner.Delete && acts[b].Kind != planner.Delete })
 	var mu sync.Mutex
 	var wg sync.WaitGroup
 	for _, a := range acts {
 		if a.Kind == planner.Create {
-			// zweite Legalitätsprüfung unmittelbar vor dem Create: ein illegaler Versuch disqualifiziert den Lauf.
+			// second legality check right before the Create: an illegal attempt disqualifies the run.
 			w, ok1 := c.Spec.Workload(a.Workload)
 			p, ok2 := c.Spec.Profile(a.Family, a.Size)
 			if !ok1 || !ok2 || c.Spec.Legal(w, a.Zone, p) != nil {
-				c.Log.Error("Create verworfen: nicht legal", "workload", a.Workload, "zone", a.Zone)
+				c.Log.Error("create dropped: not legal", "workload", a.Workload, "zone", a.Zone)
 				continue
 			}
 			c.pending[a.Name] = time.Now()
@@ -286,13 +286,13 @@ func (c *Controller) execute(ctx context.Context, acts []planner.Action) {
 			mu.Lock()
 			defer mu.Unlock()
 			if err != nil {
-				c.Log.Warn("aktion fehlgeschlagen", "action", a.Kind, "workload", a.Workload, "err", err)
+				c.Log.Warn("action failed", "action", a.Kind, "workload", a.Workload, "err", err)
 				if a.Kind == planner.Create {
-					delete(c.pending, a.Name) // beim nächsten Takt neu geplant
+					delete(c.pending, a.Name) // re-planned on the next tick
 				}
 				return
 			}
-			c.Log.Info("aktion", "action", a.Kind, "workload", a.Workload, "zone", a.Zone, "reason", a.Reason)
+			c.Log.Info("action", "action", a.Kind, "workload", a.Workload, "zone", a.Zone, "reason", a.Reason)
 			switch a.Kind {
 			case planner.Create:
 				if id != "" {
@@ -305,7 +305,7 @@ func (c *Controller) execute(ctx context.Context, acts []planner.Action) {
 		}(a)
 	}
 	wg.Wait()
-	if len(c.pending) > 0 { // IDs unbekannter Creates über den Namen nachtragen
+	if len(c.pending) > 0 { // fill in IDs of unknown creates by name
 		if vms, err := c.Cloud.List(ctx); err == nil {
 			for _, v := range vms {
 				if _, ok := c.pending[v.Name]; ok {

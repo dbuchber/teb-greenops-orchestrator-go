@@ -7,10 +7,10 @@ import (
 	"testing"
 )
 
-// Kennzahlen der synthetischen Welt zum Abgleich mit Live-Läufen: WORLD_STATS=1 go test ./internal/sim -run WorldStats -v
+// Statistics of the synthetic world for comparison with live runs: WORLD_STATS=1 go test ./internal/sim -run WorldStats -v
 func TestWorldStats(t *testing.T) {
 	if os.Getenv("WORLD_STATS") == "" {
-		t.Skip("nur auf Anfrage")
+		t.Skip("on request only")
 	}
 	var cv, half, amp float64
 	n := 0
@@ -46,5 +46,5 @@ func TestWorldStats(t *testing.T) {
 			n++
 		}
 	}
-	t.Logf("CV %.3f  günstigste 50%%/Mittel %.3f  Tagesamplitude %.3f", cv/float64(n), half/float64(n), amp/float64(n))
+	t.Logf("CV %.3f  cheapest 50%%/mean %.3f  daily amplitude %.3f", cv/float64(n), half/float64(n), amp/float64(n))
 }

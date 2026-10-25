@@ -16,14 +16,14 @@ func load(t *testing.T) *spec.Spec {
 	return s
 }
 
-// legacy sind die Parameter des alten, lokalen Planers; seine Tests prüfen ihn ausdrücklich.
+// legacy are the parameters of the old local planner; its tests check it explicitly.
 func legacy() Params {
 	p := DefaultParams()
 	p.Global = false
 	return p
 }
 
-// flat liefert für alle Bereiche eine konstante Prognose, ausgewählte Bereiche billiger.
+// flat returns a constant forecast for all areas, selected areas cheaper.
 func flat(s *spec.Spec, g float64, cheap map[string]float64) map[string][]float64 {
 	out := map[string][]float64{}
 	for _, z := range s.Zones {
@@ -45,12 +45,12 @@ func TestNameRoundTrip(t *testing.T) {
 	if !ok || w != "w-07-eu-training" || f != "gpurtx6000pro" || sz != "small" {
 		t.Fatal(w, f, sz, ok)
 	}
-	if _, _, _, ok := ParseName("fremde-vm"); ok {
-		t.Fatal("fremde VM erkannt")
+	if _, _, _, ok := ParseName("foreign-vm"); ok {
+		t.Fatal("foreign VM recognised")
 	}
 }
 
-// Jedes Create muss legal sein, und das Kontingent darf nie überschritten werden.
+// Every Create must be legal, and the quota must never be exceeded.
 func TestCreatesAreLegalAndFitQuota(t *testing.T) {
 	s := load(t)
 	in := Input{Now: 50, Jobs: map[string]Job{}, Forecast: flat(s, 200, nil)}
@@ -58,7 +58,7 @@ func TestCreatesAreLegalAndFitQuota(t *testing.T) {
 	vms, vcpus, gpus := 0, 0, map[string]int{}
 	for _, a := range acts {
 		if a.Kind != Create {
-			t.Fatalf("unerwartete Aktion %+v", a)
+			t.Fatalf("unexpected action %+v", a)
 		}
 		w, _ := s.Workload(a.Workload)
 		p, _ := s.Profile(a.Family, a.Size)
@@ -84,7 +84,7 @@ func TestPrefersCleanCountry(t *testing.T) {
 	in := Input{Now: 4, Jobs: map[string]Job{}, Forecast: flat(s, 400, map[string]float64{"AT": 50})}
 	for _, a := range Plan(s, in, legacy()) {
 		if a.Workload == "w-01-dach-research" && s.Zones[a.Zone].Country != "AT" {
-			t.Fatalf("w-01 nach %s statt AT", a.Zone)
+			t.Fatalf("w-01 to %s instead of AT", a.Zone)
 		}
 	}
 }
@@ -101,13 +101,13 @@ func TestDeletesDelivered(t *testing.T) {
 			return
 		}
 	}
-	t.Fatal("keine Löschung")
+	t.Fatal("no deletion")
 }
 
 func TestPausesInDirtyHourWithSlack(t *testing.T) {
 	s := load(t)
 	fc := flat(s, 100, nil)
-	fc["AT"][0] = 500 // jetzt teuer, später billig
+	fc["AT"][0] = 500 // expensive now, cheap later
 	vm := VM{ID: "v1", Name: Name("w-13-regional-index", "cpu", "mega"), Zone: "at-vie-1", Family: "cpu", Size: "mega", State: "running"}
 	in := Input{Now: 20, Jobs: map[string]Job{"w-13-regional-index": {Completed: 1300, VMs: []VM{vm}}}, Forecast: fc}
 	for _, a := range Plan(s, in, legacy()) {
@@ -115,7 +115,7 @@ func TestPausesInDirtyHourWithSlack(t *testing.T) {
 			return
 		}
 	}
-	t.Fatal("keine Pause trotz Spielraum")
+	t.Fatal("no pause despite slack")
 }
 
 func TestRunsWhenNoSlack(t *testing.T) {
@@ -123,27 +123,27 @@ func TestRunsWhenNoSlack(t *testing.T) {
 	fc := flat(s, 100, nil)
 	fc["AT"][0] = 500
 	vm := VM{ID: "v1", Name: Name("w-01-dach-research", "cpu", "mega"), Zone: "at-vie-1", Family: "cpu", Size: "mega", State: "stopped"}
-	// w-01: Deadline 108 h, 1 000 vCPU-h auf mega = 31 h; bei t = 74 h bleibt kein Spielraum
+	// w-01: deadline 108 h, 1,000 vCPU-h on mega = 31 h; at t = 74 h there is no slack left
 	in := Input{Now: 74, Jobs: map[string]Job{"w-01-dach-research": {Completed: 0, VMs: []VM{vm}}}, Forecast: fc}
 	for _, a := range Plan(s, in, legacy()) {
 		if a.Workload == "w-01-dach-research" && a.Kind == Start {
 			return
 		}
 	}
-	t.Fatal("kein Start trotz knapper Deadline")
+	t.Fatal("no start despite tight deadline")
 }
 
-// Gestoppte VMs blockieren das Kontingent: wartet ein Job ohne Platz, wird nicht pausiert, sondern gestartet.
+// Stopped VMs block the quota: if a job waits without room, VMs are started instead of paused.
 func TestQuotaPressureResumesStoppedVMs(t *testing.T) {
 	s := load(t)
 	fc := flat(s, 100, nil)
 	for a := range fc {
-		fc[a][0] = 900 // jetzt sehr teuer: ohne Druck würde alles pausieren
+		fc[a][0] = 900 // very expensive now: without pressure everything would pause
 	}
 	jobs := map[string]Job{}
 	ids := []string{"w-01-dach-research", "w-02-ch-reporting", "w-03-med-analysis", "w-04-dach-batch", "w-05-eu-render",
 		"w-06-large-etl", "w-11-dach-simulation", "w-12-late-delivery", "w-13-regional-index", "w-14-bulk-render"}
-	for i, id := range ids { // 10 × mega = 320 vCPU, alle gestoppt
+	for i, id := range ids { // 10 × mega = 320 vCPU, all stopped
 		zone := "de-fra-1"
 		if id == "w-02-ch-reporting" {
 			zone = "ch-gva-2"
@@ -153,23 +153,23 @@ func TestQuotaPressureResumesStoppedVMs(t *testing.T) {
 		jobs[id] = Job{Completed: 100, VMs: []VM{{ID: "v" + string(rune('a'+i)), Name: Name(id, "cpu", "mega"), Zone: zone,
 			Family: "cpu", Size: "mega", State: "stopped"}}}
 	}
-	in := Input{Now: 50, Jobs: jobs, Forecast: fc} // w-15 (Release 30) wartet ohne Platz
+	in := Input{Now: 50, Jobs: jobs, Forecast: fc} // w-15 (release 30) waits without room
 	starts := 0
 	for _, a := range Plan(s, in, legacy()) {
 		if a.Kind == Stop {
-			t.Fatalf("Pause trotz Kontingentdruck: %+v", a)
+			t.Fatalf("pause despite quota pressure: %+v", a)
 		}
 		if a.Kind == Start {
 			starts++
 		}
 	}
 	if starts != len(ids) {
-		t.Fatalf("%d von %d gestoppten VMs gestartet", starts, len(ids))
+		t.Fatalf("%d of %d stopped VMs started", starts, len(ids))
 	}
 }
 
-// Globale Planung: jedes Create legal, das Kontingent nie überschritten, und ein voller Lauf im Simulator ist
-// in sim_test abgedeckt.
+// Global planning: every Create legal, the quota never exceeded; a full run in the simulator is
+// covered in sim_test.
 func TestGlobalCreatesAreLegalAndFitQuota(t *testing.T) {
 	s := load(t)
 	p := DefaultParams()
@@ -180,7 +180,7 @@ func TestGlobalCreatesAreLegalAndFitQuota(t *testing.T) {
 		vms, vcpus, gpus := 0, 0, map[string]int{}
 		for _, a := range Plan(s, in, p) {
 			if a.Kind != Create {
-				t.Fatalf("unerwartete Aktion %+v", a)
+				t.Fatalf("unexpected action %+v", a)
 			}
 			w, _ := s.Workload(a.Workload)
 			pr, _ := s.Profile(a.Family, a.Size)
@@ -202,7 +202,7 @@ func TestGlobalCreatesAreLegalAndFitQuota(t *testing.T) {
 	}
 }
 
-// Rechenzeit einer globalen Planung zu Beginn (alle Jobs offen): go test ./internal/planner -bench Global
+// Compute time of one global plan at the start (all jobs open): go test ./internal/planner -bench Global
 func BenchmarkGlobalPlan(b *testing.B) {
 	s, err := spec.Load("../../challenge")
 	if err != nil {

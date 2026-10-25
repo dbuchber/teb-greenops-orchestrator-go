@@ -1,5 +1,5 @@
-// Package spec lädt den öffentlichen Challenge-Katalog (Zonen, Profile, Workloads, Kontingente) und prüft
-// die Legalität einer Platzierung. Alles hier ist rein und ohne Netzwerk, damit es vor jedem Create läuft.
+// Package spec loads the public challenge catalog (zones, profiles, workloads, quotas) and checks the
+// legality of a placement. Everything here is pure and network-free so it can run before every Create.
 package spec
 
 import (
@@ -16,7 +16,7 @@ import (
 type Zone struct {
 	Slug    string
 	Country string
-	Area    string // Strombereich für die Grid-API (AT, BG, CH, ...)
+	Area    string // power area for the grid API (AT, BG, CH, ...)
 	EU      bool
 	PUE     float64
 }
@@ -30,7 +30,7 @@ type Profile struct {
 	GPUMemGiB  int
 	ActiveW    float64
 	IdleW      float64
-	Throughput float64 // je Stunde (vcpu_hour) bzw. je Sekunde (tflop, also TFLOP/s)
+	Throughput float64 // per hour (vcpu_hour) or per second (tflop, i.e. TFLOP/s)
 	WorkUnit   string
 	BootS      int
 	Zones      []string
@@ -43,7 +43,7 @@ type Workload struct {
 	WorkUnit        string
 	Release         time.Time
 	Deadline        time.Time
-	Residency       string // ANYWHERE, EU oder Ländercode
+	Residency       string // ANYWHERE, EU or country code
 	Allowed         []string
 	Forbidden       []string
 	AllowedProfiles []string
@@ -64,11 +64,11 @@ type Spec struct {
 	Workloads  []Workload
 	MaxVMs     int
 	MaxVCPUs   int
-	GPUQuota   map[string]int // Karten je GPU-Familie
-	T0         time.Time      // Beginn des 120-h-Fensters
+	GPUQuota   map[string]int // cards per GPU family
+	T0         time.Time      // start of the 120 h window
 }
 
-// Option ist eine legale Kombination aus Zone und Profil für einen Workload.
+// Option is a legal combination of zone and profile for a workload.
 type Option struct {
 	Zone    Zone
 	Profile Profile
@@ -77,12 +77,12 @@ type Option struct {
 func num(s string) float64 {
 	v, err := strconv.ParseFloat(s, 64)
 	if err != nil {
-		panic(fmt.Sprintf("spec: keine Zahl %q", s))
+		panic(fmt.Sprintf("spec: not a number %q", s))
 	}
 	return v
 }
 
-// Load liest catalog.json und workloads.json aus dir.
+// Load reads catalog.json and workloads.json from dir.
 func Load(dir string) (*Spec, error) {
 	var cat struct {
 		ScenarioID string `json:"scenario_id"`
@@ -176,52 +176,52 @@ func readJSON(path string, dst any) error {
 	return json.Unmarshal(b, dst)
 }
 
-// Legal prüft eine Platzierung. Ein Fehler hier darf nie zu einem Create führen: schon der Versuch in einem
-// verbotenen Land disqualifiziert den Lauf.
+// Legal checks a placement. An error here must never lead to a Create: the mere attempt in a forbidden
+// country disqualifies the run.
 func (s *Spec) Legal(w Workload, zoneSlug string, p Profile) error {
 	z, ok := s.Zones[zoneSlug]
 	if !ok {
-		return fmt.Errorf("unbekannte Zone %s", zoneSlug)
+		return fmt.Errorf("unknown zone %s", zoneSlug)
 	}
 	if !slices.Contains(p.Zones, zoneSlug) {
-		return fmt.Errorf("Profil %s.%s nicht in %s", p.Family, p.Size, zoneSlug)
+		return fmt.Errorf("profile %s.%s not in %s", p.Family, p.Size, zoneSlug)
 	}
 	switch {
 	case w.Residency == "ANYWHERE":
 	case w.Residency == "EU":
 		if !z.EU {
-			return fmt.Errorf("%s: EU-Residency, %s ist nicht EU", w.ID, z.Country)
+			return fmt.Errorf("%s: EU residency, %s is not EU", w.ID, z.Country)
 		}
 	default:
 		if z.Country != w.Residency {
-			return fmt.Errorf("%s: nur %s, nicht %s", w.ID, w.Residency, z.Country)
+			return fmt.Errorf("%s: only %s, not %s", w.ID, w.Residency, z.Country)
 		}
 	}
 	if len(w.Allowed) > 0 && !slices.Contains(w.Allowed, z.Country) {
-		return fmt.Errorf("%s: %s nicht erlaubt", w.ID, z.Country)
+		return fmt.Errorf("%s: %s not allowed", w.ID, z.Country)
 	}
 	if slices.Contains(w.Forbidden, z.Country) {
-		return fmt.Errorf("%s: %s verboten", w.ID, z.Country)
+		return fmt.Errorf("%s: %s forbidden", w.ID, z.Country)
 	}
 	if len(w.AllowedProfiles) > 0 && !slices.Contains(w.AllowedProfiles, p.ID) {
-		return fmt.Errorf("%s: Profil %s nicht erlaubt", w.ID, p.ID)
+		return fmt.Errorf("%s: profile %s not allowed", w.ID, p.ID)
 	}
 	if len(w.AllowedFamilies) > 0 && !slices.Contains(w.AllowedFamilies, p.Family) {
-		return fmt.Errorf("%s: Familie %s nicht erlaubt", w.ID, p.Family)
+		return fmt.Errorf("%s: family %s not allowed", w.ID, p.Family)
 	}
 	if w.Kind == "gpu" && p.GPUCount == 0 {
-		return fmt.Errorf("%s: braucht GPU", w.ID)
+		return fmt.Errorf("%s: needs GPU", w.ID)
 	}
 	if w.MinGPUMemGiB > 0 && p.GPUMemGiB < w.MinGPUMemGiB {
-		return fmt.Errorf("%s: %d GiB GPU-Speicher < %d", w.ID, p.GPUMemGiB, w.MinGPUMemGiB)
+		return fmt.Errorf("%s: %d GiB GPU memory < %d", w.ID, p.GPUMemGiB, w.MinGPUMemGiB)
 	}
 	if p.WorkUnit != w.WorkUnit {
-		return fmt.Errorf("%s: Einheit %s passt nicht zu %s", w.ID, p.WorkUnit, w.WorkUnit)
+		return fmt.Errorf("%s: unit %s does not match %s", w.ID, p.WorkUnit, w.WorkUnit)
 	}
 	return nil
 }
 
-// Options liefert alle legalen (Zone, Profil)-Paare eines Workloads.
+// Options returns all legal (zone, profile) pairs of a workload.
 func (s *Spec) Options(w Workload) []Option {
 	var out []Option
 	for _, p := range s.Profiles {
@@ -234,7 +234,7 @@ func (s *Spec) Options(w Workload) []Option {
 	return out
 }
 
-// RatePerHour ist die Arbeit je Stunde mit “workers“ aktiven VMs (Sync-Overhead je zusätzlichem Worker).
+// RatePerHour is the work per hour with "workers" active VMs (sync overhead per additional worker).
 func RatePerHour(w Workload, p Profile, workers int) float64 {
 	r := p.Throughput
 	if p.WorkUnit == "tflop" {
@@ -243,12 +243,12 @@ func RatePerHour(w Workload, p Profile, workers int) float64 {
 	return r * float64(workers) / (1 + w.SyncOverhead*float64(workers-1))
 }
 
-// ComputeHours ist die reine Rechenzeit für “work“ Einheiten.
+// ComputeHours is the pure compute time for "work" units.
 func ComputeHours(w Workload, p Profile, workers int, work float64) float64 {
 	return work / RatePerHour(w, p, workers)
 }
 
-// Hours rechnet eine Zeit seit T0 in Stunden um.
+// Hours converts a time to hours since T0.
 func (s *Spec) Hours(t time.Time) float64 { return t.Sub(s.T0).Hours() }
 
 func (s *Spec) Profile(family, size string) (Profile, bool) {
@@ -269,5 +269,5 @@ func (s *Spec) Workload(id string) (Workload, bool) {
 	return Workload{}, false
 }
 
-// Ceil rundet Stunden auf ganze Stunden auf (mindestens 1).
+// Ceil rounds hours up to whole hours (at least 1).
 func Ceil(h float64) int { return max(1, int(math.Ceil(h-1e-9))) }

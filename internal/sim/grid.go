@@ -1,9 +1,9 @@
-// Package sim ist ein lokaler Simulator der Challenge für Monte-Carlo-Vergleiche von Planer-Varianten.
+// Package sim is a local simulator of the challenge for Monte Carlo comparisons of planner variants.
 //
-// Die Strom-Welt ist rein synthetisch (erfundene Niveaus je Land, Tagesgang, mehrtägige Wetterphasen,
-// Prognosefehler, die mit dem Vorlauf wachsen). Sie nutzt bewusst keine echten oder historischen Daten des
-// Szenarios: das verbieten die Regeln. Ergebnisse taugen zum Vergleichen von Varianten auf denselben Seeds,
-// nicht als Vorhersage der Live-Punkte.
+// The power world is purely synthetic (made-up levels per country, daily cycle, multi-day weather phases,
+// forecast errors that grow with lead time). It deliberately uses no real or historical data of the
+// scenario: the rules forbid that. Results are good for comparing variants on the same seeds, not as a
+// prediction of live points.
 package sim
 
 import (
@@ -14,45 +14,45 @@ import (
 
 const Hours = 120
 
-// Grundniveaus je Strombereich (g/kWh), frei erfunden; je Seed zufällig skaliert, damit sich die Rangfolge ändert.
+// Base levels per power area (g/kWh), made up; randomly scaled per seed so the ranking changes.
 var baseLevel = map[string]float64{"AT": 130, "BG": 380, "CH": 60, "DE": 330, "ES": 190, "FR": 70, "HR": 220, "IT": 290}
 
 type World struct {
-	Actual   map[string][]float64   // je Bereich: Ist-Wert je Stunde (Hours+24)
-	forecast map[string][][]float64 // je Bereich und Ausgabestunde: 24 Werte ab dieser Stunde
+	Actual   map[string][]float64   // per area: actual value per hour (Hours+24)
+	forecast map[string][][]float64 // per area and issue hour: 24 values from that hour
 }
 
-// NewWorld erzeugt eine Welt aus dem Seed; gleicher Seed, gleiche Welt (für gepaarte Vergleiche).
+// NewWorld creates a world from the seed; same seed, same world (for paired comparisons).
 func NewWorld(seed uint64) *World {
 	w := &World{Actual: map[string][]float64{}, forecast: map[string][][]float64{}}
 	areas := make([]string, 0, len(baseLevel))
 	for a := range baseLevel {
 		areas = append(areas, a)
 	}
-	sort.Strings(areas) // feste Reihenfolge, sonst hängt die Welt von der Map-Iteration ab
+	sort.Strings(areas) // fixed order, otherwise the world depends on map iteration
 	for i, a := range areas {
 		r := rand.New(rand.NewPCG(seed, uint64(i)*7919+1))
 		level := baseLevel[a] * (0.6 + 0.8*r.Float64())
-		// Tagesgang: Minimum um 13 Uhr (Solar). Spanne so gewählt, dass die Kennzahlen (TestWorldStats) zu den
-		// Live-Läufen passen: Tagesamplitude ~0,35, CV ~0,26, günstigste Hälfte ~0,79 des Mittels.
-		// Prognosefehler wie live: glatter Verlauf, Ist-Werte weichen stundenweise korreliert ab.
+		// Daily cycle: minimum at 13:00 (solar). Range chosen so the statistics (TestWorldStats) match the
+		// live runs: daily amplitude ~0.35, CV ~0.26, cheapest half ~0.79 of the mean.
+		// Forecast error as live: smooth curve, actual values deviate with hourly correlation.
 		amp := 0.15 + 0.3*r.Float64()
 		weather := 0.0
 		n := Hours + 24
-		smooth := make([]float64, n) // was die Prognose kennt
+		smooth := make([]float64, n) // what the forecast knows
 		act := make([]float64, n)
 		dev := 0.0
 		for h := 0; h < n; h++ {
-			weather = 0.97*weather + 0.03*r.NormFloat64() // mehrtägige Wetterphasen
+			weather = 0.97*weather + 0.03*r.NormFloat64() // multi-day weather phases
 			daily := -amp * math.Cos(2*math.Pi*float64((h%24)-13)/24)
 			smooth[h] = math.Max(10, level*(1+daily+weather))
-			// Abweichung der Ist-Werte vom glatten Verlauf: live gemessen ~13 % Streuung, über Stunden
-			// korreliert (1-h-Autokorrelation 0,2–0,76), unabhängig vom Vorlauf (scripts/forecast-error.py)
+			// deviation of actual values from the smooth curve: measured live ~13 % spread, correlated over
+			// hours (1 h autocorrelation 0.2–0.76), independent of lead time (scripts/forecast-error.py)
 			dev = 0.6*dev + 0.104*r.NormFloat64()
 			act[h] = math.Max(10, smooth[h]*(1+dev))
 		}
 		w.Actual[a] = act
-		// Prognose: der glatte Verlauf mit kleinen Revisionen (live: 5 % zwischen Vorlauf 23 und 0)
+		// forecast: the smooth curve with small revisions (live: 5 % between lead time 23 and 0)
 		fixed := make([]float64, n)
 		for h := range fixed {
 			fixed[h] = 0.03 * r.NormFloat64()
@@ -71,7 +71,7 @@ func NewWorld(seed uint64) *World {
 	return w
 }
 
-// Forecast ist die zur Stunde “hour“ veröffentlichte 24-h-Prognose (Index 0 = diese Stunde).
+// Forecast is the 24 h forecast published at hour "hour" (index 0 = that hour).
 func (w *World) Forecast(area string, hour int) []float64 {
 	hour = min(max(hour, 0), Hours-1)
 	return w.forecast[area][hour]

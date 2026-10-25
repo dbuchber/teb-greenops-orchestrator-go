@@ -1,12 +1,12 @@
-// Steuert das Challenge-Portal mit einem eigenen, dauerhaften Browserprofil.
+// Drives the challenge portal with its own persistent browser profile.
 //
-//	node portal.mjs login                     # sichtbares Fenster: einmal selbst einloggen, dann Fenster schließen
-//	node portal.mjs new-run [name] [tempo]    # legt einen Lauf an (Standard 720×) und lädt seine .env nach ~/Downloads
-//	node portal.mjs export [ordner]           # alle Läufe als JSON und CSV (Standard: runs/ im Repo)
-//	node portal.mjs explore [pfad] [knopf …]  # klickt die Knöpfe und listet Bedienelemente (nur Beschriftungen)
+//	node portal.mjs login                     # visible window: log in once yourself, then close the window
+//	node portal.mjs new-run [name] [speed]    # creates a run (default 720×) and downloads its .env to ~/Downloads
+//	node portal.mjs export [dir]              # all runs as JSON and CSV (default: runs/ in the repo)
+//	node portal.mjs explore [path] [button …] # clicks the buttons and lists controls (labels only)
 //
-// Passwort und Sitzung bleiben im Profil (~/.greenops-browser); das Skript liest oder druckt sie nie.
-// Beschriftungen, die wie Schlüssel aussehen, werden geschwärzt.
+// Password and session stay in the profile (~/.greenops-browser); the script never reads or prints them.
+// Labels that look like keys are redacted.
 import { chromium } from 'playwright';
 import os from 'node:os';
 import path from 'node:path';
@@ -17,7 +17,7 @@ const PROFILE = path.join(os.homedir(), '.greenops-browser');
 const DOWNLOADS = path.join(os.homedir(), 'Downloads');
 const [mode = 'explore', target = '/', ...clicks] = process.argv.slice(2);
 
-// csv flacht eine Liste von Objekten ab; verschachtelte Werte landen als JSON in der Zelle.
+// csv flattens a list of objects; nested values end up as JSON in the cell.
 const csv = rows => {
 	const cols = [...new Set(rows.flatMap(r => Object.keys(r)))];
 	const cell = v => {
@@ -27,7 +27,7 @@ const csv = rows => {
 	return [cols.join(','), ...rows.map(r => cols.map(c => cell(r[c])).join(','))].join('\n') + '\n';
 };
 
-const redact = s => s.replace(/\b[A-Za-z0-9_\-+/=]{24,}\b/g, '‹geschwärzt›').replace(/\s+/g, ' ').trim().slice(0, 120);
+const redact = s => s.replace(/\b[A-Za-z0-9_\-+/=]{24,}\b/g, '‹redacted›').replace(/\s+/g, ' ').trim().slice(0, 120);
 
 const ctx = await chromium.launchPersistentContext(PROFILE, {
 	channel: 'chrome',
@@ -39,19 +39,19 @@ const page = ctx.pages()[0] ?? (await ctx.newPage());
 
 if (mode === 'login') {
 	await page.goto(PORTAL);
-	console.log('Bitte im Fenster einloggen und es danach schließen.');
-	await new Promise(r => { ctx.on('close', r); page.on('close', r); }); // macOS: Fenster zu, Chrome läuft weiter
+	console.log('Please log in in the window and close it afterwards.');
+	await new Promise(r => { ctx.on('close', r); page.on('close', r); }); // macOS: window closed, Chrome keeps running
 	await ctx.close();
 	process.exit(0);
 }
 
-// Abgelaufene Portal-Sitzung: über die noch gültige GitHub-Sitzung ohne Passwort neu anmelden.
+// Expired portal session: log in again via the still valid GitHub session, without a password.
 async function ensureLogin() {
 	await page.goto(`${PORTAL}/app`, { waitUntil: 'networkidle' });
 	if (!new URL(page.url()).pathname.startsWith('/app')) {
 		await page.goto(`${PORTAL}/auth/github`, { waitUntil: 'networkidle' });
 		if (!new URL(page.url()).pathname.startsWith('/app')) {
-			throw new Error('nicht eingeloggt: einmal "node portal.mjs login" ausführen');
+			throw new Error('not logged in: run "node portal.mjs login" once');
 		}
 	}
 }
@@ -68,7 +68,7 @@ if (mode === 'new-run') {
 	await page.getByRole('button', { name: 'Create simulation run' }).click();
 	await page.waitForURL(/\/app\/runs\/[0-9a-f]{12,}/, { timeout: 30_000 });
 	const run = page.url().match(/\/app\/runs\/([0-9a-f]+)/)[1];
-	console.log(`Lauf angelegt: ${run.slice(0, 10)} (${name}, ${speed}×)`);
+	console.log(`Run created: ${run.slice(0, 10)} (${name}, ${speed}×)`);
 
 	await page.goto(`${PORTAL}/app/access?run=${run}`, { waitUntil: 'networkidle' });
 	await page.locator('summary', { hasText: 'Other credentials' }).click();
@@ -78,7 +78,7 @@ if (mode === 'new-run') {
 	]);
 	const file = path.join(DOWNLOADS, dl.suggestedFilename());
 	await dl.saveAs(file);
-	console.log('Datei gespeichert:', file);
+	console.log('Saved file:', file);
 	await ctx.close();
 	process.exit(0);
 }
@@ -120,7 +120,7 @@ if (mode === 'export') {
 	await writeFile(path.join(out, 'runs.csv'), csv(summary));
 	const lb = await api('/api/leaderboard').catch(e => ({ error: e.message }));
 	await writeFile(path.join(out, 'leaderboard.json'), JSON.stringify(lb, null, 1));
-	console.log('gespeichert in', out);
+	console.log('saved to', out);
 	await ctx.close();
 	process.exit(0);
 }
@@ -130,8 +130,8 @@ for (const c of clicks) {
 	await page.getByRole('button', { name: c }).first().click();
 	await page.waitForTimeout(1000);
 }
-console.log('URL:', page.url().replace(/([?&](token|code|state)=)[^&]+/g, '$1‹geschwärzt›'));
-console.log('Titel:', await page.title());
+console.log('URL:', page.url().replace(/([?&](token|code|state)=)[^&]+/g, '$1‹redacted›'));
+console.log('Title:', await page.title());
 const items = await page.$$eval('a, button, select, input, label, [role=button], [role=tab], [role=radio], [role=option], h1, h2, h3', els =>
 	els.map(e => ({
 		tag: e.tagName.toLowerCase(),

@@ -11,9 +11,9 @@ import (
 
 func TestDiagSeed3(t *testing.T) {
 	s, r := setup(t)
-	for _, name := range []string{"referenz", "nie pausieren"} {
+	for _, name := range []string{"reference", "never pause"} {
 		c := DefaultConfig(5)
-		if name == "nie pausieren" {
+		if name == "never pause" {
 			c.Params.NoPauseH = math.Inf(1)
 		}
 		c.Trace = func(now float64, a planner.Action, ok bool) {
@@ -25,11 +25,11 @@ func TestDiagSeed3(t *testing.T) {
 			ids = append(ids, id)
 		}
 		sort.Strings(ids)
-		t.Logf("== %s: %.0f Punkte", name, res.Score)
+		t.Logf("== %s: %.0f points", name, res.Score)
 		for _, id := range ids {
 			j := res.Jobs[id]
 			w, _ := s.Workload(id)
-			t.Logf("%-22s dl=%5.1f geliefert=%v bei %5.1f fortschritt=%.2f co2=%.0f g", id, s.Hours(w.Deadline), j.Delivered, j.DeliveredAt, j.Progress, j.CarbonG)
+			t.Logf("%-22s dl=%5.1f delivered=%v at %5.1f progress=%.2f co2=%.0f g", id, s.Hours(w.Deadline), j.Delivered, j.DeliveredAt, j.Progress, j.CarbonG)
 		}
 	}
 }

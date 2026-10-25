@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Prognosefehler eines Live-Laufs je Vorlauf: Orchestrator-Log (Zeilen "prognose") gegen Ist-Werte.
+"""Forecast error of a live run per lead time: orchestrator log (lines "forecast") against actual values.
 
     ssh hetzner-wikidata docker logs greenops-<id> 2>&1 | scripts/forecast-error.py runs/<id>
 
-Ist-Werte stammen aus runs/<id>/hourly_impact.csv (usage_gco2e / energy_kwh je Zone und Stunde), also nur für
-Zonen und Stunden, in denen eine eigene VM lief. Ausgegeben werden nur Kennzahlen (Bias, Streuung je Vorlauf),
-um das Fehlermodell des Simulators (internal/sim/grid.go) einzustellen, keine Werte des Szenarios.
+Actual values come from runs/<id>/hourly_impact.csv (usage_gco2e / energy_kwh per zone and hour), so only for
+zones and hours in which one of our VMs ran. Only statistics are printed (bias, spread per lead time) to tune
+the simulator's error model (internal/sim/grid.go), no values of the scenario.
 """
 import csv
 import json
@@ -21,29 +21,29 @@ cat = json.load(open(Path(__file__).resolve().parent.parent / "challenge" / "cat
 area = {z["slug"]: z["electricity_area"] for z in cat["zones"]}
 start = t(json.load(open(run / "run.json"))["run"]["start_at"])
 
-actual = defaultdict(dict)  # Bereich -> Stunde -> g/kWh
+actual = defaultdict(dict)  # area -> hour -> g/kWh
 for r in csv.DictReader(open(run / "hourly_impact.csv")):
     e = float(r["energy_kwh"])
     if e > 0:
         h = int((t(r["hour_start"]) - start).total_seconds() // 3600)
         actual[area[r["zone"]]][h] = float(r["usage_gco2e"]) / e
 
-err = defaultdict(list)  # Vorlauf -> relative Fehler
+err = defaultdict(list)  # lead time -> relative errors
 for line in sys.stdin:
     try:
         e = json.loads(line)
     except ValueError:
         continue
-    if e.get("msg") != "prognose":
+    if e.get("msg") != "forecast":
         continue
-    h0 = e["stunde"]
-    for a, vals in e["werte"].items():
+    h0 = e["hour"]
+    for a, vals in e["values"].items():
         for lead, f in enumerate(vals):
             act = actual.get(a, {}).get(h0 + lead)
             if act:
                 err[lead].append(f / act - 1)
 
-print("Vorlauf  n     Bias    Streuung")
+print("lead     n     bias    spread")
 for lead in sorted(err):
     xs = err[lead]
     m = sum(xs) / len(xs)

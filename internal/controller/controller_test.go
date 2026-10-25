@@ -9,7 +9,7 @@ import (
 	"github.com/dbuchber/teb-greenops-orchestrator-go/internal/spec"
 )
 
-// Die Uhr-VM ist an einen Workload gebunden: ihr Create muss legal sein, sonst disqualifiziert schon der Versuch.
+// The clock VM is bound to a workload: its Create must be legal, otherwise the attempt alone disqualifies.
 func TestClockIsBoundAndLegal(t *testing.T) {
 	s, err := spec.Load("../../challenge")
 	if err != nil {
@@ -24,11 +24,11 @@ func TestClockIsBoundAndLegal(t *testing.T) {
 	w, _ := s.Workload(a.Workload)
 	p, _ := s.Profile(a.Family, a.Size)
 	if err := s.Legal(w, a.Zone, p); err != nil {
-		t.Fatalf("Uhr-VM illegal: %v", err)
+		t.Fatalf("clock VM illegal: %v", err)
 	}
 	for _, x := range s.Workloads {
 		if x.Release.After(w.Release) {
-			t.Fatalf("%s wird vor %s freigegeben", w.ID, x.ID)
+			t.Fatalf("%s is released before %s", w.ID, x.ID)
 		}
 	}
 }

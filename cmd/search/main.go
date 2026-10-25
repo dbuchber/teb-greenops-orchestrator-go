@@ -1,9 +1,9 @@
-// search probiert Planer-Parameter zufällig durch und prüft die besten auf frischen Seeds nach.
+// search tries random planner parameters and re-checks the best ones on fresh seeds.
 //
 //	go run ./cmd/search -n 300 -seeds 40 -top 8 -validate 200 -out search.csv
 //
-// Suche und Prüfung nutzen getrennte Seeds (1… bzw. 10001…), damit Glückstreffer der Suche auffallen.
-// Bewertet wird gepaart gegen die Standardparameter: Δ Punkte je Seed, Mittel ± 2 Standardfehler.
+// Search and validation use separate seeds (1… and 10001…), so lucky hits in the search show up.
+// Scoring is paired against the default parameters: Δ points per seed, mean ± 2 standard errors.
 package main
 
 import (
@@ -25,9 +25,9 @@ import (
 type cand struct {
 	p              planner.Params
 	desc           string
-	d, se          float64 // Δ zur Standardeinstellung (Suche)
+	d, se          float64 // Δ to the default setting (search)
 	onTime         int
-	vd, vse        float64 // Δ auf den Prüf-Seeds
+	vd, vse        float64 // Δ on the validation seeds
 	vOnTime, vSeed int
 	kg             float64
 }
@@ -50,7 +50,7 @@ func describe(p planner.Params) string {
 		p.LifeCost, p.GPUWeight, p.Shrink, p.MarginH, p.NoPauseH, p.MinCores, p.EndSlices)
 }
 
-// eval rechnet alle Parameter auf den Seeds first…first+n-1 parallel.
+// eval runs all parameter sets on seeds first…first+n-1 in parallel.
 func eval(s *spec.Spec, ref sim.Ref, ps []planner.Params, first, n int) [][]sim.Result {
 	res := make([][]sim.Result, len(ps))
 	for i := range res {
@@ -100,13 +100,13 @@ func paired(a, base []sim.Result) (d, se float64, onTime int, kg float64) {
 }
 
 func main() {
-	n := flag.Int("n", 200, "Anzahl zufälliger Kandidaten")
-	seeds := flag.Int("seeds", 40, "Seeds je Kandidat in der Suche")
-	top := flag.Int("top", 8, "so viele Beste werden nachgeprüft")
-	validate := flag.Int("validate", 200, "Prüf-Seeds je Bester")
-	out := flag.String("out", "search.csv", "Ergebnisdatei")
-	catalog := flag.String("catalog", "challenge", "Katalog-Ordner")
-	seed := flag.Uint64("seed", 1, "Zufall der Kandidaten")
+	n := flag.Int("n", 200, "number of random candidates")
+	seeds := flag.Int("seeds", 40, "seeds per candidate in the search")
+	top := flag.Int("top", 8, "this many best candidates are re-checked")
+	validate := flag.Int("validate", 200, "validation seeds per best candidate")
+	out := flag.String("out", "search.csv", "result file")
+	catalog := flag.String("catalog", "challenge", "catalog directory")
+	seed := flag.Uint64("seed", 1, "random seed for the candidates")
 	flag.Parse()
 	s, err := spec.Load(*catalog)
 	if err != nil {
@@ -120,7 +120,7 @@ func main() {
 	}
 	r := rand.New(rand.NewPCG(*seed, 99))
 	ps := []planner.Params{planner.DefaultParams()}
-	cands := []*cand{{p: ps[0], desc: "Standard " + describe(ps[0])}}
+	cands := []*cand{{p: ps[0], desc: "Default " + describe(ps[0])}}
 	for i := 0; i < *n; i++ {
 		p, d := sample(r)
 		ps = append(ps, p)
@@ -131,7 +131,7 @@ func main() {
 		c.d, c.se, c.onTime, c.kg = paired(res[i], res[0])
 	}
 	sorted := append([]*cand(nil), cands[1:]...)
-	// erst Zuverlässigkeit, dann Punkte: ein verpasster Bonus kostet 5000
+	// reliability first, then points: a missed bonus costs 5000
 	sort.SliceStable(sorted, func(a, b int) bool {
 		if sorted[a].onTime != sorted[b].onTime {
 			return sorted[a].onTime > sorted[b].onTime
@@ -150,16 +150,16 @@ func main() {
 	}
 	f, err := os.Create(*out)
 	if err == nil {
-		fmt.Fprintln(f, "rang,suche_delta,suche_2se,suche_15von15,pruef_delta,pruef_2se,pruef_15von15,kg,parameter")
+		fmt.Fprintln(f, "rank,search_delta,search_2se,search_15of15,validate_delta,validate_2se,validate_15of15,kg,parameters")
 		for i, c := range best {
 			fmt.Fprintf(f, "%d,%.1f,%.1f,%d,%.1f,%.1f,%d,%.3f,%q\n", i, c.d, c.se, c.onTime, c.vd, c.vse, c.vOnTime, c.kg, c.desc)
 		}
 		f.Close()
 	}
-	fmt.Printf("%d Kandidaten × %d Seeds, Beste %d × %d frische Seeds\n\n", *n, *seeds, len(best)-1, *validate)
-	fmt.Printf("%-4s %16s %8s %16s %8s %7s  %s\n", "Rang", "Δ Suche", "15/15", "Δ Prüfung", "15/15", "kg", "Parameter")
+	fmt.Printf("%d candidates × %d seeds, best %d × %d fresh seeds\n\n", *n, *seeds, len(best)-1, *validate)
+	fmt.Printf("%-4s %16s %8s %16s %8s %7s  %s\n", "Rank", "Δ search", "15/15", "Δ validate", "15/15", "kg", "Parameters")
 	for i, c := range best {
 		fmt.Printf("%-4d %+7.1f ± %-6.1f %4d/%-3d %+7.1f ± %-6.1f %4d/%-3d %7.2f  %s\n", i, c.d, c.se, c.onTime, *seeds,
-			c.vd, c.vse, c.vOnTime, *validate, c.kg, strings.TrimPrefix(c.desc, "Standard "))
+			c.vd, c.vse, c.vOnTime, *validate, c.kg, strings.TrimPrefix(c.desc, "Default "))
 	}
 }

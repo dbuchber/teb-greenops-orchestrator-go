@@ -11,13 +11,13 @@ import (
 	"time"
 )
 
-// Point ist ein Stundenwert der CO₂-Intensität (gCO₂e/kWh).
+// Point is an hourly value of the carbon intensity (gCO₂e/kWh).
 type Point struct {
 	Time   time.Time `json:"datetime"`
 	GCO2kW float64   `json:"carbonIntensity"`
 }
 
-// Grid liest nur die Strom-Endpunkte des eigenen Laufs (Regel: keine fremden oder historischen Daten).
+// Grid only reads the power endpoints of our own run (rule: no foreign or historical data).
 type Grid struct {
 	base   string
 	secret string
@@ -26,10 +26,10 @@ type Grid struct {
 
 func NewGrid(endpoint, secret string) (*Grid, error) {
 	if endpoint == "" || secret == "" {
-		return nil, fmt.Errorf("GREENOPS_GRID_ENDPOINT und GREENOPS_GRID_SECRET fehlen")
+		return nil, fmt.Errorf("GREENOPS_GRID_ENDPOINT and GREENOPS_GRID_SECRET missing")
 	}
 	if !strings.Contains(endpoint, "/runs/") || !strings.HasSuffix(strings.TrimSuffix(endpoint, "/"), "/grid/v4") {
-		return nil, fmt.Errorf("kein Grid-Endpunkt /runs/{id}/grid/v4: %s", endpoint)
+		return nil, fmt.Errorf("not a grid endpoint /runs/{id}/grid/v4: %s", endpoint)
 	}
 	return &Grid{base: strings.TrimSuffix(endpoint, "/"), secret: secret, http: newHTTP(10 * time.Second)}, nil
 }
@@ -54,7 +54,7 @@ func (g *Grid) get(ctx context.Context, path string, q url.Values, dst any) erro
 	return json.NewDecoder(resp.Body).Decode(dst)
 }
 
-// Forecast liefert die aktuelle 24-h-Prognose eines Strombereichs (AT, DE, ...).
+// Forecast returns the current 24 h forecast of a power area (AT, DE, ...).
 func (g *Grid) Forecast(ctx context.Context, area string) ([]Point, error) {
 	var out struct {
 		Forecast []Point `json:"forecast"`
@@ -64,14 +64,14 @@ func (g *Grid) Forecast(ctx context.Context, area string) ([]Point, error) {
 	return out.Forecast, err
 }
 
-// Latest liefert den zuletzt veröffentlichten Ist-Wert.
+// Latest returns the most recently published actual value.
 func (g *Grid) Latest(ctx context.Context, area string) (Point, error) {
 	var out Point
 	err := g.get(ctx, "/carbon-intensity/latest", url.Values{"zone": {area}}, &out)
 	return out, err
 }
 
-// Forecasts holt die Prognosen aller Bereiche parallel; fehlgeschlagene Bereiche fehlen im Ergebnis.
+// Forecasts fetches the forecasts of all areas in parallel; failed areas are missing from the result.
 func (g *Grid) Forecasts(ctx context.Context, areas []string) (map[string][]Point, map[string]error) {
 	var mu sync.Mutex
 	var wg sync.WaitGroup

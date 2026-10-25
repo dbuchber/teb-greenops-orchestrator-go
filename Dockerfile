@@ -1,5 +1,5 @@
-# Offizieller Rerun: 2 CPU, 1 GiB, Root-Dateisystem nur lesbar, nur /tmp beschreibbar, ohne Root-Rechte.
-# Vor der Abgabe beide Basis-Images per Digest pinnen (golang:1.25@sha256:..., distroless@sha256:...).
+# Official rerun: 2 CPU, 1 GiB, read-only root filesystem, only /tmp writable, no root privileges.
+# Before submission pin both base images by digest (golang:1.25@sha256:..., distroless@sha256:...).
 FROM golang:1.25 AS build
 WORKDIR /src
 COPY go.mod go.sum ./
