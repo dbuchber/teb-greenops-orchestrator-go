@@ -1,0 +1,444 @@
+[
+  {
+    "allowed_countries": [
+      "DE",
+      "AT",
+      "CH"
+    ],
+    "forbidden_countries": [
+      "FR"
+    ],
+    "allowed_profile_ids": [
+      "20000000-0000-4000-8000-000000000002",
+      "20000000-0000-4000-8000-000000000003",
+      "20000000-0000-4000-8000-000000000004"
+    ],
+    "id": "w-01-dach-research",
+    "title": "DACH serial scientific model",
+    "kind": "cpu",
+    "required_work": "1000",
+    "work_unit": "vcpu_hour",
+    "release_at": "2025-09-30T04:00:00Z",
+    "deadline_at": "2025-10-04T12:00:00Z",
+    "residency": "ANYWHERE",
+    "allowed_families": [
+      "cpu"
+    ],
+    "max_workers": 1,
+    "sync_overhead": "0",
+    "input_seconds": 7200,
+    "output_seconds": 1800,
+    "checkpoint_seconds": 28800,
+    "restart_from_zero": true
+  },
+  {
+    "forbidden_countries": [
+      "FR"
+    ],
+    "allowed_profile_ids": [
+      "20000000-0000-4000-8000-000000000002",
+      "20000000-0000-4000-8000-000000000003",
+      "20000000-0000-4000-8000-000000000004"
+    ],
+    "id": "w-02-ch-reporting",
+    "title": "Swiss regulated risk calculation",
+    "kind": "cpu",
+    "required_work": "1280",
+    "work_unit": "vcpu_hour",
+    "release_at": "2025-09-30T05:00:00Z",
+    "deadline_at": "2025-10-04T03:00:00Z",
+    "residency": "CH",
+    "allowed_families": [
+      "cpu"
+    ],
+    "max_workers": 1,
+    "sync_overhead": "0",
+    "input_seconds": 3600,
+    "output_seconds": 3600,
+    "checkpoint_seconds": 14400,
+    "restart_from_zero": false
+  },
+  {
+    "allowed_countries": [
+      "ES",
+      "IT"
+    ],
+    "forbidden_countries": [
+      "FR"
+    ],
+    "allowed_profile_ids": [
+      "20000000-0000-4000-8000-000000000002",
+      "20000000-0000-4000-8000-000000000003",
+      "20000000-0000-4000-8000-000000000004"
+    ],
+    "id": "w-03-med-analysis",
+    "title": "Mediterranean analytics",
+    "kind": "cpu",
+    "required_work": "1600",
+    "work_unit": "vcpu_hour",
+    "release_at": "2025-09-30T14:00:00Z",
+    "deadline_at": "2025-10-04T18:00:00Z",
+    "residency": "EU",
+    "allowed_families": [
+      "cpu"
+    ],
+    "max_workers": 1,
+    "sync_overhead": "0",
+    "input_seconds": 3600,
+    "output_seconds": 1800,
+    "checkpoint_seconds": 7200,
+    "restart_from_zero": false
+  },
+  {
+    "allowed_countries": [
+      "DE",
+      "AT",
+      "CH"
+    ],
+    "forbidden_countries": [
+      "FR"
+    ],
+    "allowed_profile_ids": [
+      "20000000-0000-4000-8000-000000000002",
+      "20000000-0000-4000-8000-000000000003",
+      "20000000-0000-4000-8000-000000000004"
+    ],
+    "id": "w-04-dach-batch",
+    "title": "Portable DACH batch",
+    "kind": "cpu",
+    "required_work": "1440",
+    "work_unit": "vcpu_hour",
+    "release_at": "2025-09-30T12:00:00Z",
+    "deadline_at": "2025-10-04T16:00:00Z",
+    "residency": "ANYWHERE",
+    "allowed_families": [
+      "cpu"
+    ],
+    "max_workers": 1,
+    "sync_overhead": "0",
+    "input_seconds": 300,
+    "output_seconds": 900,
+    "checkpoint_seconds": 900,
+    "restart_from_zero": false
+  },
+  {
+    "allowed_profile_ids": [
+      "20000000-0000-4000-8000-000000000001",
+      "20000000-0000-4000-8000-000000000002",
+      "20000000-0000-4000-8000-000000000003",
+      "20000000-0000-4000-8000-000000000004"
+    ],
+    "id": "w-05-eu-render",
+    "title": "Parallel European rendering",
+    "kind": "cpu",
+    "required_work": "1440",
+    "work_unit": "vcpu_hour",
+    "release_at": "2025-09-30T18:00:00Z",
+    "deadline_at": "2025-10-04T22:00:00Z",
+    "residency": "EU",
+    "allowed_families": [
+      "cpu"
+    ],
+    "max_workers": 10,
+    "sync_overhead": "0.06",
+    "input_seconds": 900,
+    "output_seconds": 1800,
+    "checkpoint_seconds": 1800,
+    "restart_from_zero": false
+  },
+  {
+    "allowed_countries": [
+      "DE",
+      "IT",
+      "HR"
+    ],
+    "forbidden_countries": [
+      "FR"
+    ],
+    "allowed_profile_ids": [
+      "20000000-0000-4000-8000-000000000002",
+      "20000000-0000-4000-8000-000000000003",
+      "20000000-0000-4000-8000-000000000004"
+    ],
+    "id": "w-06-large-etl",
+    "title": "Large-input three-country ETL",
+    "kind": "cpu",
+    "required_work": "1520",
+    "work_unit": "vcpu_hour",
+    "release_at": "2025-09-30T19:00:00Z",
+    "deadline_at": "2025-10-04T21:00:00Z",
+    "residency": "EU",
+    "allowed_families": [
+      "cpu"
+    ],
+    "max_workers": 2,
+    "sync_overhead": "0.08",
+    "input_seconds": 7200,
+    "output_seconds": 3600,
+    "checkpoint_seconds": 28800,
+    "restart_from_zero": false
+  },
+  {
+    "allowed_countries": [
+      "DE",
+      "HR"
+    ],
+    "forbidden_countries": [
+      "FR"
+    ],
+    "minimum_gpu_memory_gib": 48,
+    "id": "w-07-eu-training",
+    "title": "Cross-border GPU fine-tuning",
+    "kind": "gpu",
+    "required_work": "92160000",
+    "work_unit": "tflop",
+    "release_at": "2025-09-30T13:00:00Z",
+    "deadline_at": "2025-10-03T11:00:00Z",
+    "residency": "EU",
+    "allowed_families": [
+      "gpu3",
+      "gpurtx6000pro"
+    ],
+    "max_workers": 2,
+    "sync_overhead": "0.08",
+    "input_seconds": 7200,
+    "output_seconds": 3600,
+    "checkpoint_seconds": 14400,
+    "restart_from_zero": false
+  },
+  {
+    "forbidden_countries": [
+      "FR"
+    ],
+    "minimum_gpu_memory_gib": 24,
+    "id": "w-08-ch-imaging",
+    "title": "Swiss medical GPU imaging",
+    "kind": "gpu",
+    "required_work": "20160000",
+    "work_unit": "tflop",
+    "release_at": "2025-09-30T05:00:00Z",
+    "deadline_at": "2025-10-02T21:00:00Z",
+    "residency": "CH",
+    "allowed_families": [
+      "gpua30"
+    ],
+    "max_workers": 2,
+    "sync_overhead": "0.05",
+    "input_seconds": 3600,
+    "output_seconds": 1800,
+    "checkpoint_seconds": 3600,
+    "restart_from_zero": false
+  },
+  {
+    "allowed_countries": [
+      "DE",
+      "HR"
+    ],
+    "forbidden_countries": [
+      "FR"
+    ],
+    "minimum_gpu_memory_gib": 96,
+    "id": "w-09-eu-large-model",
+    "title": "Cross-border large-memory GPU model",
+    "kind": "gpu",
+    "required_work": "123840000",
+    "work_unit": "tflop",
+    "release_at": "2025-10-01T07:00:00Z",
+    "deadline_at": "2025-10-04T01:00:00Z",
+    "residency": "EU",
+    "allowed_families": [
+      "gpurtx6000pro"
+    ],
+    "max_workers": 1,
+    "sync_overhead": "0",
+    "input_seconds": 7200,
+    "output_seconds": 3600,
+    "checkpoint_seconds": 28800,
+    "restart_from_zero": false
+  },
+  {
+    "allowed_countries": [
+      "AT",
+      "DE"
+    ],
+    "forbidden_countries": [
+      "FR"
+    ],
+    "minimum_gpu_memory_gib": 12,
+    "id": "w-10-eu-visual",
+    "title": "Cross-border GPU visualization",
+    "kind": "gpu",
+    "required_work": "16416000",
+    "work_unit": "tflop",
+    "release_at": "2025-10-01T23:00:00Z",
+    "deadline_at": "2025-10-04T11:00:00Z",
+    "residency": "EU",
+    "allowed_families": [
+      "gpu2",
+      "gpu3",
+      "gpua5000",
+      "gpu3080ti"
+    ],
+    "max_workers": 1,
+    "sync_overhead": "0",
+    "input_seconds": 3600,
+    "output_seconds": 1800,
+    "checkpoint_seconds": 7200,
+    "restart_from_zero": false
+  },
+  {
+    "allowed_countries": [
+      "DE",
+      "AT",
+      "CH"
+    ],
+    "forbidden_countries": [
+      "FR"
+    ],
+    "allowed_profile_ids": [
+      "20000000-0000-4000-8000-000000000002",
+      "20000000-0000-4000-8000-000000000003",
+      "20000000-0000-4000-8000-000000000004"
+    ],
+    "id": "w-11-dach-simulation",
+    "title": "Restart-sensitive DACH simulation",
+    "kind": "cpu",
+    "required_work": "1120",
+    "work_unit": "vcpu_hour",
+    "release_at": "2025-10-01T08:00:00Z",
+    "deadline_at": "2025-10-05T00:00:00Z",
+    "residency": "ANYWHERE",
+    "allowed_families": [
+      "cpu"
+    ],
+    "max_workers": 1,
+    "sync_overhead": "0",
+    "input_seconds": 3600,
+    "output_seconds": 1800,
+    "checkpoint_seconds": 0,
+    "restart_from_zero": true
+  },
+  {
+    "allowed_profile_ids": [
+      "20000000-0000-4000-8000-000000000002",
+      "20000000-0000-4000-8000-000000000003",
+      "20000000-0000-4000-8000-000000000004"
+    ],
+    "id": "w-12-late-delivery",
+    "title": "Late European output-heavy analysis",
+    "kind": "cpu",
+    "required_work": "960",
+    "work_unit": "vcpu_hour",
+    "release_at": "2025-10-01T21:00:00Z",
+    "deadline_at": "2025-10-05T00:00:00Z",
+    "residency": "EU",
+    "allowed_families": [
+      "cpu"
+    ],
+    "max_workers": 1,
+    "sync_overhead": "0",
+    "input_seconds": 3600,
+    "output_seconds": 7200,
+    "checkpoint_seconds": 3600,
+    "restart_from_zero": false
+  },
+  {
+    "allowed_countries": [
+      "DE",
+      "AT",
+      "HR"
+    ],
+    "forbidden_countries": [
+      "FR"
+    ],
+    "allowed_profile_ids": [
+      "20000000-0000-4000-8000-000000000001",
+      "20000000-0000-4000-8000-000000000002",
+      "20000000-0000-4000-8000-000000000003",
+      "20000000-0000-4000-8000-000000000004"
+    ],
+    "id": "w-13-regional-index",
+    "title": "Checkpointable regional search indexing",
+    "kind": "cpu",
+    "required_work": "1440",
+    "work_unit": "vcpu_hour",
+    "release_at": "2025-09-30T18:00:00Z",
+    "deadline_at": "2025-10-05T00:00:00Z",
+    "residency": "EU",
+    "allowed_families": [
+      "cpu"
+    ],
+    "max_workers": 4,
+    "sync_overhead": "0.06",
+    "input_seconds": 0,
+    "output_seconds": 900,
+    "checkpoint_seconds": 1800,
+    "restart_from_zero": false
+  },
+  {
+    "allowed_countries": [
+      "ES",
+      "IT",
+      "HR"
+    ],
+    "forbidden_countries": [
+      "FR"
+    ],
+    "allowed_profile_ids": [
+      "20000000-0000-4000-8000-000000000001",
+      "20000000-0000-4000-8000-000000000002",
+      "20000000-0000-4000-8000-000000000003",
+      "20000000-0000-4000-8000-000000000004"
+    ],
+    "id": "w-14-bulk-render",
+    "title": "Portable multi-worker media processing",
+    "kind": "cpu",
+    "required_work": "1520",
+    "work_unit": "vcpu_hour",
+    "release_at": "2025-09-30T20:00:00Z",
+    "deadline_at": "2025-10-05T00:00:00Z",
+    "residency": "EU",
+    "allowed_families": [
+      "cpu"
+    ],
+    "max_workers": 6,
+    "sync_overhead": "0.05",
+    "input_seconds": 300,
+    "output_seconds": 1800,
+    "checkpoint_seconds": 900,
+    "restart_from_zero": false
+  },
+  {
+    "allowed_countries": [
+      "DE",
+      "AT",
+      "IT"
+    ],
+    "forbidden_countries": [
+      "FR"
+    ],
+    "allowed_profile_ids": [
+      "20000000-0000-4000-8000-000000000001",
+      "20000000-0000-4000-8000-000000000002",
+      "20000000-0000-4000-8000-000000000003",
+      "20000000-0000-4000-8000-000000000004"
+    ],
+    "id": "w-15-heavy-archive",
+    "title": "Large-input archival transformation",
+    "kind": "cpu",
+    "required_work": "1280",
+    "work_unit": "vcpu_hour",
+    "release_at": "2025-10-01T06:00:00Z",
+    "deadline_at": "2025-10-05T00:00:00Z",
+    "residency": "EU",
+    "allowed_families": [
+      "cpu"
+    ],
+    "max_workers": 4,
+    "sync_overhead": "0.08",
+    "input_seconds": 7200,
+    "output_seconds": 3600,
+    "checkpoint_seconds": 28800,
+    "restart_from_zero": false
+  }
+]

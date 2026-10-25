@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "scenario_id": "pack-40218962a6",
+  "provenance": "FICTIONAL production challenge: sponsor-selected v5 representative-import electricity; historical-derived synthetic actuals, smooth uncertain forecasts, one-hop imports (not recursive flow tracing). Existing 15 workloads, datacenter PUE, quotas and fictional France overlay retained from archived challenge pack; workload v5 sets CPU work to 14600 total vCPU-hours for scheduling slack (w-01 stays at 1000); GPU work and other workload parameters are unchanged.; owner-supplied averaged non-usage LCA rates, explicitly estimated effective IT power, time-varying electricity and challenge PUE applied once",
+  "score_policy": "frozen greenops-score-v2; see rules.json",
+  "source": "public /api/catalog projection; no electricity series exported",
+  "sha256": {
+    "catalog.json": "5c6ec0b12500d58080a2231e7b0defb408b28262fb9bf82704bcac4bd310e482",
+    "rules.json": "50e19eddb9ad2f050a765fff1f132e39ebfb5db01adc6a97cd2ed8bb5a6e252d",
+    "schemas/common.schema.json": "2640bdd70e8b2a27d3d0cee2c9f98366d578f0acc065dd819da1c20dee55af53",
+    "schemas/electricity.schema.json": "50880a8e4be31199470a303271c9bc1290ed13c5cf651c027385779ae54f526b",
+    "schemas/grid-level-response.schema.json": "0981220ed30b846a3436cdd9c45e51aa2953901f85edf386afe7af9f88439067",
+    "schemas/grid-mix-response.schema.json": "513e787890606324f7485d298ce228cdc06a0b4d6b54565c275a68057d43f2a8",
+    "schemas/grid-response.schema.json": "a8e445e383481a1aef8b0971eb263053f45b6c71ffa9e006004ec0cdd1b346c2",
+    "schemas/rules.schema.json": "5720f1f7dcc001ad5fe3396c16bd59d50b912f97f893c2db6f7799e820f594dd",
+    "schemas/runtime-catalog.schema.json": "02d63dbf40aa44dc092376aee40eb3b63d07ad21e1345b191a8ee71b769134cc",
+    "schemas/runtime-profile.schema.json": "272104b3a5878154291d506053b153c97f48a3ffcb7b8ccd3d6b9fa72df2e29a",
+    "schemas/runtime-workload.schema.json": "d841002d4572afa0e10579620bafe06148ef7d4ca0be831b4b2f75b7e4158b60",
+    "schemas/runtime-zone.schema.json": "f57da6584ba8a3ae910ba8ce661e0c433cbc90fcd5a3d0e7c29ff0712c047b98",
+    "schemas/score.schema.json": "690bc2c70f6d752ad983aa044c6c6a45d3b5758f7f560fc14d941074f050228d",
+    "schemas/user-data.schema.json": "656d01f3ff5d8b5d35b98468ea63331a9d0c854af675e988502f6db5ae90690f",
+    "schemas/work-status.schema.json": "18a5300bd8cfbcf9803666c526c91d3a89467ea344b63c1fb8c637798fc95de3",
+    "workloads.json": "2bd885472b7174caed5705f64f44305c6b3d62226c1fdc03a6908913bbece60f"
+  }
+}

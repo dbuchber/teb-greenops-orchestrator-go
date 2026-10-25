@@ -1,0 +1,6 @@
+# Zugangsdaten eines Laufs nie versionieren
+greenops-exo*.json
+*.env
+.env*
+.local/
+/orchestrator
