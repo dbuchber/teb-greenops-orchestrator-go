@@ -106,24 +106,26 @@ func (u *usage) fits(s *spec.Spec, p spec.Profile) bool {
 	return p.GPUCount == 0 || u.gpus[p.Family]+p.GPUCount <= s.GPUQuota[p.Family]
 }
 
-// cheapest ist das Mittel der k günstigsten Werte in fc[:window] (Rest mit fallback aufgefüllt).
+// cheapest ist das Mittel der k günstigsten Prognosestunden in fc[:window]. Braucht der Job mehr Stunden, als
+// die Prognose reicht, zählen die übrigen mit dem Prognosemittel; ein fester Ersatzwert würde lange Laufzeiten
+// (sparsame, langsame Profile) systematisch benachteiligen. fallback nur ohne jede Prognose.
 func cheapest(fc []float64, window, k int, fallback float64) float64 {
-	vals := make([]float64, 0, window)
-	for i := 0; i < window; i++ {
-		if i < len(fc) {
-			vals = append(vals, fc[i])
-		} else {
-			vals = append(vals, fallback)
-		}
-	}
-	if len(vals) == 0 {
+	n := min(window, len(fc))
+	if n <= 0 {
 		return fallback
 	}
+	vals := slices.Clone(fc[:n])
 	sort.Float64s(vals)
-	k = min(max(k, 1), len(vals))
-	sum := 0.0
-	for _, v := range vals[:k] {
-		sum += v
+	k = max(k, 1)
+	sum, all := 0.0, 0.0
+	for i, v := range vals {
+		all += v
+		if i < k {
+			sum += v
+		}
+	}
+	if k > n {
+		sum += float64(k-n) * all / float64(n)
 	}
 	return sum / float64(k)
 }

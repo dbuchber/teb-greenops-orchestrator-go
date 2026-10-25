@@ -117,8 +117,8 @@ func (c *Controller) clock(st api.Status) []planner.Action {
 			Reason: "Uhr starten"}}
 	case st.State != "READY":
 		var out []planner.Action
-		for _, vm := range own {
-			if vm.ID != "" && vm.State != "creating" {
+		for _, vm := range own { // ohne Workload erscheint sie nie im Work-Status, der Zustand bleibt "creating"
+			if vm.ID != "" {
 				out = append(out, planner.Action{Kind: planner.Delete, Zone: vm.Zone, VMID: vm.ID, Name: vm.Name, Reason: "Uhr läuft"})
 			}
 		}
