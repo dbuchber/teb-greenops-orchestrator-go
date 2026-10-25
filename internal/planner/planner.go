@@ -81,6 +81,7 @@ type Params struct {
 	GPUWeight int
 	Shrink    float64 // global: Anteil des Tagesmusters hinter der Prognose (0 = nur Mittel)
 	MinCores  int     // global: CPU-Profile mit weniger Kernen nicht verwenden (0 = alle)
+	MinGPUs   int     // global: GPU-Profile mit weniger Karten nicht verwenden (0 = alle)
 	EndSlices int     // global: so viele Lebensdauern je Start werden geprüft (Feinheit der Suche)
 	Cache     *GlobalCache
 }

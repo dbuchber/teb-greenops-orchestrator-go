@@ -1,0 +1,12 @@
+300 Kandidaten × 40 Seeds, Beste 8 × 200 frische Seeds
+
+Rang          Δ Suche    15/15        Δ Prüfung    15/15      kg  Parameter
+0       +0.0 ± 0.0      40/40     +0.0 ± 0.0     200/200   13.48  life=0.01 gpu=8 shrink=0 margin=2 nopause=2 mincores=0 slices=6
+1      +17.8 ± 11.3     40/40    +11.4 ± 4.8     200/200   13.43  life=0.01 gpu=32 shrink=0 margin=0.5 nopause=2 mincores=32 slices=12
+2      +16.7 ± 7.4      40/40     +6.8 ± 2.7     200/200   13.44  life=0.01 gpu=32 shrink=0 margin=2 nopause=0.5 mincores=0 slices=6
+3      +15.4 ± 13.4     40/40   -136.9 ± 120.7   194/200   13.41  life=0.01 gpu=8 shrink=0.1 margin=1 nopause=0.5 mincores=0 slices=12
+4      +14.8 ± 9.0      40/40     +6.2 ± 3.7     200/200   13.45  life=0.01 gpu=32 shrink=0 margin=2 nopause=0.5 mincores=0 slices=12
+5      +12.8 ± 10.1     40/40     +2.1 ± 4.4     200/200   13.47  life=0.02 gpu=4 shrink=0 margin=2 nopause=0.5 mincores=16 slices=12
+6      +12.6 ± 13.2     40/40     +6.5 ± 6.6     200/200   13.43  life=0.02 gpu=32 shrink=0 margin=2 nopause=0.5 mincores=32 slices=6
+7      +11.6 ± 15.4     40/40     +1.2 ± 7.4     200/200   13.46  life=0.03 gpu=32 shrink=0 margin=0.5 nopause=2 mincores=32 slices=12
+8      +10.6 ± 13.4     40/40   -113.0 ± 111.0   195/200   13.41  life=0.01 gpu=32 shrink=0.1 margin=1 nopause=1 mincores=16 slices=6

@@ -299,14 +299,18 @@ func globalPlan(s *spec.Spec, in Input, p Params, h0 int) (map[string]jobPlan, s
 	return plans, pressure
 }
 
-// options sind die legalen Optionen ohne CPU-Profile unter MinCores; bleibt keine, alle.
+// options sind die legalen Optionen ohne CPU-Profile unter MinCores und GPU-Profile unter MinGPUs; bleibt
+// keine, alle.
 func options(s *spec.Spec, w spec.Workload, p Params) []spec.Option {
 	all := s.Options(w)
-	if p.MinCores <= 0 {
+	if p.MinCores <= 0 && p.MinGPUs <= 0 {
 		return all
 	}
 	out := slices.DeleteFunc(slices.Clone(all), func(o spec.Option) bool {
-		return o.Profile.GPUCount == 0 && o.Profile.CPUCores < p.MinCores
+		if o.Profile.GPUCount > 0 {
+			return o.Profile.GPUCount < p.MinGPUs
+		}
+		return o.Profile.CPUCores < p.MinCores
 	})
 	if len(out) == 0 {
 		return all

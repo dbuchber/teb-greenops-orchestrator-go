@@ -33,10 +33,12 @@ func variants() []variant {
 	return []variant{
 		{"referenz", base},
 		{"alter Planer", with(func(c *sim.Config) { c.Params.Global = false })},
-		{"global, Muster 0,5", with(func(c *sim.Config) { c.Params.Global = true; c.Params.Shrink = 0.5 })},
-		{"global, margin 4", with(func(c *sim.Config) { c.Params.Global = true; c.Params.MarginH = 4 })},
-		{"global, 1 s Lag", with(func(c *sim.Config) { c.Params.Global = true; c.LagH = 0.2 })},
-		{"720x, 1 s Lag", with(func(c *sim.Config) { c.LagH = 0.2 })},
+		{"GPU ≥ 2 Karten", with(func(c *sim.Config) { c.Params.MinGPUs = 2 })},
+		{"GPU ≥ 4 Karten", with(func(c *sim.Config) { c.Params.MinGPUs = 4 })},
+		{"GPU ≥ 2, gpu-w 0", with(func(c *sim.Config) { c.Params.MinGPUs = 2; c.Params.GPUWeight = 0 })},
+		{"GPU ≥ 2, Muster 0,5", with(func(c *sim.Config) { c.Params.MinGPUs = 2; c.Params.Shrink = 0.5 })},
+		{"CPU ≥ 32 Kerne", with(func(c *sim.Config) { c.Params.MinCores = 32 })},
+		{"CPU ≥ 32, GPU ≥ 2", with(func(c *sim.Config) { c.Params.MinCores = 32; c.Params.MinGPUs = 2 })},
 	}
 }
 
