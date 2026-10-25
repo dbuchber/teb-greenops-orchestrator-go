@@ -137,7 +137,8 @@ func (c *Cloud) List(ctx context.Context) ([]VM, error) {
 }
 
 // Create legt eine VM an und bindet sie über user-data an einen Workload. Die Legalität prüft der Aufrufer
-// unmittelbar davor (spec.Legal); hier wird nichts mehr entschieden.
+// unmittelbar davor (spec.Legal); hier wird nichts mehr entschieden. Ohne workloadID entsteht eine VM ohne
+// Bindung (Leerlauf-Infrastruktur), z. B. um die Uhr eines READY-Laufs zu starten.
 func (c *Cloud) Create(ctx context.Context, zone, family, size, name, workloadID string) (string, error) {
 	cl := c.zones[zone]
 	t := c.types[zone][family+"."+size]
@@ -145,9 +146,12 @@ func (c *Cloud) Create(ctx context.Context, zone, family, size, name, workloadID
 	if cl == nil || t == nil || tpl == nil {
 		return "", fmt.Errorf("Zone %s: Profil %s.%s oder Template fehlt", zone, family, size)
 	}
-	binding, _ := json.Marshal(map[string]any{"greenops": map[string]string{"schema_version": "1.0", "workload_id": workloadID}})
-	op, err := cl.CreateInstance(ctx, exo.CreateInstanceRequest{Name: name, InstanceType: t, Template: tpl, DiskSize: 10,
-		UserData: base64.StdEncoding.EncodeToString(binding)})
+	req := exo.CreateInstanceRequest{Name: name, InstanceType: t, Template: tpl, DiskSize: 10}
+	if workloadID != "" {
+		binding, _ := json.Marshal(map[string]any{"greenops": map[string]string{"schema_version": "1.0", "workload_id": workloadID}})
+		req.UserData = base64.StdEncoding.EncodeToString(binding)
+	}
+	op, err := cl.CreateInstance(ctx, req)
 	if err != nil {
 		return "", err
 	}

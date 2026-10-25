@@ -9,6 +9,8 @@ import (
 	"log/slog"
 	"math"
 	"sort"
+	"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -76,11 +78,10 @@ func (c *Controller) Run(ctx context.Context) error {
 		in := c.input(st, now)
 		acts := planner.Plan(c.Spec, in, c.Params)
 		if c.Dry {
-			for _, a := range acts {
-				c.Log.Info("dry", "action", a.Kind, "workload", a.Workload, "zone", a.Zone, "profile", a.Family+"."+a.Size, "reason", a.Reason)
-			}
+			c.dryReport(st, now, acts)
 			return nil
 		}
+		acts = append(acts, c.clock(st)...)
 		c.execute(ctx, acts)
 		if c.done(st) {
 			c.Log.Info("alle Workloads geliefert, alle VMs gelöscht")
@@ -89,6 +90,57 @@ func (c *Controller) Run(ctx context.Context) error {
 		if !sleep(ctx, c.Tick) {
 			return ctx.Err()
 		}
+	}
+}
+
+// clockName ist die VM ohne Workload, die die Uhr eines READY-Laufs startet: die Uhr läuft erst ab dem ersten
+// angenommenen Create, die ersten Workloads werden aber erst nach einigen Stunden freigegeben.
+var clockName = planner.Name("clock", "cpu", "extra-large")
+
+func (c *Controller) clock(st api.Status) []planner.Action {
+	var own []planner.VM
+	for _, vm := range c.vms {
+		if vm.Name == clockName {
+			own = append(own, vm)
+		}
+	}
+	_, sent := c.pending[clockName]
+	switch {
+	case st.State == "READY" && len(own) == 0 && !sent && len(c.vms) == 0:
+		zone := ""
+		for _, z := range c.Spec.Zones { // Zone mit dem kleinsten PUE; ohne Workload gibt es keine Residency
+			if zone == "" || z.PUE < c.Spec.Zones[zone].PUE {
+				zone = z.Slug
+			}
+		}
+		return []planner.Action{{Kind: planner.Create, Zone: zone, Family: "cpu", Size: "extra-large", Name: clockName,
+			Reason: "Uhr starten"}}
+	case st.State != "READY":
+		var out []planner.Action
+		for _, vm := range own {
+			if vm.ID != "" && vm.State != "creating" {
+				out = append(out, planner.Action{Kind: planner.Delete, Zone: vm.Zone, VMID: vm.ID, Name: vm.Name, Reason: "Uhr läuft"})
+			}
+		}
+		return out
+	}
+	return nil
+}
+
+func (c *Controller) dryReport(st api.Status, now float64, acts []planner.Action) {
+	areas := make([]string, 0, len(c.forecasts))
+	for a, v := range c.forecasts {
+		areas = append(areas, a+":"+strconv.Itoa(len(v))+"h")
+	}
+	sort.Strings(areas)
+	c.Log.Info("dry: Lauf", "state", st.State, "speed", st.Speed, "qualification", st.Qualification,
+		"virtual_time", st.VirtualTime, "stunde", now, "workloads", len(st.Workloads), "eigene_vms", len(c.vms),
+		"prognosen", strings.Join(areas, " "))
+	for _, a := range acts {
+		c.Log.Info("dry: Aktion", "action", a.Kind, "workload", a.Workload, "zone", a.Zone, "profile", a.Family+"."+a.Size, "reason", a.Reason)
+	}
+	if st.State == "READY" {
+		c.Log.Info("dry: im echten Lauf startet zuerst eine VM ohne Workload die Uhr und wird danach gelöscht")
 	}
 }
 
@@ -173,12 +225,15 @@ func (c *Controller) execute(ctx context.Context, acts []planner.Action) {
 	var wg sync.WaitGroup
 	for _, a := range acts {
 		if a.Kind == planner.Create {
-			// zweite Legalitätsprüfung unmittelbar vor dem Create: ein illegaler Versuch disqualifiziert den Lauf
-			w, ok1 := c.Spec.Workload(a.Workload)
-			p, ok2 := c.Spec.Profile(a.Family, a.Size)
-			if !ok1 || !ok2 || c.Spec.Legal(w, a.Zone, p) != nil {
-				c.Log.Error("Create verworfen: nicht legal", "workload", a.Workload, "zone", a.Zone)
-				continue
+			// zweite Legalitätsprüfung unmittelbar vor dem Create: ein illegaler Versuch disqualifiziert den Lauf.
+			// Nur die Uhr-VM hat keinen Workload und damit keine Residency.
+			if a.Name != clockName || a.Workload != "" {
+				w, ok1 := c.Spec.Workload(a.Workload)
+				p, ok2 := c.Spec.Profile(a.Family, a.Size)
+				if !ok1 || !ok2 || c.Spec.Legal(w, a.Zone, p) != nil {
+					c.Log.Error("Create verworfen: nicht legal", "workload", a.Workload, "zone", a.Zone)
+					continue
+				}
 			}
 			c.pending[a.Name] = time.Now()
 		}
