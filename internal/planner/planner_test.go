@@ -1,6 +1,7 @@
 package planner
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/dbuchber/teb-greenops-orchestrator-go/internal/spec"
@@ -198,5 +199,24 @@ func TestGlobalCreatesAreLegalAndFitQuota(t *testing.T) {
 				t.Fatalf("t=%.0f GPU %s: %d > %d", now, f, n, s.GPUQuota[f])
 			}
 		}
+	}
+}
+
+// Rechenzeit einer globalen Planung zu Beginn (alle Jobs offen): go test ./internal/planner -bench Global
+func BenchmarkGlobalPlan(b *testing.B) {
+	s, err := spec.Load("../../challenge")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for _, orders := range []int{1, 12, 24, 48} {
+		b.Run(fmt.Sprintf("orders=%d", orders), func(b *testing.B) {
+			p := DefaultParams()
+			p.AllEnds, p.Orders = true, orders
+			in := Input{Now: 10, Jobs: map[string]Job{}, Forecast: flat(s, 200, map[string]float64{"CH": 40})}
+			for i := 0; i < b.N; i++ {
+				p.Cache = &GlobalCache{}
+				Plan(s, in, p)
+			}
+		})
 	}
 }

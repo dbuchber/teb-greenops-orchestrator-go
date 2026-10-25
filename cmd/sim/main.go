@@ -34,19 +34,9 @@ func variants() []variant {
 	return []variant{
 		{"referenz", base, nil},
 		{"alter Planer", with(func(c *sim.Config) { c.Params.Global = false }), nil},
-		{"JIT + CPU ≥ 32", with(func(c *sim.Config) { c.Params.JustInTime = true; c.Params.MinCores = 32 }), nil},
-		{"Kontingent ×2 (Obergrenze)", base, func(s *spec.Spec) {
-			s.MaxVCPUs *= 2
-			s.MaxVMs *= 2
-			for f := range s.GPUQuota {
-				s.GPUQuota[f] *= 2
-			}
-		}},
+		{"1 Reihenfolge", with(func(c *sim.Config) { c.Params.Orders = 1 }), nil},
+		{"1 s Lag", with(func(c *sim.Config) { c.LagH = 0.2 }), nil},
 		{"nur vCPU ×2", base, func(s *spec.Spec) { s.MaxVCPUs *= 2 }},
-		{"parken 6 h", with(func(c *sim.Config) { c.Params.ParkGapH = 6; c.Params.ParkLossH = 0.1 }), nil},
-		{"parken 12 h", with(func(c *sim.Config) { c.Params.ParkGapH = 12; c.Params.ParkLossH = 0.1 }), nil},
-		{"parken 24 h", with(func(c *sim.Config) { c.Params.ParkGapH = 24; c.Params.ParkLossH = 0.1 }), nil},
-		{"parken 12 h, Verlust 0,5", with(func(c *sim.Config) { c.Params.ParkGapH = 12; c.Params.ParkLossH = 0.5 }), nil},
 	}
 }
 

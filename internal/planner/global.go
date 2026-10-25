@@ -12,6 +12,7 @@ package planner
 import (
 	"fmt"
 	"math"
+	"math/rand/v2"
 	"slices"
 	"sort"
 
@@ -63,6 +64,25 @@ func (o *occupancy) fits(s *spec.Spec, p spec.Profile, from, to int) bool {
 	return true
 }
 
+// fitsHour prüft eine einzelne Stunde (für das schrittweise Verlängern einer Lebensdauer).
+func (o *occupancy) fitsHour(s *spec.Spec, p spec.Profile, h int) bool {
+	i := h - o.h0
+	if i < 0 || i >= len(o.vms) {
+		return true
+	}
+	if o.vms[i]+1 > s.MaxVMs || o.vcpus[i]+p.CPUCores > s.MaxVCPUs {
+		return false
+	}
+	if p.GPUCount > 0 {
+		used := 0
+		if g := o.gpus[p.Family]; g != nil {
+			used = g[i]
+		}
+		return used+p.GPUCount <= s.GPUQuota[p.Family]
+	}
+	return true
+}
+
 func (o *occupancy) remove(p spec.Profile, from, to int) {
 	for h := max(from, o.h0); h < to && h-o.h0 < len(o.vms); h++ {
 		i := h - o.h0
@@ -100,6 +120,7 @@ func best(s *spec.Spec, in Input, p Params, w spec.Workload, opts []spec.Option,
 	var bestPlan jobPlan
 	bestCost := math.Inf(1)
 	vals := make([]float64, 0, 128)
+	heap := make([]float64, 0, 128)
 	for _, o := range opts {
 		ser := series[o.Zone.Area]
 		at := func(h int) float64 {
@@ -126,27 +147,75 @@ func best(s *spec.Spec, in Input, p Params, w spec.Workload, opts []spec.Option,
 			if minEnd > latestEnd {
 				break
 			}
-			step := max(1, (latestEnd-minEnd)/max(p.EndSlices, 1))
-			for e := minEnd; e <= latestEnd; e += step {
-				if e+step > latestEnd && e != latestEnd {
-					e = latestEnd // das späteste Ende immer prüfen
-				}
-				if check && !occ.fits(s, o.Profile, st, e) {
-					continue
-				}
-				vals = vals[:0]
-				for h := cs; h < e-outH; h++ {
-					vals = append(vals, at(h))
-				}
-				sort.Float64s(vals)
+			if p.AllEnds && k > 0 {
+				// alle Enden in einem Durchlauf: Max-Heap der k saubersten Stunden, Summe laufend; wird eine
+				// Stunde zu voll, passt auch jedes spätere Ende nicht mehr
+				heap = heap[:0]
 				sum := 0.0
-				for _, v := range vals[:k] {
-					sum += v
+				room := !check || occ.fits(s, o.Profile, st, minEnd)
+				for h := cs; room && h+1+outH <= latestEnd; h++ {
+					v := at(h)
+					switch {
+					case len(heap) < k:
+						heap = append(heap, v)
+						sum += v
+						for i := len(heap) - 1; i > 0 && heap[(i-1)/2] < heap[i]; i = (i - 1) / 2 {
+							heap[i], heap[(i-1)/2] = heap[(i-1)/2], heap[i]
+						}
+					case v < heap[0]:
+						sum += v - heap[0]
+						heap[0] = v
+						for i := 0; ; {
+							l, r, m := 2*i+1, 2*i+2, i
+							if l < len(heap) && heap[l] > heap[m] {
+								m = l
+							}
+							if r < len(heap) && heap[r] > heap[m] {
+								m = r
+							}
+							if m == i {
+								break
+							}
+							heap[i], heap[m] = heap[m], heap[i]
+							i = m
+						}
+					}
+					e := h + 1 + outH
+					if e < minEnd {
+						continue
+					}
+					if e > minEnd && check && !occ.fitsHour(s, o.Profile, e-1) {
+						break
+					}
+					cost := kw*(sum+setup*at(st)) + p.LifeCost*weight*float64(e-st)
+					if cost < bestCost {
+						bestCost = cost
+						bestPlan = jobPlan{opt: o, start: st, end: e, cost: cost}
+					}
 				}
-				cost := kw*(sum+setup*at(st)) + p.LifeCost*weight*float64(e-st)
-				if cost < bestCost {
-					bestCost = cost
-					bestPlan = jobPlan{opt: o, start: st, end: e, cost: cost}
+			} else {
+				step := max(1, (latestEnd-minEnd)/max(p.EndSlices, 1))
+				for e := minEnd; e <= latestEnd; e += step {
+					if e+step > latestEnd && e != latestEnd {
+						e = latestEnd // das späteste Ende immer prüfen
+					}
+					if check && !occ.fits(s, o.Profile, st, e) {
+						continue
+					}
+					vals = vals[:0]
+					for h := cs; h < e-outH; h++ {
+						vals = append(vals, at(h))
+					}
+					sort.Float64s(vals)
+					sum := 0.0
+					for _, v := range vals[:k] {
+						sum += v
+					}
+					cost := kw*(sum+setup*at(st)) + p.LifeCost*weight*float64(e-st)
+					if cost < bestCost {
+						bestCost = cost
+						bestPlan = jobPlan{opt: o, start: st, end: e, cost: cost}
+					}
 				}
 			}
 			if fixed {
@@ -190,38 +259,9 @@ func best(s *spec.Spec, in Input, p Params, w spec.Workload, opts []spec.Option,
 	return bestPlan, true
 }
 
-// globalPlan plant alle offenen Jobs für die Stunde h0.
-func globalPlan(s *spec.Spec, in Input, p Params, h0 int) (map[string]jobPlan, string) {
-	n := Hours120 - h0 + 1
-	series := map[string][]float64{}
-	for a, fc := range in.Forecast {
-		ser := horizon(fc, n, true)
-		// hinter der Prognose ist nur der Tagesgang sicher: zum Mittel hin stauchen (Shrink 1 = volles Muster)
-		if len(fc) > 0 && len(ser) > len(fc) {
-			m := 0.0
-			for _, v := range fc {
-				m += v
-			}
-			m /= float64(len(fc))
-			for i := len(fc); i < len(ser); i++ {
-				ser[i] = m + p.Shrink*(ser[i]-m)
-			}
-		}
-		series[a] = ser
-	}
-	wls := slices.Clone(s.Workloads)
-	sort.SliceStable(wls, func(a, b int) bool { return wls[a].Deadline.Before(wls[b].Deadline) })
-	var existing, fresh []spec.Workload
-	for _, w := range wls {
-		j := in.Jobs[w.ID]
-		switch {
-		case j.Delivered:
-		case len(j.VMs) > 0:
-			existing = append(existing, w)
-		default:
-			fresh = append(fresh, w)
-		}
-	}
+// greedy plant in der gegebenen Reihenfolge; Ergebnis: Pläne, nicht platzierte Jobs, Summe der Kosten.
+func greedy(s *spec.Spec, in Input, p Params, h0, n int, existing, order []spec.Workload,
+	series map[string][]float64) (map[string]jobPlan, []string, float64) {
 	// Bestehende VMs buchen zuerst nur ihre kürzeste Lebensdauer (durchrechnen); erst nachdem die neuen Jobs
 	// platziert sind, dürfen sie mit dem übrigen Kontingent länger leben und pausieren. Sonst verdrängen ihre
 	// Pausen die Jobs, die erst später starten.
@@ -230,7 +270,6 @@ func globalPlan(s *spec.Spec, in Input, p Params, h0 int) (map[string]jobPlan, s
 	var plans map[string]jobPlan
 	var occ *occupancy
 	unplaced := []string{}
-	order := fresh
 	for pass := 0; pass < 3; pass++ {
 		occ = newOccupancy(h0, n)
 		plans = map[string]jobPlan{}
@@ -286,6 +325,59 @@ func globalPlan(s *spec.Spec, in Input, p Params, h0 int) (map[string]jobPlan, s
 			}
 			occ.add(jp.opt.Profile, h0, jp.end)
 			plans[w.ID] = jp
+		}
+	}
+	total := 0.0
+	for _, jp := range plans {
+		total += jp.cost
+	}
+	return plans, unplaced, total
+}
+
+// globalPlan plant alle offenen Jobs für die Stunde h0.
+func globalPlan(s *spec.Spec, in Input, p Params, h0 int) (map[string]jobPlan, string) {
+	n := Hours120 - h0 + 1
+	series := map[string][]float64{}
+	for a, fc := range in.Forecast {
+		ser := horizon(fc, n, true)
+		// hinter der Prognose ist nur der Tagesgang sicher: zum Mittel hin stauchen (Shrink 1 = volles Muster)
+		if len(fc) > 0 && len(ser) > len(fc) {
+			m := 0.0
+			for _, v := range fc {
+				m += v
+			}
+			m /= float64(len(fc))
+			for i := len(fc); i < len(ser); i++ {
+				ser[i] = m + p.Shrink*(ser[i]-m)
+			}
+		}
+		series[a] = ser
+	}
+	wls := slices.Clone(s.Workloads)
+	sort.SliceStable(wls, func(a, b int) bool { return wls[a].Deadline.Before(wls[b].Deadline) })
+	var existing, fresh []spec.Workload
+	for _, w := range wls {
+		j := in.Jobs[w.ID]
+		switch {
+		case j.Delivered:
+		case len(j.VMs) > 0:
+			existing = append(existing, w)
+		default:
+			fresh = append(fresh, w)
+		}
+	}
+	plans, unplaced, bestTotal := greedy(s, in, p, h0, n, existing, fresh, series)
+	if p.Orders > 1 && len(fresh) > 1 {
+		// andere Reihenfolgen: wer zuerst kommt, bekommt das Kontingent; behalten wird der Plan, der alle Jobs
+		// unterbringt und am wenigsten kostet. Zufall fest je Stunde, damit der Plan reproduzierbar bleibt.
+		r := rand.New(rand.NewPCG(uint64(h0), 7))
+		for i := 1; i < p.Orders; i++ {
+			order := slices.Clone(fresh)
+			r.Shuffle(len(order), func(a, b int) { order[a], order[b] = order[b], order[a] })
+			pl, un, total := greedy(s, in, p, h0, n, existing, order, series)
+			if len(un) < len(unplaced) || (len(un) == len(unplaced) && total < bestTotal-1e-6) {
+				plans, unplaced, bestTotal = pl, un, total
+			}
 		}
 	}
 	pressure := ""
