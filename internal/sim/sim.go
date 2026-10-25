@@ -182,8 +182,23 @@ func Run(s *spec.Spec, ref Ref, cfg Config) Result {
 		}
 		queue = rest
 		if now >= nextPlan {
+			// wie der Controller: gesendete, noch nicht wirksame Creates zählen als "creating", und für eine VM
+			// mit offener Aktion wird keine weitere geschickt
 			in := input(s, world, jobs, vms, now)
+			busy := map[string]bool{}
+			for _, q := range queue {
+				if q.a.Kind == planner.Create {
+					j := in.Jobs[q.a.Workload]
+					j.VMs = append(j.VMs, planner.VM{Name: q.a.Name, Zone: q.a.Zone, Family: q.a.Family, Size: q.a.Size, State: "creating"})
+					in.Jobs[q.a.Workload] = j
+				} else {
+					busy[q.a.VMID] = true
+				}
+			}
 			for _, a := range planner.Plan(s, in, cfg.Params) {
+				if a.Kind != planner.Create && busy[a.VMID] {
+					continue
+				}
 				queue = append(queue, pending{at: now + cfg.LagH, a: a})
 			}
 			nextPlan = now + cfg.PlanEvery

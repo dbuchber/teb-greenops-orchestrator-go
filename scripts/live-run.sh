@@ -4,6 +4,7 @@
 #	scripts/live-run.sh                         # neueste greenops-<id>.env aus ~/Downloads
 #	scripts/live-run.sh ~/Downloads/greenops-85e472c9e6.env
 #	IMAGE=greenops-orch-go:v3 scripts/live-run.sh
+#	ARGS=-global scripts/live-run.sh --new      # zusätzliche Flags für den Orchestrator
 #	scripts/live-run.sh --new [name] [tempo]    # legt den Lauf im Portal selbst an (scripts/portal, einmal einloggen)
 #	scripts/live-run.sh --watch                 # startet jeden neu heruntergeladenen Lauf von selbst
 #
@@ -13,7 +14,8 @@ set -euo pipefail
 
 HOST=${HOST:-hetzner-wikidata}
 DIR=${DIR:-/data/infra-kg-austria/work/greenops-orch-go}
-IMAGE=${IMAGE:-greenops-orch-go:v3}
+IMAGE=${IMAGE:-greenops-orch-go:v4}
+ARGS=${ARGS:-}
 SSH=(ssh -o ClearAllForwardings=yes "$HOST")
 
 if [[ ${1:-} == --new ]]; then
@@ -41,7 +43,7 @@ env_file=${1:-$(ls -t ~/Downloads/greenops-*.env 2>/dev/null | head -1)}
 id=$(basename "$env_file" .env)
 id=${id#greenops-}
 name=greenops-$id
-echo "Lauf $id, Image $IMAGE"
+echo "Lauf $id, Image $IMAGE $ARGS"
 
 if "${SSH[@]}" "docker ps -a --format '{{.Names}}' | grep -qx $name"; then
 	echo "Container $name existiert schon; Ergebnis:" >&2
@@ -53,12 +55,12 @@ else
 
 	echo "Trockenlauf …"
 	dry=$("${SSH[@]}" "timeout 60 docker run --rm --read-only --tmpfs /tmp --user 65534:65534 \
-		--env-file $DIR/.local/$id.docker.env $IMAGE -dry 2>&1")
+		--env-file $DIR/.local/$id.docker.env $IMAGE -dry $ARGS 2>&1")
 	echo "$dry" | grep -o '"state":"[A-Z_]*"\|"speed":[0-9]*\|"workloads":[0-9]*\|"prognosen":"[^"]*"' | tr '\n' ' '; echo
 	echo "$dry" | grep -q '"state":"READY"' || { echo "Lauf nicht READY, kein Start" >&2; echo "$dry" | tail -3 >&2; exit 1; }
 
 	"${SSH[@]}" "docker run -d --name $name --read-only --tmpfs /tmp --cpus 2 --memory 1g --user 65534:65534 \
-		--env-file $DIR/.local/$id.docker.env $IMAGE >/dev/null"
+		--env-file $DIR/.local/$id.docker.env $IMAGE $ARGS >/dev/null"
 	echo "gestartet um $(date +%H:%M); warte auf das Ende …"
 fi
 

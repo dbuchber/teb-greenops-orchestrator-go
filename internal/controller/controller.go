@@ -74,6 +74,14 @@ func (c *Controller) Run(ctx context.Context) error {
 			}
 			c.merge(fc, now)
 			c.fcHour = h
+			// für die Auswertung nach dem Lauf: Prognosefehler gegen die Ist-Werte aus dem Portal-Export
+			logged := map[string][]int{}
+			for a, v := range c.forecasts {
+				for _, x := range v {
+					logged[a] = append(logged[a], int(math.Round(x)))
+				}
+			}
+			c.Log.Info("prognose", "stunde", h, "werte", logged)
 		}
 		in := c.input(st, now)
 		acts := planner.Plan(c.Spec, in, c.Params)
