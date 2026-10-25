@@ -80,13 +80,15 @@ type Params struct {
 	LifeCost  float64
 	GPUWeight int
 	Shrink    float64 // global: Anteil des Tagesmusters hinter der Prognose (0 = nur Mittel)
+	MinCores  int     // global: CPU-Profile mit weniger Kernen nicht verwenden (0 = alle)
+	EndSlices int     // global: so viele Lebensdauern je Start werden geprüft (Feinheit der Suche)
 	Cache     *GlobalCache
 }
 
 func DefaultParams() Params {
 	// ReserveH aus: mit QuotaCost liefert die Reservierung im Simulator weniger (cmd/sim, 100 Seeds)
 	return Params{MarginH: 2, NoPauseH: 2, FallbackGCO: 250, ReserveH: -1, QuotaCost: 1, SetupCost: true,
-		Global: true, LifeCost: 0.01, GPUWeight: 8, Shrink: 0}
+		Global: true, LifeCost: 0.01, GPUWeight: 8, Shrink: 0, EndSlices: 6}
 }
 
 // Name kodiert Workload und Profil, damit ein Neustart des Orchestrators eigene VMs wiedererkennt.

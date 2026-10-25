@@ -126,7 +126,7 @@ func best(s *spec.Spec, in Input, p Params, w spec.Workload, opts []spec.Option,
 			if minEnd > latestEnd {
 				break
 			}
-			step := max(1, (latestEnd-minEnd)/6)
+			step := max(1, (latestEnd-minEnd)/max(p.EndSlices, 1))
 			for e := minEnd; e <= latestEnd; e += step {
 				if e+step > latestEnd && e != latestEnd {
 					e = latestEnd // das späteste Ende immer prüfen
@@ -254,7 +254,7 @@ func globalPlan(s *spec.Spec, in Input, p Params, h0 int) (map[string]jobPlan, s
 		var missing []spec.Workload
 		unplaced = unplaced[:0]
 		for _, w := range order {
-			jp, ok := best(s, in, p, w, s.Options(w), false, true, false, occ, series)
+			jp, ok := best(s, in, p, w, options(s, w, p), false, true, false, occ, series)
 			if !ok {
 				missing = append(missing, w)
 				unplaced = append(unplaced, w.ID)
@@ -297,6 +297,21 @@ func globalPlan(s *spec.Spec, in Input, p Params, h0 int) (map[string]jobPlan, s
 		}
 	}
 	return plans, pressure
+}
+
+// options sind die legalen Optionen ohne CPU-Profile unter MinCores; bleibt keine, alle.
+func options(s *spec.Spec, w spec.Workload, p Params) []spec.Option {
+	all := s.Options(w)
+	if p.MinCores <= 0 {
+		return all
+	}
+	out := slices.DeleteFunc(slices.Clone(all), func(o spec.Option) bool {
+		return o.Profile.GPUCount == 0 && o.Profile.CPUCores < p.MinCores
+	})
+	if len(out) == 0 {
+		return all
+	}
+	return out
 }
 
 // Hours120 ist das Ende des Fensters in Stunden seit T0.
