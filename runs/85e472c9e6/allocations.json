@@ -1,0 +1,1353 @@
+{
+ "intervals": [
+  {
+   "vm_id": "a52e8265-5db0-41d2-8014-ab2578434138",
+   "zone": "de-fra-1",
+   "profile_id": "20000000-0000-4000-8000-000000000001",
+   "phase": "boot",
+   "start_at": "2025-09-30T00:00:00Z",
+   "end_at": "2025-09-30T00:02:00Z"
+  },
+  {
+   "vm_id": "a52e8265-5db0-41d2-8014-ab2578434138",
+   "zone": "de-fra-1",
+   "profile_id": "20000000-0000-4000-8000-000000000001",
+   "phase": "idle",
+   "start_at": "2025-09-30T00:02:00Z",
+   "end_at": "2025-09-30T00:03:53.069Z"
+  },
+  {
+   "vm_id": "9fe8769a-d83a-4435-b3f3-a502d2b46b5c",
+   "workload_id": "w-01-dach-research",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "boot",
+   "start_at": "2025-09-30T03:01:29.573Z",
+   "end_at": "2025-09-30T03:03:29.573Z"
+  },
+  {
+   "vm_id": "9fe8769a-d83a-4435-b3f3-a502d2b46b5c",
+   "workload_id": "w-01-dach-research",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "setup",
+   "start_at": "2025-09-30T03:03:29.573Z",
+   "end_at": "2025-09-30T05:03:29.573Z"
+  },
+  {
+   "vm_id": "39d1ab66-5852-4b56-9c6f-b99638879514",
+   "workload_id": "w-02-ch-reporting",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "boot",
+   "start_at": "2025-09-30T04:04:18.342Z",
+   "end_at": "2025-09-30T04:06:18.342Z"
+  },
+  {
+   "vm_id": "c1129bf2-a107-44fb-8a39-823fde5c575e",
+   "workload_id": "w-08-ch-imaging",
+   "zone": "ch-gva-2",
+   "profile_id": "20000000-0000-4000-8000-000000000012",
+   "phase": "boot",
+   "start_at": "2025-09-30T04:04:19.585Z",
+   "end_at": "2025-09-30T04:06:19.585Z"
+  },
+  {
+   "vm_id": "39d1ab66-5852-4b56-9c6f-b99638879514",
+   "workload_id": "w-02-ch-reporting",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "setup",
+   "start_at": "2025-09-30T04:06:18.342Z",
+   "end_at": "2025-09-30T05:06:18.342Z"
+  },
+  {
+   "vm_id": "c1129bf2-a107-44fb-8a39-823fde5c575e",
+   "workload_id": "w-08-ch-imaging",
+   "zone": "ch-gva-2",
+   "profile_id": "20000000-0000-4000-8000-000000000012",
+   "phase": "setup",
+   "start_at": "2025-09-30T04:06:19.585Z",
+   "end_at": "2025-09-30T05:06:19.585Z"
+  },
+  {
+   "vm_id": "9fe8769a-d83a-4435-b3f3-a502d2b46b5c",
+   "workload_id": "w-01-dach-research",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-09-30T05:03:29.573Z",
+   "end_at": "2025-10-01T22:37:43.534Z"
+  },
+  {
+   "vm_id": "39d1ab66-5852-4b56-9c6f-b99638879514",
+   "workload_id": "w-02-ch-reporting",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-09-30T05:06:18.342Z",
+   "end_at": "2025-10-02T21:02:04.559Z"
+  },
+  {
+   "vm_id": "c1129bf2-a107-44fb-8a39-823fde5c575e",
+   "workload_id": "w-08-ch-imaging",
+   "zone": "ch-gva-2",
+   "profile_id": "20000000-0000-4000-8000-000000000012",
+   "phase": "compute",
+   "start_at": "2025-09-30T05:06:19.585Z",
+   "end_at": "2025-09-30T19:42:42.417Z"
+  },
+  {
+   "vm_id": "0756adb2-ed99-4bae-bd80-57b90045725e",
+   "workload_id": "w-04-dach-batch",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "boot",
+   "start_at": "2025-09-30T11:03:56.807Z",
+   "end_at": "2025-09-30T11:05:56.807Z"
+  },
+  {
+   "vm_id": "0756adb2-ed99-4bae-bd80-57b90045725e",
+   "workload_id": "w-04-dach-batch",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "setup",
+   "start_at": "2025-09-30T11:05:56.807Z",
+   "end_at": "2025-09-30T11:10:56.807Z"
+  },
+  {
+   "vm_id": "0756adb2-ed99-4bae-bd80-57b90045725e",
+   "workload_id": "w-04-dach-batch",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "release_wait",
+   "start_at": "2025-09-30T11:10:56.807Z",
+   "end_at": "2025-09-30T12:00:00Z"
+  },
+  {
+   "vm_id": "0756adb2-ed99-4bae-bd80-57b90045725e",
+   "workload_id": "w-04-dach-batch",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-09-30T12:00:00Z",
+   "end_at": "2025-10-03T08:03:33.682Z"
+  },
+  {
+   "vm_id": "f7c3c07d-a1d3-4cd6-9028-d7d559bc3fa2",
+   "workload_id": "w-07-eu-training",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "boot",
+   "start_at": "2025-09-30T12:03:17.011Z",
+   "end_at": "2025-09-30T12:05:17.011Z"
+  },
+  {
+   "vm_id": "f7c3c07d-a1d3-4cd6-9028-d7d559bc3fa2",
+   "workload_id": "w-07-eu-training",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "setup",
+   "start_at": "2025-09-30T12:05:17.011Z",
+   "end_at": "2025-09-30T14:05:17.011Z"
+  },
+  {
+   "vm_id": "77917b0f-0941-4f37-8049-29ce6bd8d43b",
+   "workload_id": "w-03-med-analysis",
+   "zone": "es-mad-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "boot",
+   "start_at": "2025-09-30T13:02:37.724Z",
+   "end_at": "2025-09-30T13:04:37.724Z"
+  },
+  {
+   "vm_id": "77917b0f-0941-4f37-8049-29ce6bd8d43b",
+   "workload_id": "w-03-med-analysis",
+   "zone": "es-mad-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "setup",
+   "start_at": "2025-09-30T13:04:37.724Z",
+   "end_at": "2025-09-30T14:04:37.724Z"
+  },
+  {
+   "vm_id": "77917b0f-0941-4f37-8049-29ce6bd8d43b",
+   "workload_id": "w-03-med-analysis",
+   "zone": "es-mad-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "compute",
+   "start_at": "2025-09-30T14:04:37.724Z",
+   "end_at": "2025-10-01T22:09:48.366Z"
+  },
+  {
+   "vm_id": "f7c3c07d-a1d3-4cd6-9028-d7d559bc3fa2",
+   "workload_id": "w-07-eu-training",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "compute",
+   "start_at": "2025-09-30T14:05:17.011Z",
+   "end_at": "2025-10-01T00:06:42.537Z"
+  },
+  {
+   "vm_id": "22ce9dd3-7682-4b4a-8c24-3a4d0cce31ab",
+   "workload_id": "w-05-eu-render",
+   "zone": "fr-par-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "boot",
+   "start_at": "2025-09-30T17:02:17.698Z",
+   "end_at": "2025-09-30T17:04:17.698Z"
+  },
+  {
+   "vm_id": "a4a4b4a6-579b-4f52-bb35-ed0defaa3f90",
+   "workload_id": "w-13-regional-index",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "boot",
+   "start_at": "2025-09-30T17:02:19.087Z",
+   "end_at": "2025-09-30T17:04:19.087Z"
+  },
+  {
+   "vm_id": "22ce9dd3-7682-4b4a-8c24-3a4d0cce31ab",
+   "workload_id": "w-05-eu-render",
+   "zone": "fr-par-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "setup",
+   "start_at": "2025-09-30T17:04:17.698Z",
+   "end_at": "2025-09-30T17:19:17.698Z"
+  },
+  {
+   "vm_id": "a4a4b4a6-579b-4f52-bb35-ed0defaa3f90",
+   "workload_id": "w-13-regional-index",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "release_wait",
+   "start_at": "2025-09-30T17:04:19.087Z",
+   "end_at": "2025-09-30T18:00:00Z"
+  },
+  {
+   "vm_id": "22ce9dd3-7682-4b4a-8c24-3a4d0cce31ab",
+   "workload_id": "w-05-eu-render",
+   "zone": "fr-par-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "release_wait",
+   "start_at": "2025-09-30T17:19:17.698Z",
+   "end_at": "2025-09-30T18:00:00Z"
+  },
+  {
+   "vm_id": "22ce9dd3-7682-4b4a-8c24-3a4d0cce31ab",
+   "workload_id": "w-05-eu-render",
+   "zone": "fr-par-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-09-30T18:00:00Z",
+   "end_at": "2025-10-04T02:01:46.755Z"
+  },
+  {
+   "vm_id": "a4a4b4a6-579b-4f52-bb35-ed0defaa3f90",
+   "workload_id": "w-13-regional-index",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-09-30T18:00:00Z",
+   "end_at": "2025-10-03T20:04:25.897Z"
+  },
+  {
+   "vm_id": "bfe716ce-e219-43ad-ae23-e4e3e665ec45",
+   "workload_id": "w-06-large-etl",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "boot",
+   "start_at": "2025-09-30T18:01:39.349Z",
+   "end_at": "2025-09-30T18:03:39.349Z"
+  },
+  {
+   "vm_id": "bfe716ce-e219-43ad-ae23-e4e3e665ec45",
+   "workload_id": "w-06-large-etl",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "setup",
+   "start_at": "2025-09-30T18:03:39.349Z",
+   "end_at": "2025-09-30T20:03:39.349Z"
+  },
+  {
+   "vm_id": "b3931712-6769-45a7-8430-a918ee9a1af3",
+   "workload_id": "w-14-bulk-render",
+   "zone": "es-mad-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "boot",
+   "start_at": "2025-09-30T19:04:26.493Z",
+   "end_at": "2025-09-30T19:06:26.493Z"
+  },
+  {
+   "vm_id": "b3931712-6769-45a7-8430-a918ee9a1af3",
+   "workload_id": "w-14-bulk-render",
+   "zone": "es-mad-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "setup",
+   "start_at": "2025-09-30T19:06:26.493Z",
+   "end_at": "2025-09-30T19:11:26.493Z"
+  },
+  {
+   "vm_id": "b3931712-6769-45a7-8430-a918ee9a1af3",
+   "workload_id": "w-14-bulk-render",
+   "zone": "es-mad-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "release_wait",
+   "start_at": "2025-09-30T19:11:26.493Z",
+   "end_at": "2025-09-30T20:00:00Z"
+  },
+  {
+   "vm_id": "c1129bf2-a107-44fb-8a39-823fde5c575e",
+   "workload_id": "w-08-ch-imaging",
+   "zone": "ch-gva-2",
+   "profile_id": "20000000-0000-4000-8000-000000000012",
+   "phase": "stopped",
+   "start_at": "2025-09-30T19:42:42.417Z",
+   "end_at": "2025-10-01T18:01:15.959Z"
+  },
+  {
+   "vm_id": "b3931712-6769-45a7-8430-a918ee9a1af3",
+   "workload_id": "w-14-bulk-render",
+   "zone": "es-mad-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-09-30T20:00:00Z",
+   "end_at": "2025-10-03T22:03:35.326Z"
+  },
+  {
+   "vm_id": "bfe716ce-e219-43ad-ae23-e4e3e665ec45",
+   "workload_id": "w-06-large-etl",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "compute",
+   "start_at": "2025-09-30T20:03:39.349Z",
+   "end_at": "2025-10-02T00:39:19.925Z"
+  },
+  {
+   "vm_id": "f7c3c07d-a1d3-4cd6-9028-d7d559bc3fa2",
+   "workload_id": "w-07-eu-training",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "stopped",
+   "start_at": "2025-10-01T00:06:42.537Z",
+   "end_at": "2025-10-01T03:04:24.446Z"
+  },
+  {
+   "vm_id": "f7c3c07d-a1d3-4cd6-9028-d7d559bc3fa2",
+   "workload_id": "w-07-eu-training",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "compute",
+   "start_at": "2025-10-01T03:04:24.446Z",
+   "end_at": "2025-10-01T07:01:32.181Z"
+  },
+  {
+   "vm_id": "2b7f0e90-8ba7-4393-81ec-e1989d4dc313",
+   "workload_id": "w-15-heavy-archive",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "boot",
+   "start_at": "2025-10-01T05:02:41.57Z",
+   "end_at": "2025-10-01T05:04:41.57Z"
+  },
+  {
+   "vm_id": "2b7f0e90-8ba7-4393-81ec-e1989d4dc313",
+   "workload_id": "w-15-heavy-archive",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "setup",
+   "start_at": "2025-10-01T05:04:41.57Z",
+   "end_at": "2025-10-01T07:04:41.57Z"
+  },
+  {
+   "vm_id": "f129f146-7c59-436e-b906-6769a70584c4",
+   "workload_id": "w-09-eu-large-model",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "boot",
+   "start_at": "2025-10-01T06:02:07.523Z",
+   "end_at": "2025-10-01T06:04:07.523Z"
+  },
+  {
+   "vm_id": "f129f146-7c59-436e-b906-6769a70584c4",
+   "workload_id": "w-09-eu-large-model",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "setup",
+   "start_at": "2025-10-01T06:04:07.523Z",
+   "end_at": "2025-10-01T08:04:07.523Z"
+  },
+  {
+   "vm_id": "3fb34835-13aa-4683-a7a0-27c908995d3a",
+   "workload_id": "w-11-dach-simulation",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "boot",
+   "start_at": "2025-10-01T07:01:30.556Z",
+   "end_at": "2025-10-01T07:03:30.556Z"
+  },
+  {
+   "vm_id": "f7c3c07d-a1d3-4cd6-9028-d7d559bc3fa2",
+   "workload_id": "w-07-eu-training",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "stopped",
+   "start_at": "2025-10-01T07:01:32.181Z",
+   "end_at": "2025-10-01T09:03:08.571Z"
+  },
+  {
+   "vm_id": "3fb34835-13aa-4683-a7a0-27c908995d3a",
+   "workload_id": "w-11-dach-simulation",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "setup",
+   "start_at": "2025-10-01T07:03:30.556Z",
+   "end_at": "2025-10-01T08:03:30.556Z"
+  },
+  {
+   "vm_id": "2b7f0e90-8ba7-4393-81ec-e1989d4dc313",
+   "workload_id": "w-15-heavy-archive",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-01T07:04:41.57Z",
+   "end_at": "2025-10-03T21:03:48.036Z"
+  },
+  {
+   "vm_id": "3fb34835-13aa-4683-a7a0-27c908995d3a",
+   "workload_id": "w-11-dach-simulation",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-01T08:03:30.556Z",
+   "end_at": "2025-10-03T08:03:30.534Z"
+  },
+  {
+   "vm_id": "f129f146-7c59-436e-b906-6769a70584c4",
+   "workload_id": "w-09-eu-large-model",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "compute",
+   "start_at": "2025-10-01T08:04:07.523Z",
+   "end_at": "2025-10-02T17:01:32.973Z"
+  },
+  {
+   "vm_id": "f7c3c07d-a1d3-4cd6-9028-d7d559bc3fa2",
+   "workload_id": "w-07-eu-training",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "compute",
+   "start_at": "2025-10-01T09:03:08.571Z",
+   "end_at": "2025-10-01T09:07:01.031Z"
+  },
+  {
+   "vm_id": "f7c3c07d-a1d3-4cd6-9028-d7d559bc3fa2",
+   "workload_id": "w-07-eu-training",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "stopped",
+   "start_at": "2025-10-01T09:07:01.031Z",
+   "end_at": "2025-10-01T11:01:45.77Z"
+  },
+  {
+   "vm_id": "f7c3c07d-a1d3-4cd6-9028-d7d559bc3fa2",
+   "workload_id": "w-07-eu-training",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "compute",
+   "start_at": "2025-10-01T11:01:45.77Z",
+   "end_at": "2025-10-01T18:01:17.234Z"
+  },
+  {
+   "vm_id": "c1129bf2-a107-44fb-8a39-823fde5c575e",
+   "workload_id": "w-08-ch-imaging",
+   "zone": "ch-gva-2",
+   "profile_id": "20000000-0000-4000-8000-000000000012",
+   "phase": "compute",
+   "start_at": "2025-10-01T18:01:15.959Z",
+   "end_at": "2025-10-01T19:00:09.306Z"
+  },
+  {
+   "vm_id": "f7c3c07d-a1d3-4cd6-9028-d7d559bc3fa2",
+   "workload_id": "w-07-eu-training",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "stopped",
+   "start_at": "2025-10-01T18:01:17.234Z",
+   "end_at": "2025-10-01T19:04:29.866Z"
+  },
+  {
+   "vm_id": "c1129bf2-a107-44fb-8a39-823fde5c575e",
+   "workload_id": "w-08-ch-imaging",
+   "zone": "ch-gva-2",
+   "profile_id": "20000000-0000-4000-8000-000000000012",
+   "phase": "stopped",
+   "start_at": "2025-10-01T19:00:09.306Z",
+   "end_at": "2025-10-02T14:03:09.656Z"
+  },
+  {
+   "vm_id": "f7c3c07d-a1d3-4cd6-9028-d7d559bc3fa2",
+   "workload_id": "w-07-eu-training",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "compute",
+   "start_at": "2025-10-01T19:04:29.866Z",
+   "end_at": "2025-10-01T20:07:43.385Z"
+  },
+  {
+   "vm_id": "c3430476-3cb2-4bee-9402-5314dfa59a5c",
+   "workload_id": "w-12-late-delivery",
+   "zone": "fr-par-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "boot",
+   "start_at": "2025-10-01T20:03:50.235Z",
+   "end_at": "2025-10-01T20:05:50.235Z"
+  },
+  {
+   "vm_id": "c3430476-3cb2-4bee-9402-5314dfa59a5c",
+   "workload_id": "w-12-late-delivery",
+   "zone": "fr-par-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "setup",
+   "start_at": "2025-10-01T20:05:50.235Z",
+   "end_at": "2025-10-01T21:05:50.235Z"
+  },
+  {
+   "vm_id": "f7c3c07d-a1d3-4cd6-9028-d7d559bc3fa2",
+   "workload_id": "w-07-eu-training",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "stopped",
+   "start_at": "2025-10-01T20:07:43.385Z",
+   "end_at": "2025-10-02T06:03:55.081Z"
+  },
+  {
+   "vm_id": "c3430476-3cb2-4bee-9402-5314dfa59a5c",
+   "workload_id": "w-12-late-delivery",
+   "zone": "fr-par-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-01T21:05:50.235Z",
+   "end_at": "2025-10-04T00:03:05.749Z"
+  },
+  {
+   "vm_id": "5bd46b26-5da2-410f-ac76-db7357aa66e0",
+   "workload_id": "w-10-eu-visual",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000017",
+   "phase": "boot",
+   "start_at": "2025-10-01T22:02:29.269Z",
+   "end_at": "2025-10-01T22:04:29.269Z"
+  },
+  {
+   "vm_id": "5bd46b26-5da2-410f-ac76-db7357aa66e0",
+   "workload_id": "w-10-eu-visual",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000017",
+   "phase": "setup",
+   "start_at": "2025-10-01T22:04:29.269Z",
+   "end_at": "2025-10-01T23:04:29.269Z"
+  },
+  {
+   "vm_id": "77917b0f-0941-4f37-8049-29ce6bd8d43b",
+   "workload_id": "w-03-med-analysis",
+   "zone": "es-mad-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "stopped",
+   "start_at": "2025-10-01T22:09:48.366Z",
+   "end_at": "2025-10-02T03:02:29.007Z"
+  },
+  {
+   "vm_id": "9fe8769a-d83a-4435-b3f3-a502d2b46b5c",
+   "workload_id": "w-01-dach-research",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-01T22:37:43.534Z",
+   "end_at": "2025-10-02T01:04:16.262Z"
+  },
+  {
+   "vm_id": "5bd46b26-5da2-410f-ac76-db7357aa66e0",
+   "workload_id": "w-10-eu-visual",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000017",
+   "phase": "compute",
+   "start_at": "2025-10-01T23:04:29.269Z",
+   "end_at": "2025-10-02T22:42:38.824Z"
+  },
+  {
+   "vm_id": "bfe716ce-e219-43ad-ae23-e4e3e665ec45",
+   "workload_id": "w-06-large-etl",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "stopped",
+   "start_at": "2025-10-02T00:39:19.925Z",
+   "end_at": "2025-10-02T03:02:27.738Z"
+  },
+  {
+   "vm_id": "9fe8769a-d83a-4435-b3f3-a502d2b46b5c",
+   "workload_id": "w-01-dach-research",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-02T01:04:16.262Z",
+   "end_at": "2025-10-02T08:02:06.838Z"
+  },
+  {
+   "vm_id": "bfe716ce-e219-43ad-ae23-e4e3e665ec45",
+   "workload_id": "w-06-large-etl",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "compute",
+   "start_at": "2025-10-02T03:02:27.738Z",
+   "end_at": "2025-10-02T03:57:58.168Z"
+  },
+  {
+   "vm_id": "77917b0f-0941-4f37-8049-29ce6bd8d43b",
+   "workload_id": "w-03-med-analysis",
+   "zone": "es-mad-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "compute",
+   "start_at": "2025-10-02T03:02:29.007Z",
+   "end_at": "2025-10-02T16:01:47.553Z"
+  },
+  {
+   "vm_id": "bfe716ce-e219-43ad-ae23-e4e3e665ec45",
+   "workload_id": "w-06-large-etl",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "stopped",
+   "start_at": "2025-10-02T03:57:58.168Z",
+   "end_at": "2025-10-02T04:02:17.675Z"
+  },
+  {
+   "vm_id": "bfe716ce-e219-43ad-ae23-e4e3e665ec45",
+   "workload_id": "w-06-large-etl",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "compute",
+   "start_at": "2025-10-02T04:02:17.675Z",
+   "end_at": "2025-10-02T15:02:28.751Z"
+  },
+  {
+   "vm_id": "f7c3c07d-a1d3-4cd6-9028-d7d559bc3fa2",
+   "workload_id": "w-07-eu-training",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "compute",
+   "start_at": "2025-10-02T06:03:55.081Z",
+   "end_at": "2025-10-02T15:02:27.345Z"
+  },
+  {
+   "vm_id": "9fe8769a-d83a-4435-b3f3-a502d2b46b5c",
+   "workload_id": "w-01-dach-research",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-02T08:02:06.838Z",
+   "end_at": "2025-10-02T09:01:30.916Z"
+  },
+  {
+   "vm_id": "9fe8769a-d83a-4435-b3f3-a502d2b46b5c",
+   "workload_id": "w-01-dach-research",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-02T09:01:30.916Z",
+   "end_at": "2025-10-02T20:02:43.735Z"
+  },
+  {
+   "vm_id": "c1129bf2-a107-44fb-8a39-823fde5c575e",
+   "workload_id": "w-08-ch-imaging",
+   "zone": "ch-gva-2",
+   "profile_id": "20000000-0000-4000-8000-000000000012",
+   "phase": "compute",
+   "start_at": "2025-10-02T14:03:09.656Z",
+   "end_at": "2025-10-02T15:57:53.477Z"
+  },
+  {
+   "vm_id": "f7c3c07d-a1d3-4cd6-9028-d7d559bc3fa2",
+   "workload_id": "w-07-eu-training",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "stopped",
+   "start_at": "2025-10-02T15:02:27.345Z",
+   "end_at": "2025-10-03T05:08:52.829Z"
+  },
+  {
+   "vm_id": "bfe716ce-e219-43ad-ae23-e4e3e665ec45",
+   "workload_id": "w-06-large-etl",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "stopped",
+   "start_at": "2025-10-02T15:02:28.751Z",
+   "end_at": "2025-10-03T08:03:31.808Z"
+  },
+  {
+   "vm_id": "c1129bf2-a107-44fb-8a39-823fde5c575e",
+   "workload_id": "w-08-ch-imaging",
+   "zone": "ch-gva-2",
+   "profile_id": "20000000-0000-4000-8000-000000000012",
+   "phase": "output_wait",
+   "start_at": "2025-10-02T15:57:53.477Z",
+   "end_at": "2025-10-02T16:27:53.477Z"
+  },
+  {
+   "vm_id": "77917b0f-0941-4f37-8049-29ce6bd8d43b",
+   "workload_id": "w-03-med-analysis",
+   "zone": "es-mad-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "stopped",
+   "start_at": "2025-10-02T16:01:47.553Z",
+   "end_at": "2025-10-04T08:39:35.652Z"
+  },
+  {
+   "vm_id": "c1129bf2-a107-44fb-8a39-823fde5c575e",
+   "workload_id": "w-08-ch-imaging",
+   "zone": "ch-gva-2",
+   "profile_id": "20000000-0000-4000-8000-000000000012",
+   "phase": "idle",
+   "start_at": "2025-10-02T16:27:53.477Z",
+   "end_at": "2025-10-02T16:33:10.726Z"
+  },
+  {
+   "vm_id": "f129f146-7c59-436e-b906-6769a70584c4",
+   "workload_id": "w-09-eu-large-model",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "stopped",
+   "start_at": "2025-10-02T17:01:32.973Z",
+   "end_at": "2025-10-03T06:01:27.317Z"
+  },
+  {
+   "vm_id": "9fe8769a-d83a-4435-b3f3-a502d2b46b5c",
+   "workload_id": "w-01-dach-research",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-02T20:02:43.735Z",
+   "end_at": "2025-10-03T17:03:27.971Z"
+  },
+  {
+   "vm_id": "39d1ab66-5852-4b56-9c6f-b99638879514",
+   "workload_id": "w-02-ch-reporting",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-02T21:02:04.559Z",
+   "end_at": "2025-10-03T05:01:34.05Z"
+  },
+  {
+   "vm_id": "5bd46b26-5da2-410f-ac76-db7357aa66e0",
+   "workload_id": "w-10-eu-visual",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000017",
+   "phase": "stopped",
+   "start_at": "2025-10-02T22:42:38.824Z",
+   "end_at": "2025-10-03T02:01:08.77Z"
+  },
+  {
+   "vm_id": "5bd46b26-5da2-410f-ac76-db7357aa66e0",
+   "workload_id": "w-10-eu-visual",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000017",
+   "phase": "compute",
+   "start_at": "2025-10-03T02:01:08.77Z",
+   "end_at": "2025-10-03T20:04:28.973Z"
+  },
+  {
+   "vm_id": "39d1ab66-5852-4b56-9c6f-b99638879514",
+   "workload_id": "w-02-ch-reporting",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-03T05:01:34.05Z",
+   "end_at": "2025-10-03T08:03:32.777Z"
+  },
+  {
+   "vm_id": "f7c3c07d-a1d3-4cd6-9028-d7d559bc3fa2",
+   "workload_id": "w-07-eu-training",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "compute",
+   "start_at": "2025-10-03T05:08:52.829Z",
+   "end_at": "2025-10-03T06:05:09.861Z"
+  },
+  {
+   "vm_id": "f129f146-7c59-436e-b906-6769a70584c4",
+   "workload_id": "w-09-eu-large-model",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "compute",
+   "start_at": "2025-10-03T06:01:27.317Z",
+   "end_at": "2025-10-03T16:03:41.091Z"
+  },
+  {
+   "vm_id": "f7c3c07d-a1d3-4cd6-9028-d7d559bc3fa2",
+   "workload_id": "w-07-eu-training",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "output_wait",
+   "start_at": "2025-10-03T06:05:09.861Z",
+   "end_at": "2025-10-03T07:05:09.861Z"
+  },
+  {
+   "vm_id": "f7c3c07d-a1d3-4cd6-9028-d7d559bc3fa2",
+   "workload_id": "w-07-eu-training",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "idle",
+   "start_at": "2025-10-03T07:05:09.861Z",
+   "end_at": "2025-10-03T07:07:38.549Z"
+  },
+  {
+   "vm_id": "3fb34835-13aa-4683-a7a0-27c908995d3a",
+   "workload_id": "w-11-dach-simulation",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-03T08:03:30.534Z",
+   "end_at": "2025-10-03T10:02:10.503Z"
+  },
+  {
+   "vm_id": "bfe716ce-e219-43ad-ae23-e4e3e665ec45",
+   "workload_id": "w-06-large-etl",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "compute",
+   "start_at": "2025-10-03T08:03:31.808Z",
+   "end_at": "2025-10-03T15:02:09.726Z"
+  },
+  {
+   "vm_id": "39d1ab66-5852-4b56-9c6f-b99638879514",
+   "workload_id": "w-02-ch-reporting",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-03T08:03:32.777Z",
+   "end_at": "2025-10-03T09:02:51.536Z"
+  },
+  {
+   "vm_id": "0756adb2-ed99-4bae-bd80-57b90045725e",
+   "workload_id": "w-04-dach-batch",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-03T08:03:33.682Z",
+   "end_at": "2025-10-03T10:02:11.802Z"
+  },
+  {
+   "vm_id": "39d1ab66-5852-4b56-9c6f-b99638879514",
+   "workload_id": "w-02-ch-reporting",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-03T09:02:51.536Z",
+   "end_at": "2025-10-03T22:05:06.592Z"
+  },
+  {
+   "vm_id": "3fb34835-13aa-4683-a7a0-27c908995d3a",
+   "workload_id": "w-11-dach-simulation",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-03T10:02:10.503Z",
+   "end_at": "2025-10-03T11:01:30.671Z"
+  },
+  {
+   "vm_id": "0756adb2-ed99-4bae-bd80-57b90045725e",
+   "workload_id": "w-04-dach-batch",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-03T10:02:11.802Z",
+   "end_at": "2025-10-03T11:01:32.02Z"
+  },
+  {
+   "vm_id": "3fb34835-13aa-4683-a7a0-27c908995d3a",
+   "workload_id": "w-11-dach-simulation",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-03T11:01:30.671Z",
+   "end_at": "2025-10-03T14:02:01.874Z"
+  },
+  {
+   "vm_id": "0756adb2-ed99-4bae-bd80-57b90045725e",
+   "workload_id": "w-04-dach-batch",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-03T11:01:32.02Z",
+   "end_at": "2025-10-03T14:02:03.206Z"
+  },
+  {
+   "vm_id": "3fb34835-13aa-4683-a7a0-27c908995d3a",
+   "workload_id": "w-11-dach-simulation",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-03T14:02:01.874Z",
+   "end_at": "2025-10-03T21:03:49.25Z"
+  },
+  {
+   "vm_id": "0756adb2-ed99-4bae-bd80-57b90045725e",
+   "workload_id": "w-04-dach-batch",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-03T14:02:03.206Z",
+   "end_at": "2025-10-03T22:03:34.14Z"
+  },
+  {
+   "vm_id": "bfe716ce-e219-43ad-ae23-e4e3e665ec45",
+   "workload_id": "w-06-large-etl",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "output_wait",
+   "start_at": "2025-10-03T15:02:09.726Z",
+   "end_at": "2025-10-03T16:02:09.726Z"
+  },
+  {
+   "vm_id": "bfe716ce-e219-43ad-ae23-e4e3e665ec45",
+   "workload_id": "w-06-large-etl",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "idle",
+   "start_at": "2025-10-03T16:02:09.726Z",
+   "end_at": "2025-10-03T16:07:34.124Z"
+  },
+  {
+   "vm_id": "f129f146-7c59-436e-b906-6769a70584c4",
+   "workload_id": "w-09-eu-large-model",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "stopped",
+   "start_at": "2025-10-03T16:03:41.091Z",
+   "end_at": "2025-10-03T20:04:28.058Z"
+  },
+  {
+   "vm_id": "9fe8769a-d83a-4435-b3f3-a502d2b46b5c",
+   "workload_id": "w-01-dach-research",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-03T17:03:27.971Z",
+   "end_at": "2025-10-03T19:01:41.001Z"
+  },
+  {
+   "vm_id": "9fe8769a-d83a-4435-b3f3-a502d2b46b5c",
+   "workload_id": "w-01-dach-research",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-03T19:01:41.001Z",
+   "end_at": "2025-10-04T02:01:47.954Z"
+  },
+  {
+   "vm_id": "a4a4b4a6-579b-4f52-bb35-ed0defaa3f90",
+   "workload_id": "w-13-regional-index",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-03T20:04:25.897Z",
+   "end_at": "2025-10-04T03:53:31.326Z"
+  },
+  {
+   "vm_id": "f129f146-7c59-436e-b906-6769a70584c4",
+   "workload_id": "w-09-eu-large-model",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "compute",
+   "start_at": "2025-10-03T20:04:28.058Z",
+   "end_at": "2025-10-03T20:04:48.834Z"
+  },
+  {
+   "vm_id": "5bd46b26-5da2-410f-ac76-db7357aa66e0",
+   "workload_id": "w-10-eu-visual",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000017",
+   "phase": "stopped",
+   "start_at": "2025-10-03T20:04:28.973Z",
+   "end_at": "2025-10-04T02:36:38.573Z"
+  },
+  {
+   "vm_id": "f129f146-7c59-436e-b906-6769a70584c4",
+   "workload_id": "w-09-eu-large-model",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "output_wait",
+   "start_at": "2025-10-03T20:04:48.834Z",
+   "end_at": "2025-10-03T21:04:48.834Z"
+  },
+  {
+   "vm_id": "2b7f0e90-8ba7-4393-81ec-e1989d4dc313",
+   "workload_id": "w-15-heavy-archive",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-03T21:03:48.036Z",
+   "end_at": "2025-10-04T01:02:27.409Z"
+  },
+  {
+   "vm_id": "3fb34835-13aa-4683-a7a0-27c908995d3a",
+   "workload_id": "w-11-dach-simulation",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-03T21:03:49.25Z",
+   "end_at": "2025-10-04T00:03:07.107Z"
+  },
+  {
+   "vm_id": "f129f146-7c59-436e-b906-6769a70584c4",
+   "workload_id": "w-09-eu-large-model",
+   "zone": "hr-zag-1",
+   "profile_id": "20000000-0000-4000-8000-000000000020",
+   "phase": "idle",
+   "start_at": "2025-10-03T21:04:48.834Z",
+   "end_at": "2025-10-03T21:07:41.659Z"
+  },
+  {
+   "vm_id": "0756adb2-ed99-4bae-bd80-57b90045725e",
+   "workload_id": "w-04-dach-batch",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-03T22:03:34.14Z",
+   "end_at": "2025-10-03T22:52:35.382Z"
+  },
+  {
+   "vm_id": "b3931712-6769-45a7-8430-a918ee9a1af3",
+   "workload_id": "w-14-bulk-render",
+   "zone": "es-mad-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-03T22:03:35.326Z",
+   "end_at": "2025-10-03T22:38:23.567Z"
+  },
+  {
+   "vm_id": "39d1ab66-5852-4b56-9c6f-b99638879514",
+   "workload_id": "w-02-ch-reporting",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "output_wait",
+   "start_at": "2025-10-03T22:05:06.592Z",
+   "end_at": "2025-10-03T23:05:06.592Z"
+  },
+  {
+   "vm_id": "b3931712-6769-45a7-8430-a918ee9a1af3",
+   "workload_id": "w-14-bulk-render",
+   "zone": "es-mad-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-03T22:38:23.567Z",
+   "end_at": "2025-10-04T19:34:48.241Z"
+  },
+  {
+   "vm_id": "0756adb2-ed99-4bae-bd80-57b90045725e",
+   "workload_id": "w-04-dach-batch",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-03T22:52:35.382Z",
+   "end_at": "2025-10-04T11:48:10.548Z"
+  },
+  {
+   "vm_id": "39d1ab66-5852-4b56-9c6f-b99638879514",
+   "workload_id": "w-02-ch-reporting",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "idle",
+   "start_at": "2025-10-03T23:05:06.592Z",
+   "end_at": "2025-10-03T23:07:12.765Z"
+  },
+  {
+   "vm_id": "c3430476-3cb2-4bee-9402-5314dfa59a5c",
+   "workload_id": "w-12-late-delivery",
+   "zone": "fr-par-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-04T00:03:05.749Z",
+   "end_at": "2025-10-04T09:01:06.567Z"
+  },
+  {
+   "vm_id": "3fb34835-13aa-4683-a7a0-27c908995d3a",
+   "workload_id": "w-11-dach-simulation",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-04T00:03:07.107Z",
+   "end_at": "2025-10-04T06:02:25.844Z"
+  },
+  {
+   "vm_id": "2b7f0e90-8ba7-4393-81ec-e1989d4dc313",
+   "workload_id": "w-15-heavy-archive",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-04T01:02:27.409Z",
+   "end_at": "2025-10-04T19:03:20.943Z"
+  },
+  {
+   "vm_id": "22ce9dd3-7682-4b4a-8c24-3a4d0cce31ab",
+   "workload_id": "w-05-eu-render",
+   "zone": "fr-par-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-04T02:01:46.755Z",
+   "end_at": "2025-10-04T07:36:30.562Z"
+  },
+  {
+   "vm_id": "9fe8769a-d83a-4435-b3f3-a502d2b46b5c",
+   "workload_id": "w-01-dach-research",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-04T02:01:47.954Z",
+   "end_at": "2025-10-04T03:00:17.568Z"
+  },
+  {
+   "vm_id": "5bd46b26-5da2-410f-ac76-db7357aa66e0",
+   "workload_id": "w-10-eu-visual",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000017",
+   "phase": "compute",
+   "start_at": "2025-10-04T02:36:38.573Z",
+   "end_at": "2025-10-04T06:31:08.815Z"
+  },
+  {
+   "vm_id": "9fe8769a-d83a-4435-b3f3-a502d2b46b5c",
+   "workload_id": "w-01-dach-research",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "output_wait",
+   "start_at": "2025-10-04T03:00:17.568Z",
+   "end_at": "2025-10-04T03:30:17.568Z"
+  },
+  {
+   "vm_id": "9fe8769a-d83a-4435-b3f3-a502d2b46b5c",
+   "workload_id": "w-01-dach-research",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "idle",
+   "start_at": "2025-10-04T03:30:17.568Z",
+   "end_at": "2025-10-04T03:35:54.141Z"
+  },
+  {
+   "vm_id": "a4a4b4a6-579b-4f52-bb35-ed0defaa3f90",
+   "workload_id": "w-13-regional-index",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-04T03:53:31.326Z",
+   "end_at": "2025-10-04T19:49:05.429Z"
+  },
+  {
+   "vm_id": "3fb34835-13aa-4683-a7a0-27c908995d3a",
+   "workload_id": "w-11-dach-simulation",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "stopped",
+   "start_at": "2025-10-04T06:02:25.844Z",
+   "end_at": "2025-10-04T09:01:07.769Z"
+  },
+  {
+   "vm_id": "5bd46b26-5da2-410f-ac76-db7357aa66e0",
+   "workload_id": "w-10-eu-visual",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000017",
+   "phase": "output_wait",
+   "start_at": "2025-10-04T06:31:08.815Z",
+   "end_at": "2025-10-04T07:01:08.815Z"
+  },
+  {
+   "vm_id": "5bd46b26-5da2-410f-ac76-db7357aa66e0",
+   "workload_id": "w-10-eu-visual",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000017",
+   "phase": "idle",
+   "start_at": "2025-10-04T07:01:08.815Z",
+   "end_at": "2025-10-04T07:05:07.912Z"
+  },
+  {
+   "vm_id": "22ce9dd3-7682-4b4a-8c24-3a4d0cce31ab",
+   "workload_id": "w-05-eu-render",
+   "zone": "fr-par-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-04T07:36:30.562Z",
+   "end_at": "2025-10-04T17:34:43.807Z"
+  },
+  {
+   "vm_id": "77917b0f-0941-4f37-8049-29ce6bd8d43b",
+   "workload_id": "w-03-med-analysis",
+   "zone": "es-mad-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "compute",
+   "start_at": "2025-10-04T08:39:35.652Z",
+   "end_at": "2025-10-04T13:35:06.464Z"
+  },
+  {
+   "vm_id": "c3430476-3cb2-4bee-9402-5314dfa59a5c",
+   "workload_id": "w-12-late-delivery",
+   "zone": "fr-par-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-04T09:01:06.567Z",
+   "end_at": "2025-10-04T18:03:51.053Z"
+  },
+  {
+   "vm_id": "3fb34835-13aa-4683-a7a0-27c908995d3a",
+   "workload_id": "w-11-dach-simulation",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "compute",
+   "start_at": "2025-10-04T09:01:07.769Z",
+   "end_at": "2025-10-04T17:00:41.51Z"
+  },
+  {
+   "vm_id": "0756adb2-ed99-4bae-bd80-57b90045725e",
+   "workload_id": "w-04-dach-batch",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "output_wait",
+   "start_at": "2025-10-04T11:48:10.548Z",
+   "end_at": "2025-10-04T12:03:10.548Z"
+  },
+  {
+   "vm_id": "0756adb2-ed99-4bae-bd80-57b90045725e",
+   "workload_id": "w-04-dach-batch",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "idle",
+   "start_at": "2025-10-04T12:03:10.548Z",
+   "end_at": "2025-10-04T12:05:20.886Z"
+  },
+  {
+   "vm_id": "77917b0f-0941-4f37-8049-29ce6bd8d43b",
+   "workload_id": "w-03-med-analysis",
+   "zone": "es-mad-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "output_wait",
+   "start_at": "2025-10-04T13:35:06.464Z",
+   "end_at": "2025-10-04T14:05:06.464Z"
+  },
+  {
+   "vm_id": "77917b0f-0941-4f37-8049-29ce6bd8d43b",
+   "workload_id": "w-03-med-analysis",
+   "zone": "es-mad-1",
+   "profile_id": "20000000-0000-4000-8000-000000000003",
+   "phase": "idle",
+   "start_at": "2025-10-04T14:05:06.464Z",
+   "end_at": "2025-10-04T14:06:56.675Z"
+  },
+  {
+   "vm_id": "3fb34835-13aa-4683-a7a0-27c908995d3a",
+   "workload_id": "w-11-dach-simulation",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "output_wait",
+   "start_at": "2025-10-04T17:00:41.51Z",
+   "end_at": "2025-10-04T17:30:41.51Z"
+  },
+  {
+   "vm_id": "3fb34835-13aa-4683-a7a0-27c908995d3a",
+   "workload_id": "w-11-dach-simulation",
+   "zone": "ch-dk-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "idle",
+   "start_at": "2025-10-04T17:30:41.51Z",
+   "end_at": "2025-10-04T17:34:56.87Z"
+  },
+  {
+   "vm_id": "22ce9dd3-7682-4b4a-8c24-3a4d0cce31ab",
+   "workload_id": "w-05-eu-render",
+   "zone": "fr-par-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "output_wait",
+   "start_at": "2025-10-04T17:34:43.807Z",
+   "end_at": "2025-10-04T18:04:43.807Z"
+  },
+  {
+   "vm_id": "c3430476-3cb2-4bee-9402-5314dfa59a5c",
+   "workload_id": "w-12-late-delivery",
+   "zone": "fr-par-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "output_wait",
+   "start_at": "2025-10-04T18:03:51.053Z",
+   "end_at": "2025-10-04T20:03:51.053Z"
+  },
+  {
+   "vm_id": "22ce9dd3-7682-4b4a-8c24-3a4d0cce31ab",
+   "workload_id": "w-05-eu-render",
+   "zone": "fr-par-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "idle",
+   "start_at": "2025-10-04T18:04:43.807Z",
+   "end_at": "2025-10-04T18:06:45.446Z"
+  },
+  {
+   "vm_id": "2b7f0e90-8ba7-4393-81ec-e1989d4dc313",
+   "workload_id": "w-15-heavy-archive",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "output_wait",
+   "start_at": "2025-10-04T19:03:20.943Z",
+   "end_at": "2025-10-04T20:03:20.943Z"
+  },
+  {
+   "vm_id": "b3931712-6769-45a7-8430-a918ee9a1af3",
+   "workload_id": "w-14-bulk-render",
+   "zone": "es-mad-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "output_wait",
+   "start_at": "2025-10-04T19:34:48.241Z",
+   "end_at": "2025-10-04T20:04:48.241Z"
+  },
+  {
+   "vm_id": "a4a4b4a6-579b-4f52-bb35-ed0defaa3f90",
+   "workload_id": "w-13-regional-index",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "output_wait",
+   "start_at": "2025-10-04T19:49:05.429Z",
+   "end_at": "2025-10-04T20:04:05.429Z"
+  },
+  {
+   "vm_id": "2b7f0e90-8ba7-4393-81ec-e1989d4dc313",
+   "workload_id": "w-15-heavy-archive",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "idle",
+   "start_at": "2025-10-04T20:03:20.943Z",
+   "end_at": "2025-10-04T20:08:19.168Z"
+  },
+  {
+   "vm_id": "c3430476-3cb2-4bee-9402-5314dfa59a5c",
+   "workload_id": "w-12-late-delivery",
+   "zone": "fr-par-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "idle",
+   "start_at": "2025-10-04T20:03:51.053Z",
+   "end_at": "2025-10-04T20:08:21.111Z"
+  },
+  {
+   "vm_id": "a4a4b4a6-579b-4f52-bb35-ed0defaa3f90",
+   "workload_id": "w-13-regional-index",
+   "zone": "at-vie-2",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "idle",
+   "start_at": "2025-10-04T20:04:05.429Z",
+   "end_at": "2025-10-04T20:08:21.839Z"
+  },
+  {
+   "vm_id": "b3931712-6769-45a7-8430-a918ee9a1af3",
+   "workload_id": "w-14-bulk-render",
+   "zone": "es-mad-1",
+   "profile_id": "20000000-0000-4000-8000-000000000002",
+   "phase": "idle",
+   "start_at": "2025-10-04T20:04:48.241Z",
+   "end_at": "2025-10-04T20:08:20.307Z"
+  }
+ ],
+ "losses": []
+}

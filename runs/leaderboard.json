@@ -1,0 +1,100 @@
+{
+ "active": [
+  {
+   "jobs_completed": 4,
+   "jobs_required": 15,
+   "state": "RUNNING",
+   "team_name": "graphanchor"
+  }
+ ],
+ "cohort": "greenops-score-v2:baa012c94fb9a9626337151649bd2987fdca585b7230cf1bca03ff0d120b762f:48e6c674e94bad8ba49b2d28617b4cee600dd7571f3547fd1b99e34f60bf19f5",
+ "entries": [
+  {
+   "usage_gco2e": "12815.547414",
+   "lifecycle_gco2e": "9245.809002",
+   "impact_model": "exoscale-lca-v1",
+   "rank": 1,
+   "team_id": "3fe7858a31a2d2813d21",
+   "team_name": "zero-reference",
+   "score": "22124.653285",
+   "total_gco2e": "22061.356416",
+   "jobs_completed": 15,
+   "jobs_required": 15
+  },
+  {
+   "usage_gco2e": "12799.988112",
+   "lifecycle_gco2e": "10273.845583",
+   "impact_model": "exoscale-lca-v1",
+   "rank": 2,
+   "team_id": "898ca01d6339adc17f7f",
+   "team_name": "Tinky & Winkey",
+   "score": "22118.329008",
+   "total_gco2e": "23073.833695",
+   "jobs_completed": 15,
+   "jobs_required": 15
+  },
+  {
+   "usage_gco2e": "12735.295557",
+   "lifecycle_gco2e": "9078.618087",
+   "impact_model": "exoscale-lca-v1",
+   "rank": 3,
+   "team_id": "16153c8057f227ff34d7",
+   "team_name": "Aura",
+   "score": "22105.537411",
+   "total_gco2e": "21813.913644",
+   "jobs_completed": 15,
+   "jobs_required": 15
+  },
+  {
+   "usage_gco2e": "13282.198800",
+   "lifecycle_gco2e": "9770.038966",
+   "impact_model": "exoscale-lca-v1",
+   "rank": 4,
+   "team_id": "f5ae363517595c234d51",
+   "team_name": "CryptoNight",
+   "score": "22029.308188",
+   "total_gco2e": "23052.237766",
+   "jobs_completed": 15,
+   "jobs_required": 15
+  },
+  {
+   "usage_gco2e": "13329.353292",
+   "lifecycle_gco2e": "9321.910259",
+   "impact_model": "exoscale-lca-v1",
+   "rank": 5,
+   "team_id": "faa2a375c3727ffd39d2",
+   "team_name": "stokes and viruses",
+   "score": "22026.170855",
+   "total_gco2e": "22651.263551",
+   "jobs_completed": 15,
+   "jobs_required": 15
+  },
+  {
+   "usage_gco2e": "13989.147959",
+   "lifecycle_gco2e": "10814.560381",
+   "impact_model": "exoscale-lca-v1",
+   "rank": 6,
+   "team_id": "a49c76627133e7ffce35",
+   "team_name": "tentaflake.dev",
+   "score": "21888.490834",
+   "total_gco2e": "24803.708340",
+   "jobs_completed": 15,
+   "jobs_required": 15
+  },
+  {
+   "usage_gco2e": "14624.366021",
+   "lifecycle_gco2e": "10615.495254",
+   "impact_model": "exoscale-lca-v1",
+   "rank": 7,
+   "team_id": "abd74d2d5c491c02159d",
+   "team_name": "graphanchor",
+   "score": "21788.340324",
+   "total_gco2e": "25239.861275",
+   "jobs_completed": 15,
+   "jobs_required": 15
+  }
+ ],
+ "kind": "preliminary",
+ "score_status": "frozen_v2",
+ "updated_at": "2026-10-25T15:21:13.119801322Z"
+}
